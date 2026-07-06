@@ -1,0 +1,628 @@
+/* ==========================
+   RESET
+========================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+        linear-gradient(135deg,#edf4fa,#d8e4ef,#c7d6e5);
+
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,.18) 0,
+            rgba(255,255,255,.18) 2px,
+            transparent 2px,
+            transparent 40px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(0,0,0,.04) 0,
+            rgba(0,0,0,.04) 2px,
+            transparent 2px,
+            transparent 40px
+        );
+}
+
+/* ==========================
+   HEADER
+========================== */
+.header{
+    width:96%;
+    margin:20px auto;
+    height:90px;
+    background:#fff;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.logo{
+    font-size:48px;
+    font-weight:bold;
+    color:#000;
+    letter-spacing:2px;
+    transition:0.3s;
+}
+
+.logo:hover{
+    color:#333;
+}
+
+.right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.right input{
+    width:350px;
+    height:50px;
+    padding:0 20px;
+    border:1px solid #ccc;
+    border-radius:30px;
+    outline:none;
+    font-size:17px;
+    transition:.3s;
+}
+
+.right input:focus{
+    border-color:#000;
+    box-shadow:0 0 8px rgba(0,0,0,.2);
+}
+
+.right button{
+    min-width:120px;
+    height:50px;
+    padding:0 30px;
+    border:none;
+    border-radius:30px;
+    background:#000;
+    color:#fff;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.right button:hover{
+    background:#333;
+}
+
+/* ==========================
+   MENU
+========================== */
+.menu{
+    width:96%;
+    margin:15px auto;
+    background:#fff;
+    border-radius:15px;
+    display:flex;
+    justify-content:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.menu a{
+    padding:20px 40px;
+    text-decoration:none;
+    color:#333;
+    font-size:18px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.menu a:hover{
+    background:#000;
+    color:#fff;
+}
+
+/* ==========================
+   BANNER
+========================== */
+
+.banner{
+    width:92%;
+    height:550px;
+    margin:30px auto;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 20%;
+    transition:.6s;
+    image-rendering:auto;
+    backface-visibility:hidden;
+    transform:translateZ(0);
+}
+
+.banner img:hover{
+    transform:translateZ(0) scale(1.05);
+}
+
+/* ==========================
+   WELCOME
+========================== */
+
+.welcome{
+    text-align:center;
+    margin:40px 0 20px;
+    font-size:45px;
+    color:#1565C0;
+    font-weight:bold;
+}
+
+/* ==========================
+   CATEGORY
+========================== */
+
+.category{
+    width:92%;
+    margin:40px auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    text-align:center;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+
+.card img{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+}
+
+.card h3{
+    margin-top:20px;
+    font-size:24px;
+    color:#333;
+}
+
+.card p{
+    margin-top:10px;
+    color:#777;
+}
+
+/* ==========================
+   BUTTON
+========================== */
+
+.btn{
+    background:#000;
+    color:#fff;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#333;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#1976D2;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:10px;
+    border:1px solid #ddd;
+}
+
+tr:nth-child(even){
+    background:#f7f7f7;
+}
+
+tr:hover{
+    background:#eaf4ff;
+}
+
+/* ==========================
+   LOGIN
+========================== */
+
+.login-box{
+    width:450px;
+    margin:50px auto;
+    background:#fff;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    border:1px solid #e5e5e5;
+}
+.banner1{
+    width:100%;
+    margin-bottom:30px;
+    overflow:hidden;
+    border-radius:15px 15px 0 0;
+}
+
+.banner1 img{
+    width:100%;
+    height:280px;
+    display:block;
+    object-fit:cover;
+    object-position:center;
+}
+
+.login-box h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#000;
+    font-size:36px;
+    font-weight:bold;
+}
+
+.login-box label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+.login-box input{
+    width:100%;
+    height:45px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+.login-box button{
+    width:100%;
+    height:45px;
+    margin-top:25px;
+    border:none;
+    border-radius:8px;
+    background:#000;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.login-box button:hover{
+    background:#333;
+}
+
+/* ==========================
+   PROFILE
+========================== */
+
+.profile-container{
+    width:750px;
+    margin:40px auto;
+    background:#fff;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    border:1px solid #e5e5e5;
+}
+
+.profile-title{
+    text-align:center;
+    color:#000;
+    margin-bottom:30px;
+    font-size:36px;
+    font-weight:bold;
+}
+
+.profile-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.profile-table th{
+    width:35%;
+    background:#000;
+    color:#fff;
+    padding:15px;
+    text-align:center;
+    border:1px solid #ddd;
+}
+
+.profile-table td{
+    background:#fff;
+    color:#000;
+    padding:15px;
+    border:1px solid #ddd;
+}
+
+.profile-table tr:nth-child(even) td{
+    background:#f8f8f8;
+}
+
+.profile-table tr:hover td{
+    background:#efefef;
+}
+
+.profile-btn{
+    display:block;
+    width:180px;
+    margin:25px auto 0;
+    text-align:center;
+    padding:12px;
+    border-radius:8px;
+    background:#000;
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.profile-btn:hover{
+    background:#333;
+    transform:translateY(-2px);
+    box-shadow:0 5px 10px rgba(0,0,0,.3);
+}
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+.header{
+    flex-direction:column;
+    height:auto;
+    padding:20px;
+}
+
+.menu{
+    flex-direction:column;
+}
+
+.menu a{
+    text-align:center;
+}
+
+.banner{
+    height:250px;
+}
+
+.category{
+    grid-template-columns:1fr;
+}
+
+.right{
+    margin-top:15px;
+}
+}
+/* ==========================
+   EMPLOYEE
+========================== */
+
+.employee-container{
+    width:90%;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    border:1px solid #e5e5e5;
+}
+
+.employee-container h2{
+    text-align:center;
+    font-size:36px;
+    color:#000;
+    margin-bottom:30px;
+    font-weight:bold;
+}
+
+/* Nút thêm nhân viên */
+
+.top-action{
+    margin-bottom:20px;
+}
+
+.btn-add{
+    display:inline-block;
+    background:#000;
+    color:#fff;
+    padding:12px 22px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-add:hover{
+    background:#333;
+    transform:translateY(-2px);
+}
+
+/* Bảng */
+
+.employee-table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.employee-table th{
+    background:#000;
+    color:#fff;
+    padding:15px;
+    font-size:18px;
+    text-align:center;
+}
+
+.employee-table td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+    font-size:17px;
+}
+
+.employee-table tr:nth-child(even){
+    background:#f5f5f5;
+}
+
+.employee-table tr:hover{
+    background:#ececec;
+}
+
+/* Nút sửa */
+
+.btn-edit{
+    display:inline-block;
+    background:#000;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:6px;
+    text-decoration:none;
+    margin-right:8px;
+    transition:.3s;
+}
+
+.btn-edit:hover{
+    background:#333;
+}
+
+/* Nút xóa */
+
+.btn-delete{
+    display:inline-block;
+    background:#d32f2f;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:6px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.btn-delete:hover{
+    background:#b71c1c;
+}
+/* ==========================
+   ADD EMPLOYEE
+========================== */
+
+.container{
+    width:600px;
+    margin:50px auto;
+    background:#fff;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.container h2{
+    text-align:center;
+    font-size:34px;
+    color:#000;
+    margin-bottom:30px;
+    font-weight:bold;
+}
+
+.container label{
+    display:block;
+    margin-bottom:8px;
+    margin-top:18px;
+    font-size:16px;
+    font-weight:bold;
+    color:#000;
+}
+
+.container input,
+.container select{
+    width:100%;
+    height:48px;
+    padding:0 15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    transition:.3s;
+    outline:none;
+}
+
+.container input:focus,
+.container select:focus{
+    border-color:#000;
+    box-shadow:0 0 8px rgba(0,0,0,.2);
+}
+
+.btn{
+    width:100%;
+    height:50px;
+    margin-top:25px;
+    background:#000;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#333;
+}
+
+.back{
+    display:block;
+    width:180px;
+    margin:20px auto 0;
+    padding:12px;
+    text-align:center;
+    background:#444;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#222;
+}
+
+.error{
+    margin-top:15px;
+    color:#d32f2f;
+    font-weight:bold;
+    text-align:center;
+}
