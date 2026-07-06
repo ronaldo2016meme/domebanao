@@ -1,4 +1,4 @@
-package controller;
+package controller.employee;
 
 import dao.NhanVienDao;
 import model.NhanVien;
@@ -33,14 +33,20 @@ public class EditEmployeeController extends HttpServlet {
                           HttpServletResponse response)
             throws IOException {
 
-        NhanVien nv=new NhanVien();
+        NhanVien nv = new NhanVien();
 
         nv.setMaNV(Integer.parseInt(request.getParameter("maNV")));
         nv.setHoTen(request.getParameter("hoTen"));
+        nv.setNgaySinh(java.sql.Date.valueOf(request.getParameter("ngaySinh")));
+        nv.setGioiTinh(request.getParameter("gioiTinh"));
+        nv.setQuocTich(request.getParameter("quocTich"));
+        nv.setQueQuan(request.getParameter("queQuan"));
+        nv.setNoiThuongTru(request.getParameter("noiThuongTru"));
         nv.setSdt(request.getParameter("sdt"));
         nv.setEmail(request.getParameter("email"));
         nv.setCccd(request.getParameter("cccd"));
         nv.setMaTrangThai(request.getParameter("maTrangThai"));
+        nv.setMaRole(request.getParameter("maRole")); // nếu có bảng Role
 
         dao.update(nv);
 

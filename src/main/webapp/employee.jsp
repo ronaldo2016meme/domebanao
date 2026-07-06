@@ -27,10 +27,12 @@
 <tr>
     <th>Mã NV</th>
     <th>Họ tên</th>
+    <th>Giới tính</th>
     <th>SĐT</th>
     <th>Email</th>
     <th>CCCD</th>
     <th>Trạng thái</th>
+    <th>Chức vụ</th>
     <th>Chức năng</th>
 </tr>
 
@@ -40,10 +42,12 @@
 
     <td>${nv.maNV}</td>
     <td>${nv.hoTen}</td>
+    <td>${nv.gioiTinh}</td>
     <td>${nv.sdt}</td>
     <td>${nv.email}</td>
     <td>${nv.cccd}</td>
     <td>${nv.maTrangThai}</td>
+    <td>${nv.chucVu}</td>
 
 <td>
 

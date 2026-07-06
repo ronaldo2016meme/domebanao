@@ -14,12 +14,14 @@ public class NhanVien {
     private String noiThuongTru;
     private String email;
     private String cccd;
+    private String chucVu;
+    private String maRole;
     private String maTrangThai;
 
     public NhanVien() {
     }
 
-    public NhanVien(int maNV, String hoTen, String sdt, Date ngaySinh, String gioiTinh, String quocTich, String queQuan, String noiThuongTru, String email, String cccd, String maTrangThai) {
+    public NhanVien(int maNV, String hoTen, String sdt, Date ngaySinh, String gioiTinh, String quocTich, String queQuan, String noiThuongTru, String email, String cccd, String chucVu, String maRole, String maTrangThai) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.sdt = sdt;
@@ -30,6 +32,8 @@ public class NhanVien {
         this.noiThuongTru = noiThuongTru;
         this.email = email;
         this.cccd = cccd;
+        this.chucVu = chucVu;
+        this.maRole = maRole;
         this.maTrangThai = maTrangThai;
     }
 
@@ -111,6 +115,22 @@ public class NhanVien {
 
     public void setCccd(String cccd) {
         this.cccd = cccd;
+    }
+
+    public String getChucVu() {
+        return chucVu;
+    }
+
+    public void setChucVu(String chucVu) {
+        this.chucVu = chucVu;
+    }
+
+    public String getMaRole() {
+        return maRole;
+    }
+
+    public void setMaRole(String maRole) {
+        this.maRole = maRole;
     }
 
     public String getMaTrangThai() {
