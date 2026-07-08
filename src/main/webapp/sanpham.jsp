@@ -12,41 +12,15 @@
 </head>
 <body>
 
-<div class="employee-container">
+<div class="product-container">
 
     <h2>Quản lý sản phẩm</h2>
 
-    <div class="search-bar">
-
-        <input type="text" placeholder="Tìm kiếm sản phẩm..." name="keyword">
-
-        <select name="danhMuc">
-            <option value="">Tất cả danh mục</option>
-            <c:forEach items="${listDanhMuc}" var="dm">
-                <option value="${dm.maDanhMuc}">
-                    ${dm.tenDanhMuc}
-                </option>
-            </c:forEach>
-        </select>
-
-        <select name="nhaCungCap">
-            <option value="">Tất cả nhà cung cấp</option>
-            <c:forEach items="${listNCC}" var="ncc">
-                <option value="${ncc.maNCC}">
-                    ${ncc.tenNCC}
-                </option>
-            </c:forEach>
-        </select>
-
-        <button class="btn">Tìm kiếm</button>
-
-        <a href="addProduct.jsp">
-            <button class="btn-add">Thêm sản phẩm</button>
-        </a>
-
+    <div class="top-action">
+        <a href="addsanpham" class="btn">Thêm sản phẩm</a>
     </div>
 
-    <table class="employee-table">
+    <table class="product-table">
 
         <tr>
             <th>Mã SP</th>
@@ -61,47 +35,36 @@
             <th>Chức năng</th>
         </tr>
 
-        <c:forEach items="${list}" var="sp">
+        <c:forEach var="sp" items="${list}">
+        <tr>
 
-            <tr>
+            <td>${sp.maSP}</td>
 
-                <td>${sp.maSP}</td>
+            <td>
+                <img src="image/${sp.anh}"
+                     width="60"
+                     height="60">
+            </td>
 
-                <td>
-                    <img src="images/${sp.hinhAnh}"
-                         width="60"
-                         height="60">
-                </td>
+            <td>${sp.tenSP}</td>
+            <td>${sp.danhMuc}</td>
+            <td>${sp.nhaCungCap}</td>
+            <td>${sp.giaBan}</td>
+            <td>${sp.moTa}</td>
+            <td>${sp.ngayTao}</td>
+            <td>${sp.ngayCapNhat}</td>
 
-                <td>${sp.tenSP}</td>
+            <td>
+                <a href="editsanpham?id=${sp.maSP}" class="btn-edit">Sửa</a>
 
-                <td>${sp.tenDanhMuc}</td>
+                <a href="deletesanpham?id=${sp.maSP}"
+                   class="btn-delete"
+                   onclick="return confirm('Bạn có chắc muốn xóa?')">
+                    Xóa
+                </a>
+            </td>
 
-                <td>${sp.tenNCC}</td>
-
-                <td>${sp.giaBan}</td>
-
-                <td>${sp.moTa}</td>
-
-                <td>${sp.ngayTao}</td>
-
-                <td>${sp.ngayCapNhat}</td>
-
-                <td>
-
-                    <a href="editProduct?id=${sp.maSP}">
-                        <button class="btn-edit">Sửa</button>
-                    </a>
-
-                    <a href="deleteProduct?id=${sp.maSP}"
-                       onclick="return confirm('Bạn có chắc muốn xóa?')">
-                        <button class="btn-delete">Xóa</button>
-                    </a>
-
-                </td>
-
-            </tr>
-
+        </tr>
         </c:forEach>
 
     </table>

@@ -12,8 +12,7 @@ public class DeleteEmployeeController extends HttpServlet {
     NhanVienDao dao=new NhanVienDao();
 
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
+    protected void doGet(HttpServletRequest request,HttpServletResponse response)
             throws IOException {
 
         int id=Integer.parseInt(request.getParameter("id"));

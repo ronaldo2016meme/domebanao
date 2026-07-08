@@ -14,6 +14,18 @@ public class sanpham {
     public sanpham() {
     }
 
+    public sanpham(int maSP, String tenSP, String danhMuc, String nhaCungCap, double giaBan, String moTa, String ngayTao, String ngayCapNhat, String anh) {
+        this.maSP = maSP;
+        this.tenSP = tenSP;
+        this.danhMuc = danhMuc;
+        this.nhaCungCap = nhaCungCap;
+        this.giaBan = giaBan;
+        this.moTa = moTa;
+        this.ngayTao = ngayTao;
+        this.ngayCapNhat = ngayCapNhat;
+        this.anh = anh;
+    }
+
     public int getMaSP() {
         return maSP;
     }

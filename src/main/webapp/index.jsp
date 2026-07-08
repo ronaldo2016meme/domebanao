@@ -52,7 +52,7 @@
 <!-- Menu -->
 <div class="menu">
 
-    <a href="product">Quản lý sản phẩm</a>
+    <a href="sanpham">Quản lý sản phẩm</a>
 
     <!-- Chỉ Quản lý mới thấy -->
     <c:if test="${sessionScope.user != null && sessionScope.user.maRole == 'R01'}">

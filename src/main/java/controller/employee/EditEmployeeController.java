@@ -14,8 +14,7 @@ public class EditEmployeeController extends HttpServlet {
     NhanVienDao dao=new NhanVienDao();
 
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
+    protected void doGet(HttpServletRequest request,HttpServletResponse response)
             throws ServletException, IOException {
 
         int id=Integer.parseInt(request.getParameter("id"));

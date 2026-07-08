@@ -171,7 +171,11 @@ public class NhanVienDao {
 
         NhanVien nv = null;
 
-        String sql = "SELECT * FROM NHANVIEN WHERE MaNV=?";
+        String sql =
+                "SELECT nv.*, r.TenRole " +
+                        "FROM NHANVIEN nv " +
+                        "LEFT JOIN Role r ON nv.MaRole = r.MaRole " +
+                        "WHERE nv.MaNV=?";
 
         try {
             Connection con = new ConnectService().myConnection();
@@ -195,7 +199,7 @@ public class NhanVienDao {
                 nv.setSdt(rs.getString("SDT"));
                 nv.setEmail(rs.getString("Email"));
                 nv.setCccd(rs.getString("CCCD"));
-                nv.setChucVu(rs.getString("TenChucVu"));
+                nv.setChucVu(rs.getString("TenRole"));
                 nv.setMaTrangThai(rs.getString("MaTrangThai"));
             }
 
