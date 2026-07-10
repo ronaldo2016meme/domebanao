@@ -688,7 +688,21 @@ tr:hover{
 .btn:hover{
     background:#5f7688;
 }
+/* Nút Chi Tiết */
+.btn-detail{
+    display:inline-block;
+    padding:8px 14px;
+    background:#17a2b8;
+    color:#fff;
+    text-decoration:none;
+    border-radius:5px;
+    font-size:14px;
+    text-align:center;
+}
 
+.btn-detail:hover{
+    background:#138496;
+}
 /* Nút Sửa */
 .btn-edit{
     display:inline-block;

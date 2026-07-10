@@ -54,8 +54,15 @@
             <td>${sp.ngayTao}</td>
             <td>${sp.ngayCapNhat}</td>
 
+
             <td>
-                <a href="editsanpham?id=${sp.maSP}" class="btn-edit">Sửa</a>
+                <a href="sanphamchitiet?maSP=${sp.maSP}" class="btn-detail">
+                    Chi tiết
+                </a>
+
+                <a href="editsanpham?id=${sp.maSP}" class="btn-edit">
+                    Sửa
+                </a>
 
                 <a href="deletesanpham?id=${sp.maSP}"
                    class="btn-delete"

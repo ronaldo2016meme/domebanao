@@ -17,8 +17,8 @@
 <h2>Quản lý nhân viên</h2>
 
 <div class="top-action">
-    <a href="addEmployee.jsp">
-        <button class="btn-add">Thêm nhân viên</button>
+    <a href="${pageContext.request.contextPath}/addEmployee" class="btn-add">
+        Thêm nhân viên
     </a>
 </div>
 

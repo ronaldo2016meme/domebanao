@@ -122,10 +122,16 @@ public class NhanVienDao {
 
                 nv.setMaNV(rs.getInt("MaNV"));
                 nv.setHoTen(rs.getString("HoTen"));
+                nv.setNgaySinh(rs.getDate("NgaySinh"));
+                nv.setGioiTinh(rs.getString("GioiTinh"));
+                nv.setQuocTich(rs.getString("QuocTich"));
+                nv.setQueQuan(rs.getString("QueQuan"));
+                nv.setNoiThuongTru(rs.getString("NoiThuongTru"));
                 nv.setSdt(rs.getString("SDT"));
                 nv.setEmail(rs.getString("Email"));
                 nv.setCccd(rs.getString("CCCD"));
                 nv.setMaTrangThai(rs.getString("MaTrangThai"));
+                nv.setMaRole(rs.getString("MaRole"));
             }
 
             con.close();
