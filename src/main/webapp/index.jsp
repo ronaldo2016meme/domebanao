@@ -61,7 +61,7 @@
 
     <a href="revenue">Doanh thu</a>
 
-    <a href="customer">Quản lý khách hàng</a>
+    <a href="khachhang">Quản lý khách hàng</a>
 
     <a href="sale">Bán hàng</a>
 

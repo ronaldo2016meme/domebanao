@@ -733,3 +733,136 @@ tr:hover{
 .btn-delete:hover{
     background:#964d4d;
 }
+/* ================= QUẢN LÝ KHÁCH HÀNG ================= */
+
+.customer-container{
+    width:95%;
+    margin:20px auto;
+    background:#fff;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.customer-container h2{
+    text-align:center;
+    font-size:32px;
+    margin-bottom:40px;
+    color:#000;
+}
+
+.top-action{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.top-action form{
+    display:flex;
+    gap:10px;
+}
+
+.top-action input{
+    width:250px;
+    padding:10px 15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
+}
+
+.top-action button{
+    padding:10px 20px;
+    border:none;
+    border-radius:6px;
+    background:#7f95a4;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.top-action button:hover{
+    background:#6c8394;
+}
+
+.btn{
+    display:inline-block;
+    background:#7f95a4;
+    color:#fff;
+    text-decoration:none;
+
+    padding:12px 28px;
+    min-width:200px;
+
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+
+    border-radius:12px;
+    white-space:nowrap;   /* Không cho xuống dòng */
+}
+
+.btn:hover{
+    background:#6c8394;
+}
+
+.customer-table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:15px;
+}
+
+.customer-table th{
+    background:#7f95a4;
+    color:#fff;
+    padding:18px;
+    font-size:16px;
+    border:1px solid #8092a0;
+}
+
+.customer-table td{
+    padding:20px;
+    text-align:center;
+    border:1px solid #d6d6d6;
+    background:#fff;
+}
+
+.customer-table tr:nth-child(even) td{
+    background:#f5f5f5;
+}
+
+.customer-table tr:hover td{
+    background:#eef5fb;
+}
+
+.btn-edit{
+    display:inline-block;
+    padding:8px 18px;
+    background:#f7a300;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    border:2px solid #222;
+    font-weight:bold;
+}
+
+.btn-edit:hover{
+    background:#e29300;
+}
+
+.btn-delete{
+    display:inline-block;
+    padding:8px 18px;
+    background:#e91e63;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    border:2px solid #222;
+    font-weight:bold;
+    margin-left:8px;
+}
+
+.btn-delete:hover{
+    background:#d81b60;
+}
