@@ -27,12 +27,6 @@ public class SanPhamController extends HttpServlet {
             request.getRequestDispatcher("sanpham.jsp")
                     .forward(request, response);
 
-        } else if (action.equals("delete")) {
-
-            int id = Integer.parseInt(request.getParameter("id"));
-            dao.delete(id);
-            response.sendRedirect("sanpham");
-
         } else if (action.equals("edit")) {
 
             int id = Integer.parseInt(request.getParameter("id"));
@@ -60,13 +54,14 @@ public class SanPhamController extends HttpServlet {
         sanpham sp = new sanpham();
 
         sp.setTenSP(request.getParameter("tenSP"));
-        sp.setDanhMuc(request.getParameter("danhMuc"));
-        sp.setNhaCungCap(request.getParameter("nhaCungCap"));
+        sp.setMaDanhMuc(request.getParameter("danhMuc"));
+        sp.setMaNCC(request.getParameter("nhaCungCap"));
         sp.setGiaBan(Double.parseDouble(request.getParameter("giaBan")));
         sp.setMoTa(request.getParameter("moTa"));
         sp.setNgayTao(request.getParameter("ngayTao"));
         sp.setNgayCapNhat(request.getParameter("ngayCapNhat"));
         sp.setAnh(request.getParameter("anh"));
+        sp.setMaTrangThaiSP(request.getParameter("maTrangThaiSP"));
 
         if ("insert".equals(action)) {
 

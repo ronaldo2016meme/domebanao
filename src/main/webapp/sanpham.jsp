@@ -18,6 +18,7 @@
 
     <div class="top-action">
         <a href="addsanpham" class="btn">Thêm sản phẩm</a>
+        <a href="home" class="back">Quay lại</a>
     </div>
 
     <table class="product-table">
@@ -28,6 +29,7 @@
             <th>Tên sản phẩm</th>
             <th>Danh mục</th>
             <th>Nhà cung cấp</th>
+            <th>Trạng thái</th>
             <th>Giá bán</th>
             <th>Mô tả</th>
             <th>Ngày tạo</th>
@@ -47,8 +49,9 @@
             </td>
 
             <td>${sp.tenSP}</td>
-            <td>${sp.danhMuc}</td>
-            <td>${sp.nhaCungCap}</td>
+            <td>${sp.tenDanhMuc}</td>
+            <td>${sp.tenNCC}</td>
+            <td>${sp.tenTrangThai}</td>
             <td>${sp.giaBan}</td>
             <td>${sp.moTa}</td>
             <td>${sp.ngayTao}</td>
@@ -61,14 +64,8 @@
                 </a>
 
                 <a href="editsanpham?id=${sp.maSP}" class="btn-edit">
-                    Sửa
-                </a>
-
-                <a href="deletesanpham?id=${sp.maSP}"
-                   class="btn-delete"
-                   onclick="return confirm('Bạn có chắc muốn xóa?')">
-                    Xóa
-                </a>
+                        Sửa
+                    </a>
             </td>
 
         </tr>

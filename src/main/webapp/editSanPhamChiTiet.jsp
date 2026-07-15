@@ -16,6 +16,10 @@
 
     <h2>Sửa sản phẩm chi tiết</h2>
 
+    <c:if test="${not empty error}">
+        <p style="color:red">${error}</p>
+    </c:if>
+
     <form action="editSanPhamChiTiet" method="post">
 
         <input type="hidden" name="maSPCT" value="${spct.maSPCT}">
@@ -33,7 +37,7 @@
         <input type="number" name="soLuongTon" value="${spct.soLuongTon}" required>
 
         <label>Giá nhập</label>
-        <input type="number" step="0.01" name="giaNhap"
+        <input type="number" step="0.01"  min="0" name="giaNhap"
                value="${spct.giaNhap}" required>
 
         <button type="submit" class="btn">
@@ -42,7 +46,9 @@
 
     </form>
 
-    <a href="sanphamchitiet" class="back">Quay lại</a>
+ <a href="sanphamchitiet?maSP=${spct.maSP}" class="back">
+     Quay lại
+ </a>
 
 </div>
 

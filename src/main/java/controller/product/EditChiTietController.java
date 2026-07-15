@@ -24,7 +24,7 @@ public class EditChiTietController extends HttpServlet {
 
         request.setAttribute("spct", spct);
 
-        request.getRequestDispatcher("editsanphamchitiet.jsp")
+        request.getRequestDispatcher("editSanPhamChiTiet.jsp")
                 .forward(request, response);
     }
 
@@ -39,7 +39,17 @@ public class EditChiTietController extends HttpServlet {
         spct.setMaMau(request.getParameter("maMau"));
         spct.setMaSize(request.getParameter("maSize"));
         spct.setSoLuongTon(Integer.parseInt(request.getParameter("soLuongTon")));
-        spct.setGiaNhap(new BigDecimal(request.getParameter("giaNhap")));
+        BigDecimal giaNhap = new BigDecimal(request.getParameter("giaNhap"));
+
+        if (giaNhap.compareTo(BigDecimal.ZERO) < 0) {
+            request.setAttribute("error", "Giá nhập phải lớn hơn hoặc bằng 0");
+            request.setAttribute("spct", spct);
+            request.getRequestDispatcher("editSanPhamChiTiet.jsp")
+                    .forward(request, response);
+            return;
+        }
+
+        spct.setGiaNhap(giaNhap);
 
         dao.update(spct);
 

@@ -20,6 +20,9 @@
     <a href="${pageContext.request.contextPath}/addEmployee" class="btn-add">
         Thêm nhân viên
     </a>
+
+    <a href="home" class="back">Quay lại</a>
+
 </div>
 
 <table class="employee-table">
@@ -53,10 +56,6 @@
 
 <a href="editEmployee?id=${nv.maNV}">
     <button class="btn-edit">Sửa</button>
-</a>
-
-<a href="deleteEmployee?id=${nv.maNV}">
-    <button class="btn-delete">Xóa</button>
 </a>
 
 </td>

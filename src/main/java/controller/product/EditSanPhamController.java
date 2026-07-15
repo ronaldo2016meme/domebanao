@@ -39,13 +39,23 @@ public class EditSanPhamController extends HttpServlet {
 
         sp.setMaSP(Integer.parseInt(request.getParameter("maSP")));
         sp.setTenSP(request.getParameter("tenSP"));
-        sp.setDanhMuc(request.getParameter("danhMuc"));
-        sp.setNhaCungCap(request.getParameter("nhaCungCap"));
-        sp.setGiaBan(Double.parseDouble(request.getParameter("giaBan")));
+        sp.setMaDanhMuc(request.getParameter("maDanhMuc"));
+        sp.setMaNCC(request.getParameter("maNCC"));
+        double giaBan = Double.parseDouble(request.getParameter("giaBan"));
+        if (giaBan < 0) {
+            request.setAttribute("error", "Giá bán phải lớn hơn hoặc bằng 0");
+            request.setAttribute("sp", sp);
+            request.getRequestDispatcher("editsanpham.jsp")
+                    .forward(request, response);
+            return;
+        }
+        sp.setGiaBan(giaBan);
         sp.setMoTa(request.getParameter("moTa"));
         sp.setNgayTao(request.getParameter("ngayTao"));
         sp.setNgayCapNhat(request.getParameter("ngayCapNhat"));
         sp.setAnh(request.getParameter("anh"));
+        sp.setMaTrangThaiSP(request.getParameter("maTrangThaiSP"));
+
 
         dao.update(sp);
 

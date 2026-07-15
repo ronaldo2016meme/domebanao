@@ -2,23 +2,32 @@ package model;
 
 public class sanpham {
     private int maSP;
+    private String maDanhMuc;
+    private String maNCC;
     private String tenSP;
-    private String danhMuc;
-    private String nhaCungCap;
+    private String maTrangThaiSP;
+    private String tenDanhMuc;
+    private String tenNCC;
+    private String tenTrangThai;
     private double giaBan;
     private String moTa;
     private String ngayTao;
     private String ngayCapNhat;
     private String anh;
 
+
     public sanpham() {
     }
 
-    public sanpham(int maSP, String tenSP, String danhMuc, String nhaCungCap, double giaBan, String moTa, String ngayTao, String ngayCapNhat, String anh) {
+    public sanpham(int maSP, String maDanhMuc, String maNCC, String tenSP, String maTrangThaiSP, String tenDanhMuc, String tenNCC, String tenTrangThai, double giaBan, String moTa, String ngayTao, String ngayCapNhat, String anh) {
         this.maSP = maSP;
+        this.maDanhMuc = maDanhMuc;
+        this.maNCC = maNCC;
         this.tenSP = tenSP;
-        this.danhMuc = danhMuc;
-        this.nhaCungCap = nhaCungCap;
+        this.maTrangThaiSP = maTrangThaiSP;
+        this.tenDanhMuc = tenDanhMuc;
+        this.tenNCC = tenNCC;
+        this.tenTrangThai = tenTrangThai;
         this.giaBan = giaBan;
         this.moTa = moTa;
         this.ngayTao = ngayTao;
@@ -34,6 +43,22 @@ public class sanpham {
         this.maSP = maSP;
     }
 
+    public String getMaDanhMuc() {
+        return maDanhMuc;
+    }
+
+    public void setMaDanhMuc(String maDanhMuc) {
+        this.maDanhMuc = maDanhMuc;
+    }
+
+    public String getMaNCC() {
+        return maNCC;
+    }
+
+    public void setMaNCC(String maNCC) {
+        this.maNCC = maNCC;
+    }
+
     public String getTenSP() {
         return tenSP;
     }
@@ -42,20 +67,36 @@ public class sanpham {
         this.tenSP = tenSP;
     }
 
-    public String getDanhMuc() {
-        return danhMuc;
+    public String getMaTrangThaiSP() {
+        return maTrangThaiSP;
     }
 
-    public void setDanhMuc(String danhMuc) {
-        this.danhMuc = danhMuc;
+    public void setMaTrangThaiSP(String maTrangThaiSP) {
+        this.maTrangThaiSP = maTrangThaiSP;
     }
 
-    public String getNhaCungCap() {
-        return nhaCungCap;
+    public String getTenDanhMuc() {
+        return tenDanhMuc;
     }
 
-    public void setNhaCungCap(String nhaCungCap) {
-        this.nhaCungCap = nhaCungCap;
+    public void setTenDanhMuc(String tenDanhMuc) {
+        this.tenDanhMuc = tenDanhMuc;
+    }
+
+    public String getTenNCC() {
+        return tenNCC;
+    }
+
+    public void setTenNCC(String tenNCC) {
+        this.tenNCC = tenNCC;
+    }
+
+    public String getTenTrangThai() {
+        return tenTrangThai;
+    }
+
+    public void setTenTrangThai(String tenTrangThai) {
+        this.tenTrangThai = tenTrangThai;
     }
 
     public double getGiaBan() {

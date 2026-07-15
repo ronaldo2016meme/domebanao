@@ -21,6 +21,10 @@
            class="btn-add">
             Thêm sản phẩm chi tiết
         </a>
+
+        <a href="sanpham?maSP=${maSP}" class="back">
+            Quay lại
+        </a>
     </div>
 
     <table class="employee-table">
@@ -50,11 +54,6 @@
 
                     <a href="editSanPhamChiTiet?id=${spct.maSPCT}">
                         <button class="btn-edit">Sửa</button>
-                    </a>
-
-                    <a href="deleteSanPhamChiTiet?id=${spct.maSPCT}"
-                       onclick="return confirm('Bạn có chắc muốn xóa?')">
-                        <button class="btn-delete">Xóa</button>
                     </a>
 
                 </td>

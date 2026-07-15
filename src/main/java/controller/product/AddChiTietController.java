@@ -18,7 +18,7 @@ public class AddChiTietController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getRequestDispatcher("addsanphamchitiet.jsp")
+        request.getRequestDispatcher("addSanPhamChiTiet.jsp")
                 .forward(request, response);
     }
 
@@ -39,7 +39,7 @@ public class AddChiTietController extends HttpServlet {
                 || soLuongTon.isEmpty() || giaNhap.isEmpty()) {
 
             request.setAttribute("error", "Vui lòng nhập đầy đủ thông tin!");
-            request.getRequestDispatcher("addsanphamchitiet.jsp")
+            request.getRequestDispatcher("addSanPhamChiTiet.jsp")
                     .forward(request, response);
             return;
         }
@@ -50,10 +50,19 @@ public class AddChiTietController extends HttpServlet {
         spct.setMaMau(maMau);
         spct.setMaSize(maSize);
         spct.setSoLuongTon(Integer.parseInt(soLuongTon));
-        spct.setGiaNhap(new BigDecimal(giaNhap));
+        BigDecimal giaNhapBD = new BigDecimal(giaNhap);
+
+        if (giaNhapBD.compareTo(BigDecimal.ZERO) < 0) {
+            request.setAttribute("error", "Giá nhập phải lớn hơn hoặc bằng 0");
+            request.getRequestDispatcher("addSanPhamChiTiet.jsp")
+                    .forward(request, response);
+            return;
+        }
+
+        spct.setGiaNhap(giaNhapBD);
 
         dao.insert(spct);
 
-        response.sendRedirect("sanphamchitiet");
+        response.sendRedirect("sanphamchitiet?maSP=" + spct.getMaSP());
     }
 }

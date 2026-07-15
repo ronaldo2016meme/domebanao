@@ -31,13 +31,22 @@ public class AddSanPhamController extends HttpServlet {
         sanpham sp = new sanpham();
 
         sp.setTenSP(request.getParameter("tenSP"));
-        sp.setDanhMuc(request.getParameter("danhMuc"));
-        sp.setNhaCungCap(request.getParameter("nhaCungCap"));
-        sp.setGiaBan(Double.parseDouble(request.getParameter("giaBan")));
+        sp.setMaDanhMuc(request.getParameter("maDanhMuc"));
+        sp.setMaNCC(request.getParameter("maNCC"));
+        double giaBan = Double.parseDouble(request.getParameter("giaBan"));
+        if (giaBan < 0) {
+            request.setAttribute("error", "Giá bán phải lớn hơn hoặc bằng 0");
+            request.getRequestDispatcher("addsanpham.jsp")
+                    .forward(request, response);
+            return;
+        }
+        sp.setGiaBan(giaBan);
         sp.setMoTa(request.getParameter("moTa"));
         sp.setNgayTao(request.getParameter("ngayTao"));
         sp.setNgayCapNhat(request.getParameter("ngayCapNhat"));
         sp.setAnh(request.getParameter("anh"));
+        sp.setMaTrangThaiSP(request.getParameter("maTrangThaiSP"));
+
 
         dao.insert(sp);
 

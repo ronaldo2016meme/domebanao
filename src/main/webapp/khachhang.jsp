@@ -27,6 +27,8 @@
             Thêm khách hàng
         </a>
 
+        <a href="home" class="back">Quay lại</a>
+
     </div>
 
     <table class="customer-table">
@@ -53,12 +55,6 @@
                 <a href="editKhachHang?id=${kh.maKH}"
                    class="btn-edit">
                     Sửa
-                </a>
-
-                <a href="deletekhachhang?id=${kh.maKH}"
-                   class="btn-delete"
-                   onclick="return confirm('Bạn có chắc muốn xóa?')">
-                    Xóa
                 </a>
 
             </td>

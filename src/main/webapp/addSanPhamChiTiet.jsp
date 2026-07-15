@@ -16,6 +16,10 @@
 
     <h2>Thêm sản phẩm chi tiết</h2>
 
+    <c:if test="${not empty error}">
+        <p style="color:red">${error}</p>
+    </c:if>
+
     <form action="addSanPhamChiTiet" method="post">
 
         <label>Mã sản phẩm</label>
