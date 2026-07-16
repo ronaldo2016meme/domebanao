@@ -215,4 +215,110 @@ public class NhanVienDao {
 
         return nv;
     }
+
+
+    public boolean isPhoneExists(String sdt) {
+
+        String sql = "SELECT COUNT(*) FROM NHANVIEN WHERE SDT=?";
+
+        try {
+            Connection con = new ConnectService().myConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, sdt);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // Kiểm tra CCCD đã tồn tại (Thêm)
+    public boolean isCccdExists(String cccd) {
+
+        String sql = "SELECT COUNT(*) FROM NHANVIEN WHERE CCCD=?";
+
+        try {
+            Connection con = new ConnectService().myConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, cccd);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+    public boolean isPhoneExistsForUpdate(String sdt, int maNV) {
+
+        String sql = "SELECT COUNT(*) FROM NHANVIEN WHERE SDT=? AND MaNV<>?";
+
+        try {
+            Connection con = new ConnectService().myConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, sdt);
+            ps.setInt(2, maNV);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // Kiểm tra CCCD đã tồn tại khi Sửa
+    public boolean isCccdExistsForUpdate(String cccd, int maNV) {
+
+        String sql = "SELECT COUNT(*) FROM NHANVIEN WHERE CCCD=? AND MaNV<>?";
+
+        try {
+            Connection con = new ConnectService().myConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, cccd);
+            ps.setInt(2, maNV);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

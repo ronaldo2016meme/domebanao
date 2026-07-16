@@ -63,6 +63,20 @@ public class AddEmployeeConntroller extends HttpServlet {
             return;
         }
 
+
+        if (dao.isPhoneExists(sdt)) {
+            request.setAttribute("error", "Số điện thoại đã tồn tại.");
+            request.getRequestDispatcher("addEmployee.jsp").forward(request, response);
+            return;
+        }
+
+// Kiểm tra trùng CCCD
+        if (dao.isCccdExists(cccd)) {
+            request.setAttribute("error", "CCCD đã tồn tại.");
+            request.getRequestDispatcher("addEmployee.jsp").forward(request, response);
+            return;
+        }
+
         // Kiểm tra CCCD
         if (!cccd.matches("^\\d{12}$")) {
             request.setAttribute("error", "CCCD phải gồm đúng 12 chữ số.");

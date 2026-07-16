@@ -16,6 +16,11 @@
     <h2>Thêm nhân viên</h2>
 
     <form action="addEmployee" method="post">
+    <c:if test="${not empty error}">
+        <div style="color:red; margin-bottom:10px;">
+            ${error}
+        </div>
+    </c:if>
 
         <label>Họ tên</label>
         <input type="text"

@@ -49,6 +49,7 @@ public class EditEmployeeController extends HttpServlet {
         String cccd = request.getParameter("cccd");
         String maTrangThai = request.getParameter("maTrangThai");
         String maRole = request.getParameter("maRole");
+        int maNV = Integer.parseInt(request.getParameter("maNV"));
 
         // Không được để trống
         if (hoTen.isEmpty() || ngaySinh.isEmpty() || quocTich.isEmpty()
@@ -86,9 +87,31 @@ public class EditEmployeeController extends HttpServlet {
             return;
         }
 
+
+        if (dao.isPhoneExistsForUpdate(sdt, maNV)) {
+            request.setAttribute("error", "Số điện thoại đã tồn tại.");
+
+            NhanVien nv = dao.getById(maNV);
+            request.setAttribute("nv", nv);
+
+            request.getRequestDispatcher("editEmployee.jsp").forward(request, response);
+            return;
+        }
+
+// Kiểm tra trùng CCCD
+        if (dao.isCccdExistsForUpdate(cccd, maNV)) {
+            request.setAttribute("error", "CCCD đã tồn tại.");
+
+            NhanVien nv = dao.getById(maNV);
+            request.setAttribute("nv", nv);
+
+            request.getRequestDispatcher("editEmployee.jsp").forward(request, response);
+            return;
+        }
+
         NhanVien nv = new NhanVien();
 
-        nv.setMaNV(Integer.parseInt(request.getParameter("maNV")));
+        nv.setMaNV(maNV);
         nv.setHoTen(hoTen);
         nv.setNgaySinh(Date.valueOf(ngaySinh));
         nv.setGioiTinh(gioiTinh);

@@ -33,12 +33,50 @@ public class EditKhachHangController extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
+        int maKH = Integer.parseInt(request.getParameter("maKH"));
+        String hoTen = request.getParameter("hoTen");
+        String sdt = request.getParameter("sdt");
+        String diaChi = request.getParameter("diaChi");
+
+        // Không được để trống
+        if (hoTen.isEmpty() || sdt.isEmpty() || diaChi.isEmpty()) {
+            request.setAttribute("error", "Vui lòng nhập đầy đủ thông tin.");
+
+            KhachHang kh = dao.getById(maKH);
+            request.setAttribute("kh", kh);
+
+            request.getRequestDispatcher("editKhachHang.jsp").forward(request, response);
+            return;
+        }
+
+
+        if (!sdt.matches("^(0\\d{9}|\\+84\\d{9})$")) {
+            request.setAttribute("error", "Số điện thoại không hợp lệ.");
+
+            KhachHang kh = dao.getById(maKH);
+            request.setAttribute("kh", kh);
+
+            request.getRequestDispatcher("editKhachHang.jsp").forward(request, response);
+            return;
+        }
+
+
+        if (dao.isPhoneExistsForUpdate(sdt, maKH)) {
+            request.setAttribute("error", "Số điện thoại đã tồn tại.");
+
+            KhachHang kh = dao.getById(maKH);
+            request.setAttribute("kh", kh);
+
+            request.getRequestDispatcher("editKhachHang.jsp").forward(request, response);
+            return;
+        }
+
         KhachHang kh = new KhachHang();
 
-        kh.setMaKH(Integer.parseInt(request.getParameter("maKH")));
-        kh.setHoTen(request.getParameter("hoTen"));
-        kh.setSdt(request.getParameter("sdt"));
-        kh.setDiaChi(request.getParameter("diaChi"));
+        kh.setMaKH(maKH);
+        kh.setHoTen(hoTen);
+        kh.setSdt(sdt);
+        kh.setDiaChi(diaChi);
 
         dao.update(kh);
 

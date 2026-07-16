@@ -181,4 +181,59 @@ public class KhachHangDao {
 
         return list;
     }
+
+
+    public boolean isPhoneExists(String sdt) {
+
+        String sql = "SELECT COUNT(*) FROM KHACHHANG WHERE SDT=?";
+
+        try {
+
+            Connection con = new ConnectService().myConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, sdt);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+    public boolean isPhoneExistsForUpdate(String sdt, int maKH) {
+
+        String sql = "SELECT COUNT(*) FROM KHACHHANG WHERE SDT=? AND MaKH<>?";
+
+        try {
+
+            Connection con = new ConnectService().myConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, sdt);
+            ps.setInt(2, maKH);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

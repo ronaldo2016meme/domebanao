@@ -14,6 +14,11 @@
 <div class="container">
 
     <h2>Sửa khách hàng</h2>
+    <c:if test="${not empty error}">
+        <div style="color:red; margin-bottom:10px;">
+            ${error}
+        </div>
+    </c:if>
 
     <form action="editKhachHang" method="post">
 

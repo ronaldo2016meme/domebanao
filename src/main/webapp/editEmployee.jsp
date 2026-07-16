@@ -38,6 +38,11 @@ function checkAge() {
 <div class="container">
 
 <h2>Sửa nhân viên</h2>
+<c:if test="${not empty error}">
+    <div style="color:red; margin-bottom:10px;">
+        ${error}
+    </div>
+</c:if>
 
 <form action="editEmployee" method="post" onsubmit="return checkAge()">
 

@@ -31,6 +31,27 @@ public class AddKhachHangController extends HttpServlet {
         String sdt = request.getParameter("sdt");
         String diaChi = request.getParameter("diaChi");
 
+        // Không được để trống
+        if (hoTen.isEmpty() || sdt.isEmpty() || diaChi.isEmpty()) {
+            request.setAttribute("error", "Vui lòng nhập đầy đủ thông tin.");
+            request.getRequestDispatcher("addKhachHang.jsp").forward(request, response);
+            return;
+        }
+
+
+        if (!sdt.matches("^(0\\d{9}|\\+84\\d{9})$")) {
+            request.setAttribute("error", "Số điện thoại không hợp lệ.");
+            request.getRequestDispatcher("addKhachHang.jsp").forward(request, response);
+            return;
+        }
+
+
+        if (dao.isPhoneExists(sdt)) {
+            request.setAttribute("error", "Số điện thoại đã tồn tại.");
+            request.getRequestDispatcher("addKhachHang.jsp").forward(request, response);
+            return;
+        }
+
         KhachHang kh = new KhachHang();
 
         kh.setHoTen(hoTen);
