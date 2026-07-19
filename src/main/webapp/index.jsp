@@ -63,7 +63,7 @@
 
     <a href="khachhang">Quản lý khách hàng</a>
 
-    <a href="sale">Bán hàng</a>
+    <a href="banhang">Bán hàng</a>
 
     <a href="profile">Thông tin cá nhân</a>
 
