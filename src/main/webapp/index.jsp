@@ -59,7 +59,7 @@
         <a href="employee">Quản lý nhân viên</a>
     </c:if>
 
-    <a href="revenue">Doanh thu</a>
+    <a href="thongke">Doanh thu</a>
 
     <a href="khachhang">Quản lý khách hàng</a>
 

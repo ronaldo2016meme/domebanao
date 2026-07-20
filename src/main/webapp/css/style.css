@@ -9,32 +9,36 @@
 }
 
 body{
-    min-height:100vh;
-    background:
-        linear-gradient(135deg,#edf4fa,#d8e4ef,#c7d6e5);
+    min-width:1280px;
+        min-height:100vh;
+        overflow-x:auto;
 
-    background-image:
-        repeating-linear-gradient(
-            45deg,
-            rgba(255,255,255,.18) 0,
-            rgba(255,255,255,.18) 2px,
-            transparent 2px,
-            transparent 40px
-        ),
-        repeating-linear-gradient(
-            -45deg,
-            rgba(0,0,0,.04) 0,
-            rgba(0,0,0,.04) 2px,
-            transparent 2px,
-            transparent 40px
-        );
+        background:
+            linear-gradient(135deg,#edf4fa,#d8e4ef,#c7d6e5);
+
+        background-image:
+            repeating-linear-gradient(
+                45deg,
+                rgba(255,255,255,.18) 0,
+                rgba(255,255,255,.18) 2px,
+                transparent 2px,
+                transparent 40px
+            ),
+            repeating-linear-gradient(
+                -45deg,
+                rgba(0,0,0,.04) 0,
+                rgba(0,0,0,.04) 2px,
+                transparent 2px,
+                transparent 40px
+            );
 }
 
 /* ==========================
    HEADER
 ========================== */
 .header{
-    width:96%;
+    width:1280px;
+    max-width:95%;
     margin:20px auto;
     height:90px;
     background:#fff;
@@ -102,22 +106,32 @@ body{
    MENU
 ========================== */
 .menu{
-    width:96%;
+    width:1280px;
+    max-width:95%;
     margin:15px auto;
     background:#fff;
     border-radius:15px;
     display:flex;
-    justify-content:center;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
 .menu a{
-    padding:20px 40px;
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:80px;
+
     text-decoration:none;
     color:#333;
     font-size:18px;
     font-weight:bold;
-    transition:0.3s;
+
+    white-space:nowrap;      /* Không xuống dòng */
+    text-align:center;
+
+    transition:.3s;
 }
 
 .menu a:hover{
@@ -130,7 +144,8 @@ body{
 ========================== */
 
 .banner{
-    width:92%;
+    width:1280px;
+    max-width:95%;
     height:550px;
     margin:30px auto;
     border-radius:20px;
@@ -171,7 +186,8 @@ body{
 ========================== */
 
 .category{
-    width:92%;
+    width:1280px;
+    max-width:95%;
     margin:40px auto;
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -431,7 +447,8 @@ tr:hover{
 ========================== */
 
 .employee-container{
-    width:90%;
+    width:1280px;
+    max-width:95%;
     margin:40px auto;
     background:#fff;
     padding:30px;
@@ -614,7 +631,8 @@ tr:hover{
 
 /* PRODUCT */
 .product-container{
-    width:95%;
+    width:1280px;
+    max-width:95%;
     margin:30px auto;
     background:#eef3f6;
     padding:25px;
@@ -706,7 +724,8 @@ tr:hover{
 /* ================= QUẢN LÝ KHÁCH HÀNG ================= */
 
 .customer-container{
-    width:95%;
+    width:1280px;
+    max-width:95%;
     margin:20px auto;
     background:#fff;
     padding:35px;
@@ -825,6 +844,9 @@ tr:hover{
 ==========================*/
 
 .bh-container{
+    width:1280px;
+    max-width:95%;
+    margin:30px auto;
     display:flex;
     gap:20px;
     margin-top:20px;
@@ -982,4 +1004,116 @@ tr:hover{
 
     }
 
+}
+/* ==========================
+      THỐNG KÊ DOANH THU
+========================== */
+
+.thongke-container{
+    width:1200px;
+    max-width:95%;
+    margin:30px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    box-sizing:border-box;
+}
+
+.thongke-container h2{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:34px;
+    color:#000;
+}
+
+.tk-filter{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
+
+.tk-filter label{
+    font-weight:bold;
+}
+
+.tk-filter input{
+    width:160px;
+    height:42px;
+    padding:0 12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+.tk-filter button{
+    width:180px;
+    height:42px;
+}
+
+.tk-card{
+    display:flex;
+    gap:20px;
+    margin-bottom:35px;
+}
+
+.tk-item{
+    flex:1;
+    background:#eef3f6;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 10px rgba(0,0,0,.1);
+}
+
+.tk-item h3{
+    color:#555;
+    margin-bottom:15px;
+}
+
+.tk-item p{
+    font-size:28px;
+    color:#1565C0;
+    font-weight:bold;
+}
+
+.tk-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.tk-table th{
+    background:#78909C;
+    color:#fff;
+    padding:14px;
+}
+
+.tk-table td{
+    padding:12px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+
+.tk-table tr:nth-child(even){
+    background:#f5f5f5;
+}
+
+.tk-table tr:hover{
+    background:#E3F2FD;
+}
+
+/* Biểu đồ */
+
+.chart-box{
+    width:100%;
+    height:450px;
+    margin-top:30px;
+    position:relative;
+}
+
+.chart-box canvas{
+    width:100% !important;
+    height:100% !important;
 }

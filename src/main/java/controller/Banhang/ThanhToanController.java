@@ -42,7 +42,7 @@ public class ThanhToanController extends HttpServlet {
 
         if (tienKhachDua < tongTien) {
 
-            request.setAttribute("error", "Tiền khách đưa không đủ");
+            request.setAttribute("error", "Tien khach đua khong đu");
 
             request.getRequestDispatcher("/banhang")
                     .forward(request, response);
@@ -57,9 +57,9 @@ public class ThanhToanController extends HttpServlet {
         hd.setTienKhachDua(tienKhachDua);
         hd.setTienThua(tienKhachDua - tongTien);
 
-        hd.setPhuongThucThanhToan("Tiền mặt");
+        hd.setPhuongThucThanhToan("Tien mat");
 
-        // Tạm thời để cứng
+
         hd.setMaNV(1);
 
         hd.setMaKH(
