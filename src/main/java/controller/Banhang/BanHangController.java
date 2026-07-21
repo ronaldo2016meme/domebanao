@@ -23,6 +23,13 @@ public class BanHangController extends HttpServlet {
                          HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+
         List<SanPhamChiTiet> list = dao.getAll();
 
         request.setAttribute("listSP", list);
@@ -36,11 +43,16 @@ public class BanHangController extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+
         int maSPCT = Integer.parseInt(request.getParameter("maSPCT"));
 
         SanPhamChiTiet sp = dao.getById(maSPCT);
-
-        HttpSession session = request.getSession();
 
         List<GioHang> gioHang =
                 (List<GioHang>) session.getAttribute("gioHang");

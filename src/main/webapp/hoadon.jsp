@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -78,11 +79,17 @@
 
     <c:if test="${not empty list}">
 
-        <p><b>Tổng tiền:</b> ${list[0].tongTien} VNĐ</p>
+        <p><b>Tổng tiền:</b>
+            <fmt:formatNumber value="${list[0].tongTien}" pattern="#,##0"/> VNĐ
+        </p>
 
-        <p><b>Tiền khách đưa:</b> ${list[0].tienKhachDua} VNĐ</p>
+        <p><b>Tiền khách đưa:</b>
+            <fmt:formatNumber value="${list[0].tienKhachDua}" pattern="#,##0"/> VNĐ
+        </p>
 
-        <p><b>Tiền thừa:</b> ${list[0].tienThua} VNĐ</p>
+        <p><b>Tiền thừa:</b>
+            <fmt:formatNumber value="${list[0].tienThua}" pattern="#,##0"/> VNĐ
+        </p>
 
     </c:if>
 

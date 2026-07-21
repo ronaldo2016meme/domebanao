@@ -129,51 +129,25 @@
 
                     </td>
 
-                    <td>
+                        <td>
+                            <div class="qty-box">
 
-                        <form action="capNhatGioHang"
-                              method="post"
-                              style="display:inline;">
+                                <form action="capNhatGioHang" method="post">
+                                    <input type="hidden" name="maSPCT" value="${g.maSPCT}">
+                                    <input type="hidden" name="action" value="giam">
+                                    <button type="submit" class="bh-btn">-</button>
+                                </form>
 
-                            <input
-                                    type="hidden"
-                                    name="maSPCT"
-                                    value="${g.maSPCT}">
+                                <span>${g.soLuong}</span>
 
-                            <input
-                                    type="hidden"
-                                    name="action"
-                                    value="giam">
+                                <form action="capNhatGioHang" method="post">
+                                    <input type="hidden" name="maSPCT" value="${g.maSPCT}">
+                                    <input type="hidden" name="action" value="tang">
+                                    <button type="submit" class="bh-btn">+</button>
+                                </form>
 
-                            <button class="bh-btn">-</button>
-
-                        </form>
-
-                        <strong>
-
-                            ${g.soLuong}
-
-                        </strong>
-
-                        <form action="capNhatGioHang"
-                              method="post"
-                              style="display:inline;">
-
-                            <input
-                                    type="hidden"
-                                    name="maSPCT"
-                                    value="${g.maSPCT}">
-
-                            <input
-                                    type="hidden"
-                                    name="action"
-                                    value="tang">
-
-                            <button class="bh-btn">+</button>
-
-                        </form>
-
-                    </td>
+                            </div>
+                        </td>
 
                     <td>
 
@@ -221,8 +195,10 @@
             <label>Tiền khách đưa</label>
 
             <input
-                    type="number"
+                    type="text"
                     name="tienKhachDua"
+                    pattern="[0-9]+"
+                    inputmode="numeric"
                     required>
 
             <input

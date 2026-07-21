@@ -18,6 +18,13 @@ public class KhachHangController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+
         List<KhachHang> list = dao.getAll();
 
         request.setAttribute("list", list);

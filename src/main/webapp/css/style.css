@@ -947,7 +947,7 @@ tr:hover{
 }
 
 .qty-box form{
-    display:inline;
+    display:inline-flex;
     margin:0;
 }
 
