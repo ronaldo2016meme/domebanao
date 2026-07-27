@@ -88,7 +88,7 @@ public class EditChiTietController extends HttpServlet {
                     || spct.getMaSize() == null
                     || spct.getMaSize().trim().isEmpty()) {
 
-                request.setAttribute("error", "Vui lòng chọn màu sắc và size!");
+                request.setAttribute("error", "Vui lòng chọn màu sắc và size");
                 request.setAttribute("spct", spct);
                 loadComboboxData(request);
 
@@ -99,7 +99,7 @@ public class EditChiTietController extends HttpServlet {
 
             if (soLuongTon < 0) {
                 request.setAttribute("error",
-                        "Số lượng tồn phải lớn hơn hoặc bằng 0!");
+                        "Số lượng tồn phải lớn hơn hoặc bằng 0");
                 request.setAttribute("spct", spct);
                 loadComboboxData(request);
 

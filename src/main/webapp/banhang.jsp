@@ -16,13 +16,14 @@
 
 <body>
 
-<h2>BÁN HÀNG</h2>
+<div class="sale-header">
+    <h2>BÁN HÀNG</h2>
 
-<a href="${pageContext.request.contextPath}/index.jsp">
-    <button class="bh-btn" type="button">
+    <a href="${pageContext.request.contextPath}/index.jsp"
+       class="sale-back">
         Quay lại trang chủ
-    </button>
-</a>
+    </a>
+</div>
 
 <c:if test="${not empty message}">
     <p style="color:green;text-align:center">${message}</p>

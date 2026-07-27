@@ -70,7 +70,19 @@
 
         <tr>
             <th>Trạng thái</th>
-            <td>${nv.maTrangThai}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${nv.maTrangThai == 'TTNV01'}">
+                        Đang làm việc
+                    </c:when>
+                    <c:when test="${nv.maTrangThai == 'TTNV02'}">
+                        Đã nghỉ việc
+                    </c:when>
+                    <c:otherwise>
+                        Không xác định
+                    </c:otherwise>
+                </c:choose>
+            </td>
         </tr>
     </table>
 

@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +53,9 @@
             <td>${sp.tenDanhMuc}</td>
             <td>${sp.tenNCC}</td>
             <td>${sp.tenTrangThai}</td>
-            <td>${sp.giaBan}</td>
+            <td>
+                 <fmt:formatNumber value="${sp.giaBan}" pattern="#,##0"/> VNĐ
+             </td>
             <td>${sp.moTa}</td>
             <td>${sp.ngayTao}</td>
             <td>${sp.ngayCapNhat}</td>

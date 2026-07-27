@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -33,8 +34,8 @@
         <tr>
             <th>Mã SPCT</th>
             <th>Mã SP</th>
-            <th>Mã Màu</th>
-            <th>Mã Size</th>
+            <th>Màu</th>
+            <th>Size</th>
             <th>Số lượng tồn</th>
             <th>Giá nhập</th>
             <th>Chức năng</th>
@@ -46,10 +47,14 @@
 
                 <td>${spct.maSPCT}</td>
                 <td>${spct.maSP}</td>
-                <td>${spct.maMau}</td>
-                <td>${spct.maSize}</td>
+                <td>${spct.tenMau}</td>
+                <td>${spct.tenSize}</td>
                 <td>${spct.soLuongTon}</td>
-                <td>${spct.giaNhap}</td>
+                <td>
+                     <fmt:formatNumber
+                         value="${spct.giaNhap}"
+                         pattern="#,##0"/> VNĐ
+                 </td>
 
                 <td>
 

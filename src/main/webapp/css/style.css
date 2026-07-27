@@ -15,44 +15,32 @@ body{
     margin:0;
     overflow-x:auto;
 
-    --s:114px;
-    --c1:#b9b9b9;
-    --c2:#dcdcdc;
-    --c3:#fafafa;
+    --s:200px;
+    --c1:#102542;
+    --c2:#f8e7c8;
+    --c3:#d7a65a;
 
     background:
-        conic-gradient(
-            from 75deg,
-            var(--c1) 15deg,
-            var(--c2) 0 30deg,
-            transparent 0 180deg,
-            var(--c2) 0 195deg,
-            var(--c1) 0 210deg,
-            transparent 0
+        repeating-conic-gradient(
+            from 30deg,
+            transparent 0 120deg,
+            var(--c3) 0 50%
         )
         calc(var(--s)/2)
-        calc(.5*var(--s)/tan(30deg)),
+        calc(var(--s)*tan(30deg)/2),
 
-        conic-gradient(
-            var(--c1) 30deg,
-            var(--c3) 0 75deg,
-            var(--c1) 0 90deg,
-            var(--c2) 0 105deg,
-            var(--c3) 0 150deg,
-            var(--c2) 0 180deg,
-            var(--c3) 0 210deg,
-            var(--c1) 0 256deg,
-            var(--c2) 0 270deg,
-            var(--c1) 0 286deg,
-            var(--c2) 0 331deg,
-            var(--c3) 0
+        repeating-conic-gradient(
+            from 30deg,
+            var(--c1) 0 60deg,
+            var(--c2) 0 120deg,
+            var(--c3) 0 50%
         );
 
     background-size:
         var(--s)
-        calc(var(--s)/tan(30deg));
+        calc(var(--s)*tan(30deg));
 
-    background-attachment:fixed;
+    background-attachment: fixed;
 }
 
 /* ==========================
@@ -82,25 +70,26 @@ body{
     max-width:95%;
     margin:20px auto;
     height:90px;
-    background:#fff;
+    background:#F8F4ED;            /* Kem */
+    border:none;      /* Gold */
     border-radius:18px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:0 40px;
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    box-shadow:0 10px 25px rgba(16,37,66,.15);
 }
 
 .logo{
     font-size:48px;
     font-weight:bold;
-    color:#000;
+    color:#102542;                 /* Navy */
     letter-spacing:2px;
-    transition:0.3s;
+    transition:.3s;
 }
 
 .logo:hover{
-    color:#333;
+    color:#D4A24C;
 }
 
 .right{
@@ -113,16 +102,22 @@ body{
     width:350px;
     height:50px;
     padding:0 20px;
-    border:1px solid #ccc;
+    background:#FFFDF9;
+    border:none;
     border-radius:30px;
     outline:none;
     font-size:17px;
+    color:#102542;
     transition:.3s;
 }
 
+.right input::placeholder{
+    color:#7B7B7B;
+}
+
 .right input:focus{
-    border-color:#000;
-    box-shadow:0 0 8px rgba(0,0,0,.2);
+    border-color:#102542;
+    box-shadow:0 0 10px rgba(16,37,66,.25);
 }
 
 .right button{
@@ -131,29 +126,33 @@ body{
     padding:0 30px;
     border:none;
     border-radius:30px;
-    background:#000;
-    color:#fff;
+    background:#102542;          /* Navy */
+    color:#F8F4ED;
     cursor:pointer;
     font-size:18px;
     font-weight:bold;
-    transition:0.3s;
+    transition:.3s;
 }
 
 .right button:hover{
-    background:#333;
+    background:#D4A24C;
+    color:#102542;
 }
 
 /* ==========================
    MENU
 ========================== */
+
 .menu{
     width:1280px;
     max-width:95%;
     margin:15px auto;
-    background:#fff;
+    background:#F8F4ED;
+    border:none;
     border-radius:15px;
     display:flex;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(16,37,66,.12);
 }
 
 .menu a{
@@ -161,23 +160,28 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-
     height:80px;
 
     text-decoration:none;
-    color:#333;
+    color:#102542;
     font-size:18px;
-    font-weight:bold;
+    font-weight:700;
 
-    white-space:nowrap;      /* Không xuống dòng */
+    white-space:nowrap;
     text-align:center;
 
     transition:.3s;
 }
 
 .menu a:hover{
-    background:#000;
-    color:#fff;
+    background:#D4A24C;
+    color:#102542;
+}
+
+/* Trang đang chọn */
+.menu a.active{
+    background:#102542;
+    color:#F8F4ED;
 }
 
 /* ==========================
@@ -320,12 +324,12 @@ tr:hover{
 .login-box{
     width:450px;
     margin:50px auto;
-    background:#fff;
+    background:#F8F4ED;
     padding:35px;
     border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-    border:1px solid #e5e5e5;
+    box-shadow:0 12px 30px rgba(16,37,66,.12);
 }
+
 .banner1{
     width:100%;
     margin-bottom:30px;
@@ -344,41 +348,53 @@ tr:hover{
 .login-box h2{
     text-align:center;
     margin-bottom:25px;
-    color:#000;
+    color:#102542;
     font-size:36px;
-    font-weight:bold;
+    font-weight:700;
 }
 
 .login-box label{
     display:block;
     margin-top:15px;
     margin-bottom:8px;
-    font-weight:bold;
+    font-weight:600;
+    color:#102542;
 }
 
 .login-box input{
     width:100%;
-    height:45px;
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:8px;
+    height:48px;
+    padding:0 15px;
+    border:1px solid #E3E3E3;
+    border-radius:10px;
+    background:#FFFFFF;
+    color:#102542;
+    transition:.3s;
+}
+
+.login-box input:focus{
+    outline:none;
+    border-color:#102542;
+    box-shadow:0 0 8px rgba(16,37,66,.15);
 }
 
 .login-box button{
     width:100%;
-    height:45px;
+    height:48px;
     margin-top:25px;
     border:none;
-    border-radius:8px;
-    background:#000;
-    color:#fff;
+    border-radius:10px;
+    background:#102542;
+    color:#F8F4ED;
     font-size:18px;
+    font-weight:600;
     cursor:pointer;
     transition:.3s;
 }
 
 .login-box button:hover{
-    background:#333;
+    background:#D4A24C;
+    color:#102542;
 }
 
 /* ==========================
@@ -1251,4 +1267,424 @@ tr:hover{
 .tk-table tr,
 .tk-table td {
     background: transparent !important;
+}
+/* ==========================================================
+   BỘ MÀU ĐỒNG BỘ CUỐI FILE: NAVY - KEM - VÀNG GOLD
+   Phần này được đặt cuối file để ghi đè các màu cũ.
+========================================================== */
+:root{
+    --navy:#102542;
+    --navy-hover:#18375F;
+    --gold:#D4A24C;
+    --gold-soft:#E9D2A0;
+    --cream:#F8F4ED;
+    --cream-light:#FFFDF9;
+    --cream-alt:#F2EDE4;
+    --text:#1F2937;
+    --muted:#667085;
+    --line:#DDD6CA;
+    --danger:#C0392B;
+}
+
+/* Khung nội dung */
+.employee-container,
+.product-container,
+.customer-container,
+.container,
+.login-box,
+.profile-container,
+.bh-left,
+.bh-right,
+.invoice,
+.thongke-container{
+    background:rgba(248,244,237,.94) !important;
+    color:var(--text);
+    border:none !important;
+    box-shadow:0 12px 30px rgba(16,37,66,.16);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+}
+
+/* Tiêu đề */
+.welcome,
+.employee-container h2,
+.product-container h2,
+.customer-container h2,
+.container h2,
+.login-box h2,
+.profile-title,
+.invoice h2,
+.thongke-container h2,
+.bh-right h3{
+    color:var(--navy) !important;
+}
+
+/* Chữ mô tả và nhãn */
+label,
+.card h3,
+.tk-item h3{
+    color:var(--navy) !important;
+}
+
+.card p{
+    color:var(--muted);
+}
+
+/* Header và menu */
+.header,
+.menu{
+    background:var(--cream) !important;
+    border:none !important;
+}
+
+.logo,
+.menu a{
+    color:var(--navy);
+}
+
+.logo:hover{
+    color:var(--gold);
+}
+
+.menu a:hover{
+    background:var(--gold);
+    color:var(--navy);
+}
+
+.menu a.active{
+    background:var(--navy);
+    color:var(--cream);
+}
+
+/* Ô nhập liệu và select */
+input,
+select,
+textarea,
+.right input,
+.login-box input,
+.container input,
+.container select,
+.top-action input,
+.tk-filter input,
+.bh-right input,
+.select-employee{
+    background:var(--cream-light) !important;
+    color:var(--text) !important;
+    border:1px solid var(--line) !important;
+    outline:none;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#8A8175;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.right input:focus,
+.login-box input:focus,
+.container input:focus,
+.container select:focus{
+    border-color:var(--navy) !important;
+    box-shadow:0 0 0 3px rgba(16,37,66,.12) !important;
+}
+
+.select-employee option{
+    background:var(--cream-light);
+    color:var(--text);
+}
+
+/* Card */
+.card,
+.tk-item{
+    background:var(--cream) !important;
+    color:var(--text);
+    border:none;
+}
+
+.tk-item p{
+    color:var(--gold) !important;
+}
+
+/* Bảng dùng chung */
+table,
+.employee-table,
+.product-table,
+.customer-table,
+.profile-table,
+.tk-table,
+.bh-table{
+    background:var(--cream-light) !important;
+    color:var(--text);
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:12px;
+}
+
+table th,
+.employee-table th,
+.product-table th,
+.customer-table th,
+.profile-table th,
+.tk-table th,
+.bh-table th{
+    background:var(--navy) !important;
+    color:var(--cream) !important;
+    border:1px solid rgba(255,255,255,.12) !important;
+}
+
+table td,
+.employee-table td,
+.product-table td,
+.customer-table td,
+.profile-table td,
+.tk-table td,
+.bh-table td{
+    background:var(--cream-light) !important;
+    color:var(--text) !important;
+    border:1px solid var(--line) !important;
+}
+
+table tr:nth-child(even) td,
+.employee-table tr:nth-child(even) td,
+.product-table tr:nth-child(even) td,
+.customer-table tr:nth-child(even) td,
+.profile-table tr:nth-child(even) td,
+.tk-table tr:nth-child(even) td,
+.bh-table tr:nth-child(even) td{
+    background:var(--cream-alt) !important;
+}
+
+table tr:hover td,
+.employee-table tr:hover td,
+.product-table tr:hover td,
+.customer-table tr:hover td,
+.profile-table tr:hover td,
+.tk-table tr:hover td,
+.bh-table tr:hover td{
+    background:var(--gold-soft) !important;
+    color:var(--navy) !important;
+}
+
+/* Nút chung */
+.btn,
+.btn-add,
+.profile-btn,
+.bh-btn,
+.top-action button,
+.login-box button,
+.right button,
+.tk-filter button,
+.qty-box button{
+    background:var(--navy) !important;
+    color:var(--cream) !important;
+    border:none !important;
+}
+
+/* Nút Sửa */
+.btn-edit{
+    background:#102542 !important;      /* Xanh dương */
+    color:#FFFFFF !important;
+    border:none !important;
+}
+
+.btn-edit:hover{
+    background:#2563EB !important;
+    color:#FFFFFF !important;
+}
+
+/* Nút Chi tiết */
+.btn-detail{
+    background:#D4A24C !important;      /* Vàng */
+    color:#102542 !important;
+    border:none !important;
+}
+
+.btn-detail:hover{
+    background:#E6B85B !important;
+    color:#102542 !important;
+}
+
+.btn:hover,
+.btn-add:hover,
+.btn-edit:hover,
+.btn-detail:hover,
+.profile-btn:hover,
+.bh-btn:hover,
+.top-action button:hover,
+.login-box button:hover,
+.right button:hover,
+.tk-filter button:hover,
+.qty-box button:hover{
+    background:var(--gold) !important;
+    color:var(--navy) !important;
+}
+
+/* Nút quay lại */
+.back{
+    background:#42526A !important;
+    color:#fff !important;
+    border:none;
+}
+
+.back:hover{
+    background:var(--navy) !important;
+}
+
+/* Tổng tiền và thông báo lỗi */
+.bh-total{
+    background:var(--cream-alt) !important;
+    color:var(--danger) !important;
+    border:1px solid var(--line) !important;
+}
+
+.error{
+    color:var(--danger) !important;
+}
+
+/* Hóa đơn */
+.invoice{
+    background:rgba(248,244,237,.96) !important;
+    border:none !important;
+}
+/* Căn giữa theo chiều dọc */
+.product-table td{
+    vertical-align: middle;
+}
+
+/* Tên sản phẩm */
+.product-table td:nth-child(3){
+    text-align:left;
+    padding-left:20px;
+    font-weight:600;
+}
+
+/* Danh mục */
+.product-table td:nth-child(4){
+    text-align:left;
+    padding-left:15px;
+}
+
+/* Nhà cung cấp */
+.product-table td:nth-child(5){
+    text-align:center;
+}
+
+/* Trạng thái */
+.product-table td:nth-child(6){
+    text-align:center;
+}
+
+/* Giá bán */
+.product-table td:nth-child(7){
+    text-align:right;
+    padding-right:20px;
+    font-weight:bold;
+    color:#102542;
+}
+
+/* Mô tả */
+.product-table td:nth-child(8){
+    text-align:left;
+    padding-left:15px;
+}
+
+/* Ngày */
+.product-table td:nth-child(9),
+.product-table td:nth-child(10){
+    text-align:center;
+}
+
+/* Chức năng */
+.product-table td:last-child{
+    text-align:center;
+}
+/* Căn giữa theo chiều dọc */
+.product-table th,
+.product-table td{
+    vertical-align: middle;
+    padding: 12px 10px;
+}
+
+/* Chỉ các cột này không xuống dòng */
+.product-table td:nth-child(7),
+.product-table td:nth-child(9),
+.product-table td:nth-child(10){
+    white-space: nowrap;
+}
+
+/* Các cột chữ được xuống dòng nếu cần */
+.product-table td:nth-child(3),
+.product-table td:nth-child(4),
+.product-table td:nth-child(5),
+.product-table td:nth-child(6),
+.product-table td:nth-child(8){
+    white-space: normal;
+}
+
+/* Căn chỉnh đẹp hơn */
+.product-table td:nth-child(3),
+.product-table td:nth-child(4),
+.product-table td:nth-child(5),
+.product-table td:nth-child(8){
+    text-align: left;
+}
+
+.product-table td:nth-child(6),
+.product-table td:nth-child(7),
+.product-table td:nth-child(9),
+.product-table td:nth-child(10){
+    text-align: center;
+}
+/* ==========================
+   HEADER TRANG BÁN HÀNG
+========================== */
+
+.sale-header{
+    width:83.5%;
+    max-width:1600px;
+    margin:25px auto 18px;
+    padding:18px 24px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(248,244,237,.95);
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(16,37,66,.16);
+}
+
+.sale-header h2{
+    margin:0;
+    color:#102542;
+    font-size:30px;
+    font-weight:700;
+}
+
+/* Nút quay lại riêng */
+.sale-back{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    min-width:190px;
+    height:46px;
+    padding:0 22px;
+
+    background:#42526A;
+    color:#FFFFFF;
+    text-decoration:none;
+
+    border-radius:9px;
+    font-size:17px;
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.sale-back:hover{
+    background:#102542;
+    transform:translateY(-2px);
 }
