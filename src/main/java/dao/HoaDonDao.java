@@ -45,7 +45,11 @@ public class HoaDonDao {
             psHD.setDouble(4, hd.getTienThua());
             psHD.setString(5, hd.getPhuongThucThanhToan());
             psHD.setInt(6, hd.getMaNV());
-            psHD.setInt(7, hd.getMaKH());
+            if (hd.getMaKH() == null) {
+                psHD.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                psHD.setInt(7, hd.getMaKH());
+            }
             psHD.setString(8, hd.getMaTrangThaiHD());
 
             psHD.executeUpdate();

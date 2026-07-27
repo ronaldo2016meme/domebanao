@@ -19,7 +19,7 @@ public class HoaDonInDao {
                 "SELECT " +
                         "hd.MaHD, " +
                         "hd.NgayLap, " +
-                        "kh.HoTen AS TenKH, " +
+                        "ISNULL(kh.HoTen, N'Khách lẻ') AS TenKH, " +
                         "nv.HoTen AS TenNV, " +
                         "sp.TenSP, " +
                         "ms.TenMau, " +
@@ -33,7 +33,7 @@ public class HoaDonInDao {
 
                         "FROM HOADON hd " +
 
-                        "JOIN KHACHHANG kh ON hd.MaKH = kh.MaKH " +
+                        "LEFT JOIN KHACHHANG kh ON hd.MaKH = kh.MaKH " +
                         "JOIN NHANVIEN nv ON hd.MaNV = nv.MaNV " +
                         "JOIN CHITIETHOADON ct ON hd.MaHD = ct.MaHD " +
                         "JOIN SANPHAMCHITIET spct ON ct.MaSPCT = spct.MaSPCT " +
@@ -56,6 +56,8 @@ public class HoaDonInDao {
 
 
             while (rs.next()) {
+
+                System.out.println("TenKH = " + rs.getString("TenKH"));
 
                 HoaDonIn hd = new HoaDonIn();
 

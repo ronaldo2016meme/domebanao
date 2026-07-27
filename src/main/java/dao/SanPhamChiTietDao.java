@@ -192,4 +192,62 @@ public class SanPhamChiTietDao {
 
         return list;
     }
+    public SanPhamChiTiet getBySanPhamMauSize(
+            int maSP,
+            String maMau,
+            String maSize
+    ) {
+        String sql =
+                "SELECT ct.MaSPCT, " +
+                        "ct.MaSP, " +
+                        "ct.MaMau, " +
+                        "ct.MaSize, " +
+                        "ct.SoLuongTon, " +
+                        "ct.GiaNhap, " +
+                        "sp.TenSP, " +
+                        "ms.TenMau, " +
+                        "s.TenSize " +
+                        "FROM SANPHAMCHITIET ct " +
+                        "JOIN SANPHAM sp ON ct.MaSP = sp.MaSP " +
+                        "JOIN MauSac ms ON ct.MaMau = ms.MaMau " +
+                        "JOIN Size s ON ct.MaSize = s.MaSize " +
+                        "WHERE ct.MaSP = ? " +
+                        "AND ct.MaMau = ? " +
+                        "AND ct.MaSize = ?";
+
+        try (
+                Connection connection =
+                        new ConnectService().myConnection();
+
+                PreparedStatement ps =
+                        connection.prepareStatement(sql)
+        ) {
+            ps.setInt(1, maSP);
+            ps.setString(2, maMau);
+            ps.setString(3, maSize);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                SanPhamChiTiet sp = new SanPhamChiTiet();
+
+                sp.setMaSPCT(rs.getInt("MaSPCT"));
+                sp.setMaSP(rs.getInt("MaSP"));
+                sp.setMaMau(rs.getString("MaMau"));
+                sp.setMaSize(rs.getString("MaSize"));
+                sp.setSoLuongTon(rs.getInt("SoLuongTon"));
+                sp.setGiaNhap(rs.getBigDecimal("GiaNhap"));
+                sp.setTenSP(rs.getString("TenSP"));
+                sp.setTenMau(rs.getString("TenMau"));
+                sp.setTenSize(rs.getString("TenSize"));
+
+                return sp;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

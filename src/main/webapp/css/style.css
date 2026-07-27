@@ -8,29 +8,70 @@
     font-family:Arial, Helvetica, sans-serif;
 }
 
+html,
 body{
     min-width:1280px;
-        min-height:100vh;
-        overflow-x:auto;
+    min-height:100vh;
+    margin:0;
+    overflow-x:auto;
 
-        background:
-            linear-gradient(135deg,#edf4fa,#d8e4ef,#c7d6e5);
+    --s:114px;
+    --c1:#b9b9b9;
+    --c2:#dcdcdc;
+    --c3:#fafafa;
 
-        background-image:
-            repeating-linear-gradient(
-                45deg,
-                rgba(255,255,255,.18) 0,
-                rgba(255,255,255,.18) 2px,
-                transparent 2px,
-                transparent 40px
-            ),
-            repeating-linear-gradient(
-                -45deg,
-                rgba(0,0,0,.04) 0,
-                rgba(0,0,0,.04) 2px,
-                transparent 2px,
-                transparent 40px
-            );
+    background:
+        conic-gradient(
+            from 75deg,
+            var(--c1) 15deg,
+            var(--c2) 0 30deg,
+            transparent 0 180deg,
+            var(--c2) 0 195deg,
+            var(--c1) 0 210deg,
+            transparent 0
+        )
+        calc(var(--s)/2)
+        calc(.5*var(--s)/tan(30deg)),
+
+        conic-gradient(
+            var(--c1) 30deg,
+            var(--c3) 0 75deg,
+            var(--c1) 0 90deg,
+            var(--c2) 0 105deg,
+            var(--c3) 0 150deg,
+            var(--c2) 0 180deg,
+            var(--c3) 0 210deg,
+            var(--c1) 0 256deg,
+            var(--c2) 0 270deg,
+            var(--c1) 0 286deg,
+            var(--c2) 0 331deg,
+            var(--c3) 0
+        );
+
+    background-size:
+        var(--s)
+        calc(var(--s)/tan(30deg));
+
+    background-attachment:fixed;
+}
+
+/* ==========================
+   HIỂN THỊ BACKGROUND CHUNG
+========================== */
+
+.employee-container,
+.product-container,
+.customer-container,
+.container,
+.login-box,
+.profile-container,
+.bh-left,
+.bh-right,
+.invoice,
+.thongke-container {
+    background: rgba(255,255,255,0.88) !important;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 /* ==========================
@@ -486,6 +527,40 @@ tr:hover{
 .btn-add:hover{
     background:#607D8B;
     transform:translateY(-2px);
+}
+
+.create-account-form{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.select-employee{
+    width: 240px;
+    height: 50px;
+    padding: 0 15px;
+
+    background-color: #7f97a7;
+    color: white;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+    outline: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.select-employee option{
+    background: white;
+    color: black;
+    font-size: 16px;
 }
 
 /* Bảng */
@@ -975,19 +1050,18 @@ tr:hover{
 =========================== */
 
 .invoice{
-
     width:900px;
-
     margin:30px auto;
 
-    background:white;
+    background:rgba(255,255,255,0.78);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
 
     padding:20px;
+    border-radius:12px;
 
-    border-radius:10px;
-
-    box-shadow:0 0 10px #ccc;
-
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    border:1px solid rgba(255,255,255,.3);
 }
 
 .invoice h2{
@@ -1116,4 +1190,65 @@ tr:hover{
 .chart-box canvas{
     width:100% !important;
     height:100% !important;
+}
+/* ==========================
+   ÉP BACKGROUND CHO CÁC TRANG
+========================== */
+
+/* Quản lý nhân viên */
+.employee-container {
+    background: rgba(255,255,255,0.78) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Thống kê doanh thu */
+.thongke-container {
+    background: rgba(255,255,255,0.78) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Bán hàng */
+.bh-container {
+    background: transparent !important;
+}
+
+.bh-left,
+.bh-right {
+    background: rgba(255,255,255,0.78) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+/* Bảng trong bán hàng */
+.bh-table {
+    background: rgba(255,255,255,0.88) !important;
+}
+
+.bh-table tr,
+.bh-table td {
+    background: transparent !important;
+}
+
+/* Bảng nhân viên */
+.employee-table {
+    background: rgba(255,255,255,0.88) !important;
+}
+
+.employee-table tr,
+.employee-table td {
+    background: transparent !important;
+}
+
+/* Bảng doanh thu */
+.tk-table {
+    background: rgba(255,255,255,0.88) !important;
+}
+
+.tk-table tr,
+.tk-table td {
+    background: transparent !important;
 }

@@ -19,6 +19,10 @@ public class HoaDonController extends HttpServlet {
                          HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
         int maHD = Integer.parseInt(request.getParameter("maHD"));
 
         List<HoaDonIn> list = dao.getHoaDon(maHD);

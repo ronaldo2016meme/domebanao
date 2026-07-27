@@ -14,12 +14,13 @@ public class sanpham {
     private String ngayTao;
     private String ngayCapNhat;
     private String anh;
+    private int soLuongTon;
 
 
     public sanpham() {
     }
 
-    public sanpham(int maSP, String maDanhMuc, String maNCC, String tenSP, String maTrangThaiSP, String tenDanhMuc, String tenNCC, String tenTrangThai, double giaBan, String moTa, String ngayTao, String ngayCapNhat, String anh) {
+    public sanpham(int maSP, String maDanhMuc, String maNCC, String tenSP, String maTrangThaiSP, String tenDanhMuc, String tenNCC, String tenTrangThai, double giaBan, String moTa, String ngayTao, String ngayCapNhat, String anh, int soLuongTon) {
         this.maSP = maSP;
         this.maDanhMuc = maDanhMuc;
         this.maNCC = maNCC;
@@ -33,6 +34,7 @@ public class sanpham {
         this.ngayTao = ngayTao;
         this.ngayCapNhat = ngayCapNhat;
         this.anh = anh;
+        this.soLuongTon = soLuongTon;
     }
 
     public int getMaSP() {
@@ -137,5 +139,13 @@ public class sanpham {
 
     public void setAnh(String anh) {
         this.anh = anh;
+    }
+
+    public int getSoLuongTon() {
+        return soLuongTon;
+    }
+
+    public void setSoLuongTon(int soLuongTon) {
+        this.soLuongTon = soLuongTon;
     }
 }

@@ -10,13 +10,13 @@ public class HoaDon {
     private double tienThua;
     private String phuongThucThanhToan;
     private int maNV;
-    private int maKH;
+    private Integer maKH;
     private String maTrangThaiHD;
 
     public HoaDon() {
     }
 
-    public HoaDon(int maHD, Date ngayLap, double tongTien, double tienKhachDua, double tienThua, String phuongThucThanhToan, int maNV, int maKH, String maTrangThaiHD) {
+    public HoaDon(int maHD, Date ngayLap, double tongTien, double tienKhachDua, double tienThua, String phuongThucThanhToan, int maNV, Integer maKH, String maTrangThaiHD) {
         this.maHD = maHD;
         this.ngayLap = ngayLap;
         this.tongTien = tongTien;
@@ -84,11 +84,11 @@ public class HoaDon {
         this.maNV = maNV;
     }
 
-    public int getMaKH() {
+    public Integer getMaKH() {
         return maKH;
     }
 
-    public void setMaKH(int maKH) {
+    public void setMaKH(Integer maKH) {
         this.maKH = maKH;
     }
 

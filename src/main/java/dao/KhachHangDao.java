@@ -236,4 +236,40 @@ public class KhachHangDao {
 
         return false;
     }
+
+    public KhachHang getBySoDienThoai(String sdt) {
+
+        String sql = "SELECT * FROM KHACHHANG WHERE SDT = ?";
+
+        try {
+
+            Connection con = new ConnectService().myConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, sdt);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                KhachHang kh = new KhachHang();
+
+                kh.setMaKH(rs.getInt("MaKH"));
+                kh.setHoTen(rs.getString("HoTen"));
+                kh.setSdt(rs.getString("SDT"));
+                kh.setDiaChi(rs.getString("DiaChi"));
+
+                con.close();
+
+                return kh;
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

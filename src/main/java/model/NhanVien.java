@@ -17,11 +17,12 @@ public class NhanVien {
     private String chucVu;
     private String maRole;
     private String maTrangThai;
+    private boolean coTaiKhoan;
 
     public NhanVien() {
     }
 
-    public NhanVien(int maNV, String hoTen, String sdt, Date ngaySinh, String gioiTinh, String quocTich, String queQuan, String noiThuongTru, String email, String cccd, String chucVu, String maRole, String maTrangThai) {
+    public NhanVien(int maNV, String hoTen, String sdt, Date ngaySinh, String gioiTinh, String quocTich, String queQuan, String noiThuongTru, String email, String cccd, String chucVu, String maRole, String maTrangThai, boolean coTaiKhoan) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.sdt = sdt;
@@ -35,6 +36,7 @@ public class NhanVien {
         this.chucVu = chucVu;
         this.maRole = maRole;
         this.maTrangThai = maTrangThai;
+        this.coTaiKhoan = coTaiKhoan;
     }
 
     public int getMaNV() {
@@ -139,5 +141,13 @@ public class NhanVien {
 
     public void setMaTrangThai(String maTrangThai) {
         this.maTrangThai = maTrangThai;
+    }
+
+    public boolean isCoTaiKhoan() {
+        return coTaiKhoan;
+    }
+
+    public void setCoTaiKhoan(boolean coTaiKhoan) {
+        this.coTaiKhoan = coTaiKhoan;
     }
 }

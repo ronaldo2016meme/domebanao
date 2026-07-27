@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -7,7 +8,8 @@
 <meta charset="UTF-8">
 <title>Thống kê doanh thu</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/style.css?v=30">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -41,7 +43,9 @@
 
         <div class="tk-item">
             <h3>Tổng doanh thu</h3>
-            <p>${tongDoanhThu} VNĐ</p>
+            <p>
+                <fmt:formatNumber value="${tongDoanhThu}" pattern="#,##0"/> VNĐ
+            </p>
         </div>
 
         <div class="tk-item">
@@ -82,7 +86,9 @@
 
                 <td>${sp.soLuongBan}</td>
 
-                <td>${sp.doanhThu}</td>
+                <td>
+                    <fmt:formatNumber value="${sp.doanhThu}" pattern="#,##0"/> VNĐ
+                </td>
 
             </tr>
 

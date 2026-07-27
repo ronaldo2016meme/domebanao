@@ -9,8 +9,8 @@
 
     <title>Bán hàng</title>
 
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/style.css?v=30">
 
 </head>
 
@@ -43,49 +43,75 @@
         <table class="bh-table">
 
             <tr>
-
                 <th>Mã</th>
                 <th>Tên sản phẩm</th>
                 <th>Màu</th>
                 <th>Size</th>
                 <th>Tồn</th>
                 <th></th>
-
             </tr>
 
             <c:forEach items="${listSP}" var="sp">
 
                 <tr>
 
-                    <td>${sp.maSPCT}</td>
+                    <td>${sp.maSP}</td>
 
                     <td>${sp.tenSP}</td>
 
-                    <td>${sp.tenMau}</td>
+                    <td>
+                        <select name="maMau"
+                                form="formThem${sp.maSP}"
+                                required>
 
-                    <td>${sp.tenSize}</td>
+                            <option value="">
+                                -- Chọn màu --
+                            </option>
+
+                            <c:forEach items="${listMau}" var="mau">
+                                <option value="${mau.maMau}">
+                                    ${mau.tenMau}
+                                </option>
+                            </c:forEach>
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <select name="maSize"
+                                form="formThem${sp.maSP}"
+                                required>
+
+                            <option value="">
+                                -- Chọn size --
+                            </option>
+
+                            <c:forEach items="${listSize}" var="size">
+                                <option value="${size.maSize}">
+                                    ${size.tenSize}
+                                </option>
+                            </c:forEach>
+
+                        </select>
+                    </td>
 
                     <td>${sp.soLuongTon}</td>
 
                     <td>
+                        <form id="formThem${sp.maSP}"
+                              action="banhang"
+                              method="post">
 
-                        <form action="banhang" method="post">
+                            <input type="hidden"
+                                   name="maSP"
+                                   value="${sp.maSP}">
 
-                            <input
-                                    type="hidden"
-                                    name="maSPCT"
-                                    value="${sp.maSPCT}">
-
-                            <button
-                                    class="bh-btn"
+                            <button class="bh-btn"
                                     type="submit">
-
                                 Thêm
-
                             </button>
 
                         </form>
-
                     </td>
 
                 </tr>
@@ -183,12 +209,12 @@
 
         <form action="thanhToan" method="post">
 
-            <label>Khách hàng (Mã KH)</label>
+            <label>Số điện thoại khách hàng</label>
 
             <input
-                    type="number"
-                    name="maKH"
-                    required>
+                    type="text"
+                    name="soDienThoai"
+                    placeholder="Nhập số điện thoại (để trống nếu khách lẻ)">
 
             <br>
 

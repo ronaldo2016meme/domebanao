@@ -1,9 +1,11 @@
 package controller.Banhang;
 
 import dao.HoaDonDao;
+import dao.KhachHangDao;
 import model.ChiTietHoaDon;
 import model.GioHang;
 import model.HoaDon;
+import model.KhachHang;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import java.util.List;
 public class ThanhToanController extends HttpServlet {
 
     HoaDonDao dao = new HoaDonDao();
+    KhachHangDao khDao = new KhachHangDao();
 
     @Override
     protected void doPost(HttpServletRequest request,
@@ -62,9 +65,22 @@ public class ThanhToanController extends HttpServlet {
 
         hd.setMaNV(1);
 
-        hd.setMaKH(
-                Integer.parseInt(request.getParameter("maKH"))
-        );
+        String sdt = request.getParameter("soDienThoai");
+
+        if (sdt == null || sdt.trim().isEmpty()) {
+
+            hd.setMaKH(null);
+
+        } else {
+
+            KhachHang kh = khDao.getBySoDienThoai(sdt.trim());
+
+            if (kh != null) {
+                hd.setMaKH(kh.getMaKH());
+            } else {
+                hd.setMaKH(null);
+            }
+        }
 
         hd.setMaTrangThaiHD("TTHD01");
 

@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>Quản lý nhân viên</title>
 
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/style.css?v=30">
 
 </head>
 <body>
@@ -20,6 +21,28 @@
     <a href="${pageContext.request.contextPath}/addEmployee" class="btn-add">
         Thêm nhân viên
     </a>
+
+<form action="${pageContext.request.contextPath}/createAccount"
+      method="get"
+      class="create-account-form">
+
+    <select name="maNV" class="select-employee" required>
+        <option value="">-- Chọn nhân viên --</option>
+
+        <c:forEach items="${list}" var="nv">
+            <c:if test="${!nv.coTaiKhoan}">
+                <option value="${nv.maNV}">
+                    ${nv.maNV} - ${nv.hoTen}
+                </option>
+            </c:if>
+        </c:forEach>
+    </select>
+
+    <button type="submit" class="btn-add">
+        Tạo tài khoản
+    </button>
+
+</form>
 
     <a href="home" class="back">Quay lại</a>
 
@@ -36,6 +59,7 @@
     <th>CCCD</th>
     <th>Trạng thái</th>
     <th>Chức vụ</th>
+    <th>Tài khoản</th>
     <th>Chức năng</th>
 </tr>
 
@@ -49,8 +73,32 @@
     <td>${nv.sdt}</td>
     <td>${nv.email}</td>
     <td>${nv.cccd}</td>
-    <td>${nv.maTrangThai}</td>
+    <td>
+        <c:choose>
+            <c:when test="${nv.maTrangThai == 'TTNV01'}">
+                Đang làm việc
+            </c:when>
+
+            <c:when test="${nv.maTrangThai == 'TTNV02'}">
+                Đã nghỉ việc
+            </c:when>
+
+            <c:otherwise>
+                Không xác định
+            </c:otherwise>
+        </c:choose>
+    </td>
     <td>${nv.chucVu}</td>
+    <td>
+        <c:choose>
+            <c:when test="${nv.coTaiKhoan}">
+                Đã có
+            </c:when>
+            <c:otherwise>
+                Chưa có
+            </c:otherwise>
+        </c:choose>
+    </td>
 
 <td>
 

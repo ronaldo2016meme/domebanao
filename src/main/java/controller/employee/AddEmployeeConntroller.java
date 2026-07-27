@@ -109,8 +109,8 @@ public class AddEmployeeConntroller extends HttpServlet {
         nv.setMaTrangThai(maTrangThai);
         nv.setMaRole(maRole);
 
-        dao.insert(nv);
+        int maNV = dao.insert(nv);
 
-        response.sendRedirect("employee");
+        response.sendRedirect("createAccount?maNV=" + maNV);
     }
 }

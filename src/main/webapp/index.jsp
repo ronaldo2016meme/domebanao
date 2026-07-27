@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>BIGGA</title>
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css?v=2">
 </head>
 <body>
 

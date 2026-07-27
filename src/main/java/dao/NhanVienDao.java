@@ -14,9 +14,10 @@ public class NhanVienDao {
         List<NhanVien> list = new ArrayList<>();
 
         String sql =
-                "SELECT nv.*, r.TenRole " +
+                "SELECT nv.*, r.TenRole, tk.MaTK " +
                         "FROM NHANVIEN nv " +
-                        "LEFT JOIN Role r ON nv.MaRole = r.MaRole";
+                        "LEFT JOIN Role r ON nv.MaRole = r.MaRole " +
+                        "LEFT JOIN TaiKhoan tk ON nv.MaNV = tk.MaNV";
 
         try {
 
@@ -38,6 +39,7 @@ public class NhanVienDao {
                 nv.setCccd(rs.getString("CCCD"));
                 nv.setChucVu(rs.getString("TenRole"));
                 nv.setMaTrangThai(rs.getString("MaTrangThai"));
+                nv.setCoTaiKhoan(rs.getObject("MaTK") != null);
 
                 list.add(nv);
             }
@@ -51,7 +53,9 @@ public class NhanVienDao {
         return list;
     }
 
-    public void insert(NhanVien nv){
+    public int insert(NhanVien nv){
+
+        int maNV = 0;
 
         String sql = "INSERT INTO NHANVIEN(HoTen,NgaySinh,GioiTinh,QuocTich,QueQuan,NoiThuongTru,SDT,Email,CCCD,MaTrangThai,MaRole) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -59,7 +63,8 @@ public class NhanVienDao {
 
             Connection con = new ConnectService().myConnection();
 
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps =
+                    con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, nv.getHoTen());
             ps.setDate(2, nv.getNgaySinh());
@@ -75,11 +80,21 @@ public class NhanVienDao {
 
             ps.executeUpdate();
 
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if(rs.next()){
+                maNV = rs.getInt(1);
+            }
+
+            rs.close();
+            ps.close();
             con.close();
 
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        return maNV;
     }
 
     public void delete(int id){
@@ -320,5 +335,49 @@ public class NhanVienDao {
         }
 
         return false;
+    }
+    public NhanVien findById(int maNV) {
+
+        NhanVien nv = null;
+
+        String sql = "SELECT * FROM NHANVIEN WHERE MaNV = ?";
+
+        try {
+
+            ConnectService service = new ConnectService();
+            Connection con = service.myConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, maNV);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                nv = new NhanVien();
+
+                nv.setMaNV(rs.getInt("MaNV"));
+                nv.setHoTen(rs.getString("HoTen"));
+                nv.setNgaySinh(rs.getDate("NgaySinh"));
+                nv.setGioiTinh(rs.getString("GioiTinh"));
+                nv.setQuocTich(rs.getString("QuocTich"));
+                nv.setQueQuan(rs.getString("QueQuan"));
+                nv.setNoiThuongTru(rs.getString("NoiThuongTru"));
+                nv.setSdt(rs.getString("SDT"));
+                nv.setEmail(rs.getString("Email"));
+                nv.setCccd(rs.getString("CCCD"));
+                nv.setMaTrangThai(rs.getString("MaTrangThai"));
+                nv.setMaRole(rs.getString("MaRole"));
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return nv;
     }
 }

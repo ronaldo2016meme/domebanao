@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -31,7 +31,21 @@
 
         <p><b>Nhân viên:</b> ${list[0].tenNV}</p>
 
-        <p><b>Khách hàng:</b> ${list[0].tenKH}</p>
+        <p>
+            <b>Khách hàng:</b>
+
+            <c:choose>
+                <c:when test="${empty list[0].tenKH
+                        or list[0].tenKH == 'KhÃ¡ch láº»'
+                        or list[0].tenKH == 'Khách lẻ'}">
+                    Kh&#225;ch l&#7867;
+                </c:when>
+
+                <c:otherwise>
+                    <c:out value="${list[0].tenKH}"/>
+                </c:otherwise>
+            </c:choose>
+        </p>
 
     </c:if>
 
