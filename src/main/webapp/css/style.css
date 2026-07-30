@@ -1061,6 +1061,31 @@ tr:hover{
     text-align:center;
     font-weight:bold;
 }
+/* mã QR*/
+.qr-payment-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:20px 0;
+    padding:20px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fff;
+}
+
+.qr-payment-box img{
+    width:240px;
+    height:240px;
+    object-fit:contain;
+}
+
+.qr-payment-box h3{
+    margin-bottom:15px;
+}
+
+.qr-payment-box p{
+    margin:5px 0;
+}
 /* ===========================
         HÓA ĐƠN
 =========================== */
@@ -1687,4 +1712,132 @@ table tr:hover td,
 .sale-back:hover{
     background:#102542;
     transform:translateY(-2px);
+}
+/* chọn size , màu trg banhang */
+.stock-value{
+    display:inline-block;
+    min-width:70px;
+    padding:7px 10px;
+    border-radius:6px;
+    font-weight:bold;
+    text-align:center;
+    background:#e9ecef;
+    color:#333;
+}
+
+.stock-available{
+    background:#d4edda;
+    color:#155724;
+}
+
+.stock-empty{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.stock-not-found{
+    background:#fff3cd;
+    color:#856404;
+}
+/* bộ lọc spct*/
+.spct-filter{
+    display:flex;
+    align-items:flex-end;
+    gap:20px;
+    margin:20px 0 25px;
+    padding:18px 20px;
+    background:rgba(255,255,255,.75);
+    border-radius:12px;
+    border:1px solid rgba(16,37,66,.18);
+}
+
+.filter-group{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+    min-width:210px;
+}
+
+.filter-group label{
+    font-weight:700;
+    color:#102542;
+}
+
+.filter-group select{
+    height:42px;
+    padding:0 12px;
+    border:1px solid #9da8b7;
+    border-radius:7px;
+    background:#fff;
+    font-size:16px;
+    color:#102542;
+}
+/* Thông báo */
+.btn-reset-filter{
+    height:42px;
+    padding:0 22px;
+    border:none;
+    border-radius:7px;
+    background:#465b78;
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn-reset-filter:hover{
+    background:#102542;
+}
+.alert-message {
+    width: fit-content;
+    min-width: 320px;
+    max-width: 700px;
+    margin: 18px auto;
+    padding: 14px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 600;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.alert-success {
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #9ed7aa;
+}
+
+.alert-error {
+    color: #721c24;
+    background: #f8d7da;
+    border: 1px solid #e6a7ad;
+}
+
+.alert-icon {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.alert-success .alert-icon {
+    color: white;
+    background: #198754;
+}
+
+.alert-error .alert-icon {
+    color: white;
+    background: #dc3545;
 }

@@ -12,6 +12,7 @@
 
 </head>
 <body>
+<%@ include file="menu.jsp" %>
 
 <div class="customer-container">
 
@@ -24,7 +25,8 @@
             <button type="submit">Tìm</button>
         </form>
 
-        <a href="addKhachHang" class="btn">
+        <a href="${pageContext.request.contextPath}/addKhachHang?returnUrl=khachhang"
+           class="btn-add">
             Thêm khách hàng
         </a>
 

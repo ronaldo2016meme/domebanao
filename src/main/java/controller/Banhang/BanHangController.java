@@ -9,7 +9,10 @@ import model.SanPhamChiTiet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,26 +36,31 @@ public class BanHangController extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession(false);
 
         if (session == null
                 || session.getAttribute("user") == null) {
 
-            response.sendRedirect("login");
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+
             return;
         }
 
-        /*
-         * Lấy sản phẩm chính từ bảng SANPHAM.
-         * Không lấy từ SANPHAMCHITIET nữa.
-         */
         request.setAttribute(
                 "listSP",
                 sanPhamDao.getAll()
+        );
+
+        request.setAttribute(
+                "listChiTiet",
+                chiTietDao.getAll()
         );
 
         request.setAttribute(
@@ -66,27 +74,29 @@ public class BanHangController extends HttpServlet {
         );
 
         /*
-         * Chuyển lỗi từ session sang request
-         * để JSP có thể hiển thị sau redirect.
+         * Chuyen ma loi tu session sang request.
          */
-        if (session.getAttribute("error") != null) {
+        if (session.getAttribute("errorCode") != null) {
 
             request.setAttribute(
-                    "error",
-                    session.getAttribute("error")
+                    "errorCode",
+                    session.getAttribute("errorCode")
             );
 
-            session.removeAttribute("error");
+            session.removeAttribute("errorCode");
         }
 
-        if (session.getAttribute("message") != null) {
+        /*
+         * Chuyen ma thong bao tu session sang request.
+         */
+        if (session.getAttribute("messageCode") != null) {
 
             request.setAttribute(
-                    "message",
-                    session.getAttribute("message")
+                    "messageCode",
+                    session.getAttribute("messageCode")
             );
 
-            session.removeAttribute("message");
+            session.removeAttribute("messageCode");
         }
 
         request.getRequestDispatcher("/banhang.jsp")
@@ -97,16 +107,20 @@ public class BanHangController extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession(false);
 
         if (session == null
                 || session.getAttribute("user") == null) {
 
-            response.sendRedirect("login");
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+
             return;
         }
 
@@ -116,10 +130,6 @@ public class BanHangController extends HttpServlet {
                     request.getParameter("maSP")
             );
 
-            /*
-             * Trong model SanPhamChiTiet,
-             * maMau và maSize là String.
-             */
             String maMau =
                     request.getParameter("maMau");
 
@@ -132,11 +142,11 @@ public class BanHangController extends HttpServlet {
                     || maSize.trim().isEmpty()) {
 
                 session.setAttribute(
-                        "error",
-                        "Vui long chon day du mau va size"
+                        "errorCode",
+                        "CHUA_CHON_MAU_SIZE"
                 );
 
-                response.sendRedirect("banhang");
+                redirectBanHang(request, response);
                 return;
             }
 
@@ -150,22 +160,22 @@ public class BanHangController extends HttpServlet {
             if (sp == null) {
 
                 session.setAttribute(
-                        "error",
-                        "San pham khong co mau va size da chon"
+                        "errorCode",
+                        "KHONG_CO_BIEN_THE"
                 );
 
-                response.sendRedirect("banhang");
+                redirectBanHang(request, response);
                 return;
             }
 
             if (sp.getSoLuongTon() <= 0) {
 
                 session.setAttribute(
-                        "error",
-                        "San pham da het hang"
+                        "errorCode",
+                        "SAN_PHAM_HET_HANG"
                 );
 
-                response.sendRedirect("banhang");
+                redirectBanHang(request, response);
                 return;
             }
 
@@ -193,15 +203,15 @@ public class BanHangController extends HttpServlet {
                         );
 
                         session.setAttribute(
-                                "message",
-                                "Da tang so luong san pham"
+                                "messageCode",
+                                "TANG_SO_LUONG"
                         );
 
                     } else {
 
                         session.setAttribute(
-                                "error",
-                                "So luong trong gio da dat muc ton kho"
+                                "errorCode",
+                                "VUOT_QUA_TON_KHO"
                         );
                     }
 
@@ -218,16 +228,18 @@ public class BanHangController extends HttpServlet {
                 gh.setTenSP(sp.getTenSP());
                 gh.setTenMau(sp.getTenMau());
                 gh.setTenSize(sp.getTenSize());
+
                 gh.setDonGia(
                         getGiaBan(sp.getMaSP())
                 );
+
                 gh.setSoLuong(1);
 
                 gioHang.add(gh);
 
                 session.setAttribute(
-                        "message",
-                        "Da them san pham vao gio hang"
+                        "messageCode",
+                        "THEM_VAO_GIO_HANG"
                 );
             }
 
@@ -239,8 +251,8 @@ public class BanHangController extends HttpServlet {
         } catch (NumberFormatException e) {
 
             session.setAttribute(
-                    "error",
-                    "Du lieu san pham khong hop le"
+                    "errorCode",
+                    "DU_LIEU_KHONG_HOP_LE"
             );
 
         } catch (Exception e) {
@@ -248,21 +260,33 @@ public class BanHangController extends HttpServlet {
             e.printStackTrace();
 
             session.setAttribute(
-                    "error",
-                    "Co loi xay ra khi them san pham"
+                    "errorCode",
+                    "LOI_THEM_SAN_PHAM"
             );
         }
 
-        response.sendRedirect("banhang");
+        redirectBanHang(request, response);
+    }
+
+    private void redirectBanHang(HttpServletRequest request,
+                                 HttpServletResponse response)
+            throws IOException {
+
+        response.sendRedirect(
+                request.getContextPath() + "/banhang"
+        );
     }
 
     private double getGiaBan(int maSP) {
 
         try {
 
-            return sanPhamDao
-                    .getById(maSP)
-                    .getGiaBan();
+            if (sanPhamDao.getById(maSP) != null) {
+
+                return sanPhamDao
+                        .getById(maSP)
+                        .getGiaBan();
+            }
 
         } catch (Exception e) {
 

@@ -1,6 +1,8 @@
 package controller.product;
 
+import dao.MauSacDao;
 import dao.SanPhamChiTietDao;
+import dao.SizeDao;
 import model.SanPhamChiTiet;
 
 import javax.servlet.ServletException;
@@ -18,22 +20,25 @@ public class SanPhamChiTietController extends HttpServlet {
     private final SanPhamChiTietDao dao =
             new SanPhamChiTietDao();
 
+    private final MauSacDao mauSacDao =
+            new MauSacDao();
+
+    private final SizeDao sizeDao =
+            new SizeDao();
+
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session =
                 request.getSession(false);
 
-        /*
-         * Bắt buộc đăng nhập mới được truy cập.
-         * Nếu dự án của bạn chưa dùng đăng nhập,
-         * có thể bỏ đoạn kiểm tra session này.
-         */
         if (session == null
                 || session.getAttribute("user") == null) {
 
@@ -46,17 +51,8 @@ public class SanPhamChiTietController extends HttpServlet {
         String maSPParam =
                 request.getParameter("maSP");
 
-        /*
-         * Kiểm tra trường hợp không truyền maSP:
-         * /sanphamchitiet
-         */
         if (maSPParam == null
                 || maSPParam.trim().isEmpty()) {
-
-            session.setAttribute(
-                    "error",
-                    "Không tìm thấy mã sản phẩm"
-            );
 
             response.sendRedirect(
                     request.getContextPath() + "/sanpham"
@@ -66,18 +62,11 @@ public class SanPhamChiTietController extends HttpServlet {
 
         try {
             int maSP =
-                    Integer.parseInt(maSPParam.trim());
+                    Integer.parseInt(
+                            maSPParam.trim()
+                    );
 
-            /*
-             * Không cho phép mã sản phẩm bằng 0
-             * hoặc là số âm.
-             */
             if (maSP <= 0) {
-
-                session.setAttribute(
-                        "error",
-                        "Mã sản phẩm không hợp lệ"
-                );
 
                 response.sendRedirect(
                         request.getContextPath()
@@ -99,11 +88,50 @@ public class SanPhamChiTietController extends HttpServlet {
                     maSP
             );
 
-            /*
-             * Hiển thị thông báo nếu sản phẩm
-             * chưa có màu và size.
-             */
-            if (list == null || list.isEmpty()) {
+            request.setAttribute(
+                    "listMau",
+                    mauSacDao.getAll()
+            );
+
+            request.setAttribute(
+                    "listSize",
+                    sizeDao.getAll()
+            );
+
+            Object message =
+                    session.getAttribute("message");
+
+            if (message != null) {
+
+                request.setAttribute(
+                        "message",
+                        message
+                );
+
+                session.removeAttribute(
+                        "message"
+                );
+            }
+
+            Object error =
+                    session.getAttribute("error");
+
+            if (error != null) {
+
+                request.setAttribute(
+                        "error",
+                        error
+                );
+
+                session.removeAttribute(
+                        "error"
+                );
+            }
+
+            if ((list == null || list.isEmpty())
+                    && message == null
+                    && error == null) {
+
                 request.setAttribute(
                         "message",
                         "Sản phẩm chưa có thông tin chi tiết"
@@ -116,13 +144,9 @@ public class SanPhamChiTietController extends HttpServlet {
 
         } catch (NumberFormatException e) {
 
-            session.setAttribute(
-                    "error",
-                    "Mã sản phẩm không đúng định dạng"
-            );
-
             response.sendRedirect(
-                    request.getContextPath() + "/sanpham"
+                    request.getContextPath()
+                            + "/sanpham"
             );
 
         } catch (Exception e) {
@@ -135,7 +159,8 @@ public class SanPhamChiTietController extends HttpServlet {
             );
 
             response.sendRedirect(
-                    request.getContextPath() + "/sanpham"
+                    request.getContextPath()
+                            + "/sanpham"
             );
         }
     }

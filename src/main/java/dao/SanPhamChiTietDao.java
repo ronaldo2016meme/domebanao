@@ -106,13 +106,20 @@ public class SanPhamChiTietDao {
         return ct;
     }
 
-    public void update(SanPhamChiTiet ct) {
+    public boolean update(SanPhamChiTiet ct) {
 
-        String sql = "UPDATE SANPHAMCHITIET SET MaSP=?,MaMau=?,MaSize=?,SoLuongTon=?,GiaNhap=? WHERE MaSPCT=?";
+        String sql =
+                "UPDATE SANPHAMCHITIET " +
+                        "SET MaSP=?, MaMau=?, MaSize=?, SoLuongTon=?, GiaNhap=? " +
+                        "WHERE MaSPCT=?";
 
-        try {
-            Connection con = new ConnectService().myConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (
+                Connection con =
+                        new ConnectService().myConnection();
+
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
+        ) {
 
             ps.setInt(1, ct.getMaSP());
             ps.setString(2, ct.getMaMau());
@@ -121,11 +128,11 @@ public class SanPhamChiTietDao {
             ps.setBigDecimal(5, ct.getGiaNhap());
             ps.setInt(6, ct.getMaSPCT());
 
-            ps.executeUpdate();
-            con.close();
+            return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

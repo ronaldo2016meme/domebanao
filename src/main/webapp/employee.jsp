@@ -12,6 +12,7 @@
 
 </head>
 <body>
+<%@ include file="menu.jsp" %>
 
 <div class="employee-container">
 

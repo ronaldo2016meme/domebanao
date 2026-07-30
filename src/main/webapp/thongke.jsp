@@ -16,6 +16,7 @@
 </head>
 
 <body>
+<%@ include file="menu.jsp" %>
 
 <div class="thongke-container">
 
