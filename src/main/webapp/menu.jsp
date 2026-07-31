@@ -3,13 +3,20 @@
 
 <div class="menu">
 
+    <a href="${pageContext.request.contextPath}/profile">
+        Thông tin cá nhân
+    </a>
+
     <a href="${pageContext.request.contextPath}/sanpham">
         Quản lý sản phẩm
     </a>
 
-     <a href="${pageContext.request.contextPath}/employee">
+    <%-- Chỉ quản lý mới thấy quản lý nhân viên --%>
+    <c:if test="${sessionScope.account.maQuyen == 'R01'}">
+        <a href="${pageContext.request.contextPath}/employee">
             Quản lý nhân viên
         </a>
+    </c:if>
 
     <a href="${pageContext.request.contextPath}/khachhang">
         Quản lý khách hàng
@@ -19,18 +26,12 @@
         Bán hàng
     </a>
 
+    <a href="${pageContext.request.contextPath}/danhSachHoaDon">
+        Hóa đơn
+    </a>
+
     <a href="${pageContext.request.contextPath}/thongke">
         Doanh thu
     </a>
-
-    <a href="${pageContext.request.contextPath}/profile">
-        Thông tin cá nhân
-    </a>
-
-    <c:if test="${sessionScope.account.maQuyen == 'R01'}">
-        <a href="${pageContext.request.contextPath}/employees">
-            Quản lý nhân viên
-        </a>
-    </c:if>
 
 </div>

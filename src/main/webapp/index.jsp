@@ -53,6 +53,8 @@
 <!-- Menu -->
 <div class="menu">
 
+    <a href="profile">Thông tin cá nhân</a>
+
     <a href="sanpham">Quản lý sản phẩm</a>
 
     <!-- Chỉ Quản lý mới thấy -->
@@ -60,13 +62,15 @@
         <a href="employee">Quản lý nhân viên</a>
     </c:if>
 
-    <a href="thongke">Doanh thu</a>
-
     <a href="khachhang">Quản lý khách hàng</a>
 
     <a href="banhang">Bán hàng</a>
 
-    <a href="profile">Thông tin cá nhân</a>
+    <a href="${pageContext.request.contextPath}/danhSachHoaDon">
+        Hóa đơn
+    </a>
+
+    <a href="thongke">Doanh thu</a>
 
 </div>
 
