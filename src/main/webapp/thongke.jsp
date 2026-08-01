@@ -9,7 +9,7 @@
 <title>Thống kê doanh thu</title>
 
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/style.css?v=30">
+      href="${pageContext.request.contextPath}/css/style.css?v=100">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

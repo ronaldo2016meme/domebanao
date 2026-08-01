@@ -59,17 +59,20 @@
                 name="xacNhan"
                 required>
 
-        <button class="btn">
-            Tạo tài khoản
-        </button>
+        <div class="employee-action">
 
-    </form>
+            <button type="submit" class="btn">
+                Tạo tài khoản
+            </button>
 
-    <br>
+            <a href="${pageContext.request.contextPath}/employee"
+               class="back">
+                Quay lại
+            </a>
 
-    <a href="employee" class="back">
-        Quay lại
-    </a>
+        </div>
+
+        </form>
 
     <p style="color:red;text-align:center">
         ${error}

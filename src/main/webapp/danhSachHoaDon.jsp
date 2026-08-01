@@ -11,7 +11,7 @@
     <title>Danh sách hóa đơn</title>
 
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/style.css?v=33">
+          href="${pageContext.request.contextPath}/css/style.css?v=100">
 </head>
 
 <body>

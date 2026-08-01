@@ -12,7 +12,7 @@
     </a>
 
     <%-- Chỉ quản lý mới thấy quản lý nhân viên --%>
-    <c:if test="${sessionScope.account.maQuyen == 'R01'}">
+    <c:if test="${sessionScope.user.maRole == 'R01'}">
         <a href="${pageContext.request.contextPath}/employee">
             Quản lý nhân viên
         </a>
