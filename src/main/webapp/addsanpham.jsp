@@ -21,7 +21,9 @@
         <p style="color:red">${error}</p>
     </c:if>
 
-    <form action="addsanpham" method="post">
+    <form action="${pageContext.request.contextPath}/addsanpham"
+          method="post"
+          enctype="multipart/form-data">
 
         <label>Tên sản phẩm</label>
         <input type="text" name="tenSP" required>
@@ -62,15 +64,26 @@
         <input type="date" name="ngayCapNhat">
 
         <label>Ảnh</label>
-        <input type="text" name="anh" placeholder="Ví dụ: aothun.jpg">
 
-        <button type="submit" class="btn">Thêm sản phẩm</button>
+        <input type="file"
+               name="anh"
+               accept="image/png,image/jpeg,image/jpg,image/webp"
+               required>
+
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Thêm sản phẩm
+            </button>
+
+            <a href="${pageContext.request.contextPath}/sanpham"
+               class="back">
+                Quay lại
+            </a>
+
+        </div>
 
     </form>
-
-    <br>
-
-    <a href="sanpham" class="back">Quay lại</a>
 
 </div>
 

@@ -104,13 +104,20 @@
             <option value="R02">Nhân viên</option>
         </select>
 
-        <button type="submit" class="btn">
-            Thêm nhân viên
-        </button>
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Thêm Nhân Viên
+            </button>
+
+            <a href="${pageContext.request.contextPath}/employee"
+               class="back">
+                Quay lại
+            </a>
+
+        </div>
 
     </form>
-
-    <a href="employee" class="back"> Quay lại</a>
 
 </div>
 

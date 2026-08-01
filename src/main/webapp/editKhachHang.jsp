@@ -46,15 +46,20 @@
                value="${kh.diaChi}"
                required>
 
-        <button type="submit" class="btn">
-            Cập nhật
-        </button>
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Cập nhật
+            </button>
+
+            <a href="${pageContext.request.contextPath}/khachhang"
+               class="back">
+                Quay lại
+            </a>
+
+        </div>
 
     </form>
-
-    <a href="khachhang" class="back">
-        Quay lại
-    </a>
 
 </div>
 

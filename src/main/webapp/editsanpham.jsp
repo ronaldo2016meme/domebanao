@@ -21,7 +21,9 @@
         <p style="color:red">${error}</p>
     </c:if>
 
-    <form action="editsanpham" method="post">
+    <form action="${pageContext.request.contextPath}/editsanpham"
+          method="post"
+          enctype="multipart/form-data">
 
         <input type="hidden" name="maSP" value="${sp.maSP}">
 
@@ -46,9 +48,9 @@
 
         <label>Trạng thái</label>
         <select name="maTrangThaiSP" required>
-            <option value="TTSP01" ${sp.maTrangThaiSP=='TT01'?'selected':''}>Đang bán</option>
-            <option value="TTSP02" ${sp.maTrangThaiSP=='TT02'?'selected':''}>Ngừng bán</option>
-            <option value="TTSP03" ${sp.maTrangThaiSP=='TT02'?'selected':''}>Hết hàng</option>
+            <option value="TTSP01" ${sp.maTrangThaiSP=='TTSP01'?'selected':''}>Đang bán</option>
+            <option value="TTSP02" ${sp.maTrangThaiSP=='TTSP02'?'selected':''}>Ngừng bán</option>
+            <option value="TTSP03" ${sp.maTrangThaiSP=='TTSP03'?'selected':''}>Hết hàng</option>
         </select>
 
         <label>Giá bán</label>
@@ -63,16 +65,44 @@
         <label>Ngày cập nhật</label>
         <input type="date" name="ngayCapNhat" value="${sp.ngayCapNhat}">
 
-        <label>Ảnh</label>
-        <input type="text" name="anh" value="${sp.anh}">
+        <label>Ảnh hiện tại</label>
 
-        <button type="submit" class="btn">Cập nhật</button>
+        <c:if test="${not empty sp.anh}">
+            <div style="margin-bottom:12px;">
+                <img src="${pageContext.request.contextPath}/images/${sp.anh}"
+                     alt="${sp.tenSP}"
+                     style="width:120px;height:120px;object-fit:cover;border-radius:10px;">
+            </div>
+        </c:if>
+
+        <input type="hidden"
+               name="anhCu"
+               value="${sp.anh}">
+
+        <label>Chọn ảnh mới</label>
+
+        <input type="file"
+               name="anh"
+               accept="image/png,image/jpeg,image/jpg,image/webp">
+
+        <small style="display:block;margin-top:6px;color:#607D8B;">
+            Để trống nếu muốn giữ nguyên ảnh hiện tại.
+        </small>
+
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Cập nhật
+            </button>
+
+            <a href="${pageContext.request.contextPath}/sanpham"
+               class="back">
+                Quay lại
+            </a>
+
+        </div>
 
     </form>
-
-    <br>
-
-    <a href="sanpham" class="back">Quay lại</a>
 
 </div>
 

@@ -70,16 +70,20 @@
                step="0.01"
                required>
 
-        <button type="submit" class="btn">
-            Thêm sản phẩm chi tiết
-        </button>
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Cập nhật
+            </button>
+
+            <a href="${pageContext.request.contextPath}/sanphamchitiet"
+                   class="back">
+                    Quay lại
+            </a>
+
+        </div>
 
     </form>
-
-    <a href="${pageContext.request.contextPath}/sanphamchitiet"
-       class="back">
-        Quay lại
-    </a>
 
 </div>
 

@@ -60,18 +60,21 @@
                value="${kh.diaChi}"
                required>
 
-        <button type="submit"
-                class="btn">
-            Thêm khách hàng
-        </button>
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Cập nhật
+            </button>
+
+            <!-- Chỉ có đúng một nút quay lại -->
+                <a href="${pageContext.request.contextPath}/${returnUrl}"
+                   class="back">
+                    Quay lại
+                </a>
+
+        </div>
 
     </form>
-
-    <!-- Chỉ có đúng một nút quay lại -->
-    <a href="${pageContext.request.contextPath}/${returnUrl}"
-       class="back">
-        Quay lại
-    </a>
 
 </div>
 

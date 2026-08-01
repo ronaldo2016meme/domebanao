@@ -74,16 +74,20 @@
                step="0.01"
                required>
 
-        <button type="submit" class="btn">
-            Cập nhật
-        </button>
+        <div class="form-actions">
+
+            <button type="submit" class="btn">
+                Cập nhật
+            </button>
+
+            <a href="${pageContext.request.contextPath}/sanphamchitiet?maSP=${spct.maSP}"
+                   class="back">
+                    Quay lại
+            </a>
+
+        </div>
 
     </form>
-
-    <a href="${pageContext.request.contextPath}/sanphamchitiet?maSP=${spct.maSP}"
-       class="back">
-        Quay lại
-    </a>
 
 </div>
 

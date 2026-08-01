@@ -121,13 +121,20 @@ function checkAge() {
     <option value="TTNV02" ${nv.maTrangThai=='TTNV02'?'selected':''}>Nghỉ việc</option>
 </select>
 
-<button type="submit" class="btn">
-    Cập nhật
-</button>
+<div class="form-actions">
+
+    <button type="submit" class="btn">
+        Cập nhật
+    </button>
+
+    <a href="${pageContext.request.contextPath}/employee"
+       class="back">
+        Quay lại
+    </a>
+
+</div>
 
 </form>
-
-<a href="employee" class="back"> Quay lại</a>
 
 </div>
 
