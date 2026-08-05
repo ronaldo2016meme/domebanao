@@ -124,6 +124,83 @@ public class ThongKeDao {
         return list;
     }
 
+    public List<DoanhThuNgay> getDoanhThuTheoThang(Date tuNgay, Date denNgay) {
+
+        List<DoanhThuNgay> list = new ArrayList<>();
+
+        String sql =
+                "SELECT " +
+                        "DATEFROMPARTS(YEAR(NgayLap), MONTH(NgayLap), 1) AS NgayLap, " +
+                        "SUM(TongTien) AS DoanhThu " +
+                        "FROM HOADON " +
+                        "WHERE NgayLap BETWEEN ? AND ? " +
+                        "AND MaTrangThaiHD='TTHD01' " +
+                        "GROUP BY YEAR(NgayLap), MONTH(NgayLap) " +
+                        "ORDER BY YEAR(NgayLap), MONTH(NgayLap)";
+
+        try (Connection con = new ConnectService().myConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, tuNgay);
+            ps.setDate(2, denNgay);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                DoanhThuNgay dt = new DoanhThuNgay();
+
+                dt.setNgayLap(rs.getDate("NgayLap"));
+                dt.setDoanhThu(rs.getDouble("DoanhThu"));
+
+                list.add(dt);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // Doanh thu theo năm
+    public List<DoanhThuNgay> getDoanhThuTheoNam(Date tuNgay, Date denNgay) {
+
+        List<DoanhThuNgay> list = new ArrayList<>();
+
+        String sql =
+                "SELECT MIN(NgayLap) AS NgayLap, " +
+                        "SUM(TongTien) AS DoanhThu " +
+                        "FROM HOADON " +
+                        "WHERE NgayLap BETWEEN ? AND ? " +
+                        "AND MaTrangThaiHD='TTHD01' " +
+                        "GROUP BY YEAR(NgayLap) " +
+                        "ORDER BY YEAR(NgayLap)";
+
+        try (Connection con = new ConnectService().myConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, tuNgay);
+            ps.setDate(2, denNgay);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                DoanhThuNgay dt = new DoanhThuNgay();
+                dt.setNgayLap(rs.getDate("NgayLap"));
+                dt.setDoanhThu(rs.getDouble("DoanhThu"));
+
+                list.add(dt);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     // Top 5 sản phẩm bán chạy
     public List<TopSanPham> getTop5SanPham(Date tuNgay, Date denNgay) {
 

@@ -30,8 +30,11 @@
         Hóa đơn
     </a>
 
-    <a href="${pageContext.request.contextPath}/thongke">
-        Doanh thu
-    </a>
+    <%-- Chỉ quản lý mới thấy doanh thu --%>
+    <c:if test="${sessionScope.user.maRole == 'R01'}">
+        <a href="${pageContext.request.contextPath}/thongke">
+            Doanh thu
+        </a>
+    </c:if>
 
 </div>

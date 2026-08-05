@@ -16,7 +16,6 @@ public class sanpham {
     private String anh;
     private int soLuongTon;
 
-
     public sanpham() {
     }
 

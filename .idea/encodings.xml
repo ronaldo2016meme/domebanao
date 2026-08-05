@@ -3,8 +3,14 @@
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/controller/Banhang/BanHangController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/controller/ThongKe/ThongKeController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/controller/ThongKe/XuatExcelController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/controller/product/AddChiTietController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/controller/product/AddSanPhamController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/controller/product/EditChiTietController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/controller/product/EditSanPhamController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/controller/product/SanPhamChiTietController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/controller/product/SanPhamController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>

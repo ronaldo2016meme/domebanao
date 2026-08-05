@@ -8,6 +8,7 @@ import model.SanPhamChiTiet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -45,6 +46,7 @@ public class EditChiTietController extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session =
                 request.getSession(false);
@@ -58,27 +60,41 @@ public class EditChiTietController extends HttpServlet {
             return;
         }
 
-        try {
-            String idParam =
-                    request.getParameter("id");
+        String idParam =
+                request.getParameter("id");
 
-            if (idParam == null
-                    || idParam.trim().isEmpty()) {
+        if (isBlank(idParam)) {
+
+            session.setAttribute(
+                    "errorCode",
+                    "KHONG_CO_MA_SPCT"
+            );
+
+            response.sendRedirect(
+                    request.getContextPath() + "/sanpham"
+            );
+            return;
+        }
+
+        try {
+
+            int id =
+                    Integer.parseInt(
+                            idParam.trim()
+                    );
+
+            if (id <= 0) {
 
                 session.setAttribute(
-                        "error",
-                        "Không tìm thấy mã sản phẩm chi tiết"
+                        "errorCode",
+                        "MA_SPCT_KHONG_HOP_LE"
                 );
 
                 response.sendRedirect(
-                        request.getContextPath()
-                                + "/sanpham"
+                        request.getContextPath() + "/sanpham"
                 );
                 return;
             }
-
-            int id =
-                    Integer.parseInt(idParam.trim());
 
             SanPhamChiTiet spct =
                     dao.getById(id);
@@ -86,13 +102,12 @@ public class EditChiTietController extends HttpServlet {
             if (spct == null) {
 
                 session.setAttribute(
-                        "error",
-                        "Không tìm thấy sản phẩm chi tiết"
+                        "errorCode",
+                        "KHONG_TIM_THAY_SPCT"
                 );
 
                 response.sendRedirect(
-                        request.getContextPath()
-                                + "/sanpham"
+                        request.getContextPath() + "/sanpham"
                 );
                 return;
             }
@@ -111,13 +126,12 @@ public class EditChiTietController extends HttpServlet {
         } catch (NumberFormatException e) {
 
             session.setAttribute(
-                    "error",
-                    "Mã sản phẩm chi tiết không hợp lệ"
+                    "errorCode",
+                    "MA_SPCT_KHONG_HOP_LE"
             );
 
             response.sendRedirect(
-                    request.getContextPath()
-                            + "/sanpham"
+                    request.getContextPath() + "/sanpham"
             );
 
         } catch (Exception e) {
@@ -125,13 +139,12 @@ public class EditChiTietController extends HttpServlet {
             e.printStackTrace();
 
             session.setAttribute(
-                    "error",
-                    "Có lỗi xảy ra khi tải dữ liệu"
+                    "errorCode",
+                    "LOI_TAI_DU_LIEU_SPCT"
             );
 
             response.sendRedirect(
-                    request.getContextPath()
-                            + "/sanpham"
+                    request.getContextPath() + "/sanpham"
             );
         }
     }
@@ -147,53 +160,69 @@ public class EditChiTietController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session =
-                request.getSession();
+                request.getSession(false);
+
+        if (session == null
+                || session.getAttribute("user") == null) {
+
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+            return;
+        }
 
         SanPhamChiTiet spct =
                 new SanPhamChiTiet();
 
+        String maSPCTParam =
+                request.getParameter("maSPCT");
+
+        String maSPParam =
+                request.getParameter("maSP");
+
+        String maMau =
+                request.getParameter("maMau");
+
+        String maSize =
+                request.getParameter("maSize");
+
+        String soLuongParam =
+                request.getParameter("soLuongTon");
+
+        String giaNhapParam =
+                request.getParameter("giaNhap");
+
+        String giaBanParam =
+                request.getParameter("giaBan");
+
+        if (isBlank(maSPCTParam)
+                || isBlank(maSPParam)
+                || isBlank(maMau)
+                || isBlank(maSize)
+                || isBlank(soLuongParam)
+                || isBlank(giaNhapParam)
+                || isBlank(giaBanParam)) {
+
+            hienThiLaiForm(
+                    request,
+                    response,
+                    spct,
+                    "THIEU_THONG_TIN"
+            );
+            return;
+        }
+
         try {
-            String maSPCTParam =
-                    request.getParameter("maSPCT");
 
-            String maSPParam =
-                    request.getParameter("maSP");
-
-            String soLuongParam =
-                    request.getParameter("soLuongTon");
-
-            String giaNhapParam =
-                    request.getParameter("giaNhap");
-
-            if (maSPCTParam == null
-                    || maSPParam == null
-                    || soLuongParam == null
-                    || giaNhapParam == null) {
-
-                throw new IllegalArgumentException(
-                        "Thiếu dữ liệu cập nhật"
-                );
-            }
-
-            spct.setMaSPCT(
+            int maSPCT =
                     Integer.parseInt(
                             maSPCTParam.trim()
-                    )
-            );
+                    );
 
-            spct.setMaSP(
+            int maSP =
                     Integer.parseInt(
                             maSPParam.trim()
-                    )
-            );
-
-            spct.setMaMau(
-                    request.getParameter("maMau")
-            );
-
-            spct.setMaSize(
-                    request.getParameter("maSize")
-            );
+                    );
 
             int soLuongTon =
                     Integer.parseInt(
@@ -205,33 +234,26 @@ public class EditChiTietController extends HttpServlet {
                             giaNhapParam.trim()
                     );
 
+            BigDecimal giaBan =
+                    new BigDecimal(
+                            giaBanParam.trim()
+                    );
+
+            spct.setMaSPCT(maSPCT);
+            spct.setMaSP(maSP);
+            spct.setMaMau(maMau);
+            spct.setMaSize(maSize);
             spct.setSoLuongTon(soLuongTon);
             spct.setGiaNhap(giaNhap);
+            spct.setGiaBan(giaBan);
 
-            if (spct.getMaMau() == null
-                    || spct.getMaMau()
-                    .trim()
-                    .isEmpty()) {
+            if (maSPCT <= 0 || maSP <= 0) {
 
                 hienThiLaiForm(
                         request,
                         response,
                         spct,
-                        "Vui lòng chọn màu sắc"
-                );
-                return;
-            }
-
-            if (spct.getMaSize() == null
-                    || spct.getMaSize()
-                    .trim()
-                    .isEmpty()) {
-
-                hienThiLaiForm(
-                        request,
-                        response,
-                        spct,
-                        "Vui lòng chọn size"
+                        "MA_SAN_PHAM_KHONG_HOP_LE"
                 );
                 return;
             }
@@ -242,7 +264,7 @@ public class EditChiTietController extends HttpServlet {
                         request,
                         response,
                         spct,
-                        "Số lượng tồn phải lớn hơn hoặc bằng 0"
+                        "SO_LUONG_KHONG_HOP_LE"
                 );
                 return;
             }
@@ -254,7 +276,51 @@ public class EditChiTietController extends HttpServlet {
                         request,
                         response,
                         spct,
-                        "Giá nhập phải lớn hơn hoặc bằng 0"
+                        "GIA_NHAP_KHONG_HOP_LE"
+                );
+                return;
+            }
+
+            if (giaBan.compareTo(
+                    BigDecimal.ZERO) < 0) {
+
+                hienThiLaiForm(
+                        request,
+                        response,
+                        spct,
+                        "GIA_BAN_KHONG_HOP_LE"
+                );
+                return;
+            }
+
+            if (giaBan.compareTo(
+                    giaNhap) < 0) {
+
+                hienThiLaiForm(
+                        request,
+                        response,
+                        spct,
+                        "GIA_BAN_NHO_HON_GIA_NHAP"
+                );
+                return;
+            }
+
+            SanPhamChiTiet tonTai =
+                    dao.getBySanPhamMauSize(
+                            maSP,
+                            maMau,
+                            maSize
+                    );
+
+            if (tonTai != null
+                    && tonTai.getMaSPCT()
+                    != maSPCT) {
+
+                hienThiLaiForm(
+                        request,
+                        response,
+                        spct,
+                        "BIEN_THE_DA_TON_TAI"
                 );
                 return;
             }
@@ -263,14 +329,17 @@ public class EditChiTietController extends HttpServlet {
                     dao.update(spct);
 
             if (updated) {
+
                 session.setAttribute(
-                        "message",
-                        "Cập nhật sản phẩm chi tiết thành công"
+                        "messageCode",
+                        "CAP_NHAT_SPCT_THANH_CONG"
                 );
+
             } else {
+
                 session.setAttribute(
-                        "error",
-                        "Cập nhật sản phẩm chi tiết thất bại"
+                        "errorCode",
+                        "CAP_NHAT_SPCT_THAT_BAI"
                 );
             }
 
@@ -286,52 +355,57 @@ public class EditChiTietController extends HttpServlet {
                     request,
                     response,
                     spct,
-                    "Số lượng tồn hoặc giá nhập không hợp lệ"
-            );
-
-        } catch (IllegalArgumentException e) {
-
-            hienThiLaiForm(
-                    request,
-                    response,
-                    spct,
-                    e.getMessage()
+                    "DU_LIEU_KHONG_HOP_LE"
             );
 
         } catch (Exception e) {
 
             e.printStackTrace();
 
-            session.setAttribute(
-                    "error",
-                    "Có lỗi xảy ra khi cập nhật sản phẩm chi tiết"
-            );
-
             if (spct.getMaSP() > 0) {
+
+                session.setAttribute(
+                        "errorCode",
+                        "LOI_CAP_NHAT_SPCT"
+                );
+
                 response.sendRedirect(
                         request.getContextPath()
                                 + "/sanphamchitiet?maSP="
                                 + spct.getMaSP()
                 );
+
             } else {
+
+                session.setAttribute(
+                        "errorCode",
+                        "LOI_CAP_NHAT_SPCT"
+                );
+
                 response.sendRedirect(
-                        request.getContextPath()
-                                + "/sanpham"
+                        request.getContextPath() + "/sanpham"
                 );
             }
         }
+    }
+
+    private boolean isBlank(
+            String value) {
+
+        return value == null
+                || value.trim().isEmpty();
     }
 
     private void hienThiLaiForm(
             HttpServletRequest request,
             HttpServletResponse response,
             SanPhamChiTiet spct,
-            String error)
+            String errorCode)
             throws ServletException, IOException {
 
         request.setAttribute(
-                "error",
-                error
+                "errorCode",
+                errorCode
         );
 
         request.setAttribute(

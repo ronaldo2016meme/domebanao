@@ -9,85 +9,539 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/sanpham")
 public class SanPhamController extends HttpServlet {
-    SanPhamDao dao = new SanPhamDao();
+
+    private final SanPhamDao dao =
+            new SanPhamDao();
 
     @Override
-    protected void doGet(HttpServletRequest request,HttpServletResponse response)
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(
+                "text/html;charset=UTF-8"
+        );
 
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login");
+        HttpSession session =
+                request.getSession(false);
+
+        /*
+         * Kiểm tra đăng nhập.
+         */
+        if (session == null
+                || session.getAttribute("user") == null) {
+
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
             return;
         }
 
-        String action = request.getParameter("action");
+        try {
 
-        if (action == null) {
-            List<sanpham> list = dao.getAll();
-            request.setAttribute("list", list);
-            request.getRequestDispatcher("sanpham.jsp")
-                    .forward(request, response);
+            String action =
+                    request.getParameter("action");
 
-        } else if (action.equals("edit")) {
+            /*
+             * Mặc định hiển thị danh sách sản phẩm.
+             */
+            if (isBlank(action)) {
 
-            int id = Integer.parseInt(request.getParameter("id"));
-            sanpham sp = dao.getById(id);
+                List<sanpham> list =
+                        dao.getAll();
 
-            request.setAttribute("sp", sp);
-            request.getRequestDispatcher("editSanPham.jsp")
-                    .forward(request, response);
+                request.setAttribute(
+                        "list",
+                        list
+                );
 
-        } else if (action.equals("add")) {
+                /*
+                 * Chuyển thông báo từ session sang request.
+                 */
+                chuyenThongBao(
+                        session,
+                        request,
+                        "messageCode"
+                );
 
-            request.getRequestDispatcher("addSanPham.jsp")
-                    .forward(request, response);
+                chuyenThongBao(
+                        session,
+                        request,
+                        "errorCode"
+                );
+
+                request.getRequestDispatcher(
+                        "/sanpham.jsp"
+                ).forward(request, response);
+
+                return;
+            }
+
+            if ("edit".equals(action)) {
+
+                String idParam =
+                        request.getParameter("id");
+
+                if (isBlank(idParam)) {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "THIEU_MA_SAN_PHAM"
+                    );
+
+                    redirectSanPham(
+                            request,
+                            response
+                    );
+                    return;
+                }
+
+                int id =
+                        Integer.parseInt(
+                                idParam.trim()
+                        );
+
+                if (id <= 0) {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "MA_SAN_PHAM_KHONG_HOP_LE"
+                    );
+
+                    redirectSanPham(
+                            request,
+                            response
+                    );
+                    return;
+                }
+
+                sanpham sp =
+                        dao.getById(id);
+
+                if (sp == null) {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "KHONG_TIM_THAY_SAN_PHAM"
+                    );
+
+                    redirectSanPham(
+                            request,
+                            response
+                    );
+                    return;
+                }
+
+                request.setAttribute(
+                        "sp",
+                        sp
+                );
+
+                request.getRequestDispatcher(
+                        "/editsanpham.jsp"
+                ).forward(request, response);
+
+                return;
+            }
+
+            /*
+             * Chuyển tới trang thêm sản phẩm.
+             *
+             * Project hiện có servlet riêng:
+             * /addsanpham
+             */
+            if ("add".equals(action)) {
+
+                response.sendRedirect(
+                        request.getContextPath()
+                                + "/addsanpham"
+                );
+                return;
+            }
+
+            /*
+             * Action không hợp lệ.
+             */
+            session.setAttribute(
+                    "errorCode",
+                    "THAO_TAC_KHONG_HOP_LE"
+            );
+
+            redirectSanPham(
+                    request,
+                    response
+            );
+
+        } catch (NumberFormatException e) {
+
+            session.setAttribute(
+                    "errorCode",
+                    "MA_SAN_PHAM_KHONG_HOP_LE"
+            );
+
+            redirectSanPham(
+                    request,
+                    response
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            session.setAttribute(
+                    "errorCode",
+                    "LOI_TAI_DANH_SACH_SAN_PHAM"
+            );
+
+            redirectSanPham(
+                    request,
+                    response
+            );
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request,HttpServletResponse response)
+    protected void doPost(
+            HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(
+                "text/html;charset=UTF-8"
+        );
 
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login");
+        HttpSession session =
+                request.getSession(false);
+
+        /*
+         * Kiểm tra đăng nhập.
+         */
+        if (session == null
+                || session.getAttribute("user") == null) {
+
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
             return;
         }
 
-        request.setCharacterEncoding("UTF-8");
+        try {
 
-        String action = request.getParameter("action");
+            String action =
+                    request.getParameter("action");
 
-        sanpham sp = new sanpham();
+            if (isBlank(action)) {
 
-        sp.setTenSP(request.getParameter("tenSP"));
-        sp.setMaDanhMuc(request.getParameter("danhMuc"));
-        sp.setMaNCC(request.getParameter("nhaCungCap"));
-        sp.setGiaBan(Double.parseDouble(request.getParameter("giaBan")));
-        sp.setMoTa(request.getParameter("moTa"));
-        sp.setNgayTao(request.getParameter("ngayTao"));
-        sp.setNgayCapNhat(request.getParameter("ngayCapNhat"));
-        sp.setAnh(request.getParameter("anh"));
-        sp.setMaTrangThaiSP(request.getParameter("maTrangThaiSP"));
+                session.setAttribute(
+                        "errorCode",
+                        "THIEU_HANH_DONG"
+                );
 
-        if ("insert".equals(action)) {
+                redirectSanPham(
+                        request,
+                        response
+                );
+                return;
+            }
 
-            dao.insert(sp);
+            String tenSP =
+                    request.getParameter("tenSP");
 
-        } else if ("update".equals(action)) {
+            String maDanhMuc =
+                    request.getParameter("maDanhMuc");
 
-            sp.setMaSP(Integer.parseInt(request.getParameter("maSP")));
-            dao.update(sp);
+            String maNCC =
+                    request.getParameter("maNCC");
+
+            String maTrangThaiSP =
+                    request.getParameter(
+                            "maTrangThaiSP"
+                    );
+
+            String giaBanParam =
+                    request.getParameter("giaBan");
+
+            String moTa =
+                    request.getParameter("moTa");
+
+            String ngayTao =
+                    request.getParameter("ngayTao");
+
+            String ngayCapNhat =
+                    request.getParameter(
+                            "ngayCapNhat"
+                    );
+
+            String anh =
+                    request.getParameter("anh");
+
+            /*
+             * Kiểm tra thông tin bắt buộc.
+             */
+            if (isBlank(tenSP)
+                    || isBlank(maDanhMuc)
+                    || isBlank(maNCC)
+                    || isBlank(maTrangThaiSP)) {
+
+                session.setAttribute(
+                        "errorCode",
+                        "THIEU_THONG_TIN"
+                );
+
+                redirectSanPham(
+                        request,
+                        response
+                );
+                return;
+            }
+
+            sanpham sp =
+                    new sanpham();
+
+            sp.setTenSP(
+                    tenSP.trim()
+            );
+
+            sp.setMaDanhMuc(
+                    maDanhMuc.trim()
+            );
+
+            sp.setMaNCC(
+                    maNCC.trim()
+            );
+
+            sp.setMaTrangThaiSP(
+                    maTrangThaiSP.trim()
+            );
+
+            sp.setMoTa(
+                    moTa == null
+                            ? ""
+                            : moTa.trim()
+            );
+
+            sp.setNgayTao(
+                    ngayTao
+            );
+
+            sp.setNgayCapNhat(
+                    ngayCapNhat
+            );
+
+            sp.setAnh(
+                    anh == null
+                            ? ""
+                            : anh.trim()
+            );
+
+            /*
+             * Nếu model SANPHAM có giá bán thì đọc giá bán.
+             *
+             * Nếu giá bán chỉ nằm trong SANPHAMCHITIET,
+             * hãy xóa toàn bộ khối này.
+             */
+            if (!isBlank(giaBanParam)) {
+
+                double giaBan =
+                        Double.parseDouble(
+                                giaBanParam.trim()
+                        );
+
+                if (giaBan < 0) {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "GIA_BAN_KHONG_HOP_LE"
+                    );
+
+                    redirectSanPham(
+                            request,
+                            response
+                    );
+                    return;
+                }
+
+                sp.setGiaBan(giaBan);
+            }
+
+            /*
+             * Thêm sản phẩm.
+             */
+            if ("insert".equals(action)) {
+
+                boolean inserted =
+                        dao.insert(sp);
+
+                if (inserted) {
+
+                    session.setAttribute(
+                            "messageCode",
+                            "THEM_SAN_PHAM_THANH_CONG"
+                    );
+
+                } else {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "THEM_SAN_PHAM_THAT_BAI"
+                    );
+                }
+
+                redirectSanPham(
+                        request,
+                        response
+                );
+                return;
+            }
+
+            /*
+             * Cập nhật sản phẩm.
+             */
+            if ("update".equals(action)) {
+
+                String maSPParam =
+                        request.getParameter("maSP");
+
+                if (isBlank(maSPParam)) {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "THIEU_MA_SAN_PHAM"
+                    );
+
+                    redirectSanPham(
+                            request,
+                            response
+                    );
+                    return;
+                }
+
+                int maSP =
+                        Integer.parseInt(
+                                maSPParam.trim()
+                        );
+
+                if (maSP <= 0) {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "MA_SAN_PHAM_KHONG_HOP_LE"
+                    );
+
+                    redirectSanPham(
+                            request,
+                            response
+                    );
+                    return;
+                }
+
+                sp.setMaSP(maSP);
+
+                boolean updated =
+                        dao.update(sp);
+
+                if (updated) {
+
+                    session.setAttribute(
+                            "messageCode",
+                            "CAP_NHAT_SAN_PHAM_THANH_CONG"
+                    );
+
+                } else {
+
+                    session.setAttribute(
+                            "errorCode",
+                            "CAP_NHAT_SAN_PHAM_THAT_BAI"
+                    );
+                }
+
+                redirectSanPham(
+                        request,
+                        response
+                );
+                return;
+            }
+
+            /*
+             * Action không hỗ trợ.
+             */
+            session.setAttribute(
+                    "errorCode",
+                    "THAO_TAC_KHONG_HOP_LE"
+            );
+
+        } catch (NumberFormatException e) {
+
+            session.setAttribute(
+                    "errorCode",
+                    "DU_LIEU_KHONG_HOP_LE"
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            session.setAttribute(
+                    "errorCode",
+                    "LOI_LUU_SAN_PHAM"
+            );
         }
 
-        response.sendRedirect("sanpham");
+        redirectSanPham(
+                request,
+                response
+        );
+    }
+
+    private boolean isBlank(
+            String value) {
+
+        return value == null
+                || value.trim().isEmpty();
+    }
+
+    private void chuyenThongBao(
+            HttpSession session,
+            HttpServletRequest request,
+            String tenThuocTinh) {
+
+        Object value =
+                session.getAttribute(
+                        tenThuocTinh
+                );
+
+        if (value != null) {
+
+            request.setAttribute(
+                    tenThuocTinh,
+                    value
+            );
+
+            session.removeAttribute(
+                    tenThuocTinh
+            );
+        }
+    }
+
+    private void redirectSanPham(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws IOException {
+
+        response.sendRedirect(
+                request.getContextPath()
+                        + "/sanpham"
+        );
     }
 }

@@ -1,13 +1,18 @@
 package model;
+
 import java.math.BigDecimal;
 
 public class SanPhamChiTiet {
+
     private int maSPCT;
     private int maSP;
     private String maMau;
     private String maSize;
     private int soLuongTon;
+
     private BigDecimal giaNhap;
+    private BigDecimal giaBan;
+
     private String tenSP;
     private String tenMau;
     private String tenSize;
@@ -15,13 +20,25 @@ public class SanPhamChiTiet {
     public SanPhamChiTiet() {
     }
 
-    public SanPhamChiTiet(int maSPCT, int maSP, String maMau, String maSize, int soLuongTon, BigDecimal giaNhap, String tenSP, String tenMau, String tenSize) {
+    public SanPhamChiTiet(
+            int maSPCT,
+            int maSP,
+            String maMau,
+            String maSize,
+            int soLuongTon,
+            BigDecimal giaNhap,
+            BigDecimal giaBan,
+            String tenSP,
+            String tenMau,
+            String tenSize) {
+
         this.maSPCT = maSPCT;
         this.maSP = maSP;
         this.maMau = maMau;
         this.maSize = maSize;
         this.soLuongTon = soLuongTon;
         this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
         this.tenSP = tenSP;
         this.tenMau = tenMau;
         this.tenSize = tenSize;
@@ -73,6 +90,14 @@ public class SanPhamChiTiet {
 
     public void setGiaNhap(BigDecimal giaNhap) {
         this.giaNhap = giaNhap;
+    }
+
+    public BigDecimal getGiaBan() {
+        return giaBan;
+    }
+
+    public void setGiaBan(BigDecimal giaBan) {
+        this.giaBan = giaBan;
     }
 
     public String getTenSP() {

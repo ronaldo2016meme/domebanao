@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -24,19 +24,104 @@
 
     <form action="thongke" method="get" class="tk-filter">
 
-        <label>Từ ngày</label>
-        <input type="date" name="tuNgay" value="${param.tuNgay}">
+        <label>Kiểu thống kê</label>
 
-        <label>Đến ngày</label>
-        <input type="date" name="denNgay" value="${param.denNgay}">
+        <select name="kieu" id="kieu" onchange="doiKieu()">
 
-        <button class="btn">Thống kê</button>
+            <option value="ngay"
+                <c:if test="${kieu == 'ngay'}">selected="selected"</c:if>>
+                Theo ngày
+            </option>
+
+            <option value="thang"
+                <c:if test="${kieu == 'thang'}">selected="selected"</c:if>>
+                Theo tháng
+            </option>
+
+            <option value="nam"
+                <c:if test="${kieu == 'nam'}">selected="selected"</c:if>>
+                Theo năm
+            </option>
+
+        </select>
+
+
+        <!-- ========================= -->
+        <!-- THEO NGÀY -->
+        <!-- ========================= -->
+
+        <div id="chonNgay">
+
+            <label>Từ ngày</label>
+
+            <input type="date"
+                   name="tuNgay"
+                   value="${param.tuNgay}">
+
+            <label>Đến ngày</label>
+
+            <input type="date"
+                   name="denNgay"
+                   value="${param.denNgay}">
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- THEO THÁNG -->
+        <!-- ========================= -->
+
+        <div id="chonThang">
+
+            <label>Tháng</label>
+
+            <input type="month"
+                   name="thang"
+                   value="${param.thang}">
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- THEO NĂM -->
+        <!-- ========================= -->
+
+        <div id="chonNam">
+
+            <label>Năm</label>
+
+            <select name="nam">
+
+                <c:forEach begin="2024" end="2035" var="y">
+
+                    <option value="${y}"
+                        <c:if test="${param.nam == y.toString()}">
+                            selected="selected"
+                        </c:if>>
+                        ${y}
+                    </option>
+
+                </c:forEach>
+
+            </select>
+
+        </div>
+
+
+        <button type="submit" class="btn">
+            Thống kê
+        </button>
+
+        <a class="btn-excel"
+           href="${pageContext.request.contextPath}/xuatExcel?kieu=${kieu}&tuNgay=${param.tuNgay}&denNgay=${param.denNgay}&thang=${param.thang}&nam=${param.nam}">
+            Xuất Excel
+        </a>
 
         <button type="button"
-                    class="btn"
-                    onclick="location.href='index.jsp'">
-                Quay lại
-            </button>
+                class="btn"
+                onclick="location.href='index.jsp'">
+            Quay lại
+        </button>
 
     </form>
 
@@ -107,45 +192,84 @@
 
 <script>
 
-const labels=[
+const labels = [
 <c:forEach items="${doanhThuNgay}" var="d">
-'${d.ngayLap}',
+    <c:choose>
+
+        <c:when test="${kieu eq 'nam'}">
+            "<fmt:formatDate value='${d.ngayLap}' pattern='MM/yyyy'/>",
+        </c:when>
+
+        <c:otherwise>
+            "<fmt:formatDate value='${d.ngayLap}' pattern='dd/MM/yyyy'/>",
+        </c:otherwise>
+
+    </c:choose>
 </c:forEach>
 ];
 
-const doanhThu=[
+const doanhThu = [
 <c:forEach items="${doanhThuNgay}" var="d">
-${d.doanhThu},
+    ${d.doanhThu},
 </c:forEach>
 ];
 
-new Chart(document.getElementById("myChart"),{
+new Chart(document.getElementById("myChart"), {
+    type: 'bar',
 
-    type:'bar',
+    data: {
+        labels: labels,
 
-    data:{
-        labels:labels,
-        datasets:[{
-            label:'Doanh thu',
-            data:doanhThu,
-            backgroundColor:"#5DADE2",
-            borderColor:"#2874A6",
-            borderWidth:1
+        datasets: [{
+            label: 'Doanh thu',
+            data: doanhThu,
+            backgroundColor: "#5DADE2",
+            borderColor: "#2874A6",
+            borderWidth: 1
         }]
     },
 
-    options:{
-        responsive:true,
-        maintainAspectRatio:false,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
 
-        scales:{
-            y:{
-                beginAtZero:true
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
     }
-
 });
+
+</script>
+
+<script>
+
+function doiKieu() {
+
+    let kieu = document.getElementById("kieu").value;
+
+    document.getElementById("chonNgay").style.display = "none";
+    document.getElementById("chonThang").style.display = "none";
+    document.getElementById("chonNam").style.display = "none";
+
+    if (kieu === "ngay") {
+
+        document.getElementById("chonNgay").style.display = "block";
+
+    } else if (kieu === "thang") {
+
+        document.getElementById("chonThang").style.display = "block";
+
+    } else if (kieu === "nam") {
+
+        document.getElementById("chonNam").style.display = "block";
+
+    }
+}
+
+window.onload = doiKieu;
+
 </script>
 
 </body>

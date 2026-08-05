@@ -7,10 +7,8 @@ import model.SanPhamChiTiet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -39,6 +37,9 @@ public class SanPhamChiTietController extends HttpServlet {
         HttpSession session =
                 request.getSession(false);
 
+        /*
+         * Kiểm tra đăng nhập.
+         */
         if (session == null
                 || session.getAttribute("user") == null) {
 
@@ -48,33 +49,51 @@ public class SanPhamChiTietController extends HttpServlet {
             return;
         }
 
-        String maSPParam =
-                request.getParameter("maSP");
-
-        if (maSPParam == null
-                || maSPParam.trim().isEmpty()) {
-
-            response.sendRedirect(
-                    request.getContextPath() + "/sanpham"
-            );
-            return;
-        }
-
         try {
+
+            String maSPParam =
+                    request.getParameter("maSP");
+
+            /*
+             * Không có mã sản phẩm.
+             */
+            if (isBlank(maSPParam)) {
+
+                session.setAttribute(
+                        "errorCode",
+                        "THIEU_MA_SAN_PHAM"
+                );
+
+                response.sendRedirect(
+                        request.getContextPath() + "/sanpham"
+                );
+                return;
+            }
+
             int maSP =
                     Integer.parseInt(
                             maSPParam.trim()
                     );
 
+            /*
+             * Mã sản phẩm không hợp lệ.
+             */
             if (maSP <= 0) {
 
+                session.setAttribute(
+                        "errorCode",
+                        "MA_SAN_PHAM_KHONG_HOP_LE"
+                );
+
                 response.sendRedirect(
-                        request.getContextPath()
-                                + "/sanpham"
+                        request.getContextPath() + "/sanpham"
                 );
                 return;
             }
 
+            /*
+             * Lấy danh sách sản phẩm chi tiết.
+             */
             List<SanPhamChiTiet> list =
                     dao.getByMaSP(maSP);
 
@@ -88,6 +107,7 @@ public class SanPhamChiTietController extends HttpServlet {
                     maSP
             );
 
+
             request.setAttribute(
                     "listMau",
                     mauSacDao.getAll()
@@ -98,44 +118,34 @@ public class SanPhamChiTietController extends HttpServlet {
                     sizeDao.getAll()
             );
 
-            Object message =
-                    session.getAttribute("message");
+            /*
+             * Chuyển thông báo từ session sang request.
+             */
+            chuyenThongBao(
+                    session,
+                    request,
+                    "messageCode"
+            );
 
-            if (message != null) {
+            chuyenThongBao(
+                    session,
+                    request,
+                    "errorCode"
+            );
 
-                request.setAttribute(
-                        "message",
-                        message
-                );
+            /*
+             * Sản phẩm chưa có biến thể.
+             */
+            if (list == null || list.isEmpty()) {
 
-                session.removeAttribute(
-                        "message"
-                );
-            }
+                if (request.getAttribute("messageCode") == null
+                        && request.getAttribute("errorCode") == null) {
 
-            Object error =
-                    session.getAttribute("error");
-
-            if (error != null) {
-
-                request.setAttribute(
-                        "error",
-                        error
-                );
-
-                session.removeAttribute(
-                        "error"
-                );
-            }
-
-            if ((list == null || list.isEmpty())
-                    && message == null
-                    && error == null) {
-
-                request.setAttribute(
-                        "message",
-                        "Sản phẩm chưa có thông tin chi tiết"
-                );
+                    request.setAttribute(
+                            "messageCode",
+                            "CHUA_CO_SPCT"
+                    );
+                }
             }
 
             request.getRequestDispatcher(
@@ -144,9 +154,13 @@ public class SanPhamChiTietController extends HttpServlet {
 
         } catch (NumberFormatException e) {
 
+            session.setAttribute(
+                    "errorCode",
+                    "MA_SAN_PHAM_KHONG_HOP_LE"
+            );
+
             response.sendRedirect(
-                    request.getContextPath()
-                            + "/sanpham"
+                    request.getContextPath() + "/sanpham"
             );
 
         } catch (Exception e) {
@@ -154,13 +168,42 @@ public class SanPhamChiTietController extends HttpServlet {
             e.printStackTrace();
 
             session.setAttribute(
-                    "error",
-                    "Có lỗi xảy ra khi tải chi tiết sản phẩm"
+                    "errorCode",
+                    "LOI_TAI_DANH_SACH_SPCT"
             );
 
             response.sendRedirect(
-                    request.getContextPath()
-                            + "/sanpham"
+                    request.getContextPath() + "/sanpham"
+            );
+        }
+    }
+
+    private boolean isBlank(
+            String value) {
+
+        return value == null
+                || value.trim().isEmpty();
+    }
+
+    private void chuyenThongBao(
+            HttpSession session,
+            HttpServletRequest request,
+            String tenThuocTinh) {
+
+        Object value =
+                session.getAttribute(
+                        tenThuocTinh
+                );
+
+        if (value != null) {
+
+            request.setAttribute(
+                    tenThuocTinh,
+                    value
+            );
+
+            session.removeAttribute(
+                    tenThuocTinh
             );
         }
     }

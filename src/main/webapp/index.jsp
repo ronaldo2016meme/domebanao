@@ -70,7 +70,13 @@
         Hóa đơn
     </a>
 
-    <a href="thongke">Doanh thu</a>
+    <!-- Chỉ quản lý mới được thấy doanh thu -->
+    <c:if test="${sessionScope.user != null && sessionScope.user.maRole == 'R01'}">
+        <a href="${pageContext.request.contextPath}/thongke">
+            Doanh thu
+        </a>
+
+    </c:if>
 
 </div>
 

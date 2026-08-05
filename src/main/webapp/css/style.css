@@ -718,97 +718,475 @@ tr:hover{
 }
 
 
-/* PRODUCT */
+/* ==================================================
+   PRODUCT
+================================================== */
+
 .product-container{
     width:1280px;
     max-width:95%;
     margin:30px auto;
-    background:#eef3f6;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    padding:30px;
+
+    background:rgba(255,255,255,.96);
+    border:1px solid #d6e4f0;
+    border-radius:18px;
+    box-shadow:0 10px 28px rgba(21,101,192,.12);
+
+    box-sizing:border-box;
 }
+
+.product-container h2{
+    margin:0 0 25px;
+
+    color:#0d47a1;
+    font-size:34px;
+    font-weight:700;
+}
+/* Ảnh hiện tại ở trang sửa sản phẩm */
+.container .current-image-wrap{
+    width:120px;
+    height:120px;
+    margin:10px 0 18px;
+    overflow:hidden;
+    border:1px solid #d5dde5;
+    border-radius:10px;
+    background:#f5f7f9;
+}
+
+.container .current-product-image{
+    display:block !important;
+    width:120px !important;
+    height:120px !important;
+    max-width:120px !important;
+    max-height:120px !important;
+    object-fit:cover !important;
+    object-position:center;
+    border-radius:10px;
+}
+
+/* ==================================================
+   THANH NÚT PHÍA TRÊN
+================================================== */
+
+.product-container .top-action{
+    width:100%;
+    margin:20px 0 25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+/* Nút thêm sản phẩm */
+
+.product-container .top-action .btn{
+    width:220px;
+    min-width:220px;
+    height:50px;
+    margin:0;
+    padding:0 20px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#1565c0;
+    color:#ffffff;
+
+    border:1px solid #1565c0;
+    border-radius:9px;
+
+    box-sizing:border-box;
+    text-decoration:none;
+
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+
+    cursor:pointer;
+    transition:.25s;
+}
+
+.product-container .top-action .btn:hover{
+    background:#0d47a1;
+    border-color:#0d47a1;
+    transform:translateY(-1px);
+}
+
+/* Nút quay lại */
+
+.product-container .top-action .back{
+    width:190px;
+    min-width:190px;
+    height:50px;
+    margin:0;
+    padding:0 20px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#607d8b;
+    color:#ffffff;
+
+    border:1px solid #607d8b;
+    border-radius:9px;
+
+    box-sizing:border-box;
+    text-decoration:none;
+
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+
+    cursor:pointer;
+    transition:.25s;
+}
+
+.product-container .top-action .back:hover{
+    background:#455a64;
+    border-color:#455a64;
+    transform:translateY(-1px);
+}
+
+/* ==================================================
+   KHUNG CUỘN BẢNG
+================================================== */
+
+.product-table-wrap{
+    width:100%;
+    overflow-x:auto;
+    border-radius:12px;
+}
+
+/* ==================================================
+   BẢNG SẢN PHẨM
+================================================== */
 
 .product-table{
     width:100%;
+    min-width:1250px;
+
+    display:table !important;
+    table-layout:auto;
     border-collapse:collapse;
-    background:#fff;
+
+    background:#ffffff;
+    color:#263238;
 }
+
+/* Khôi phục đúng cấu trúc bảng */
+
+.product-table thead{
+    display:table-header-group !important;
+}
+
+.product-table tbody{
+    display:table-row-group !important;
+    flex-direction:initial !important;
+}
+
+.product-table tr{
+    display:table-row !important;
+    width:auto !important;
+}
+
+.product-table th,
+.product-table td{
+    display:table-cell !important;
+    vertical-align:middle;
+    box-sizing:border-box;
+}
+
+/* Tiêu đề bảng */
 
 .product-table th{
-    background:#8da3b8;
-    color:#fff;
-    padding:14px;
+    padding:14px 10px;
+
+    background:#1565c0;
+    color:#ffffff;
+
+    border:1px solid rgba(255,255,255,.25);
+
     text-align:center;
+    font-size:16px;
+    font-weight:700;
+    line-height:1.2;
+    white-space:normal;
 }
+
+/* Ô dữ liệu */
 
 .product-table td{
-    padding:12px;
-    border:1px solid #d5dde5;
+    padding:14px 10px;
+
+    background:#ffffff;
+    color:#263238;
+
+    border:1px solid #d6e4f0;
+
     text-align:center;
+    font-size:16px;
+    line-height:1.4;
 }
 
-.product-table tr:nth-child(even){
-    background:#f4f7fa;
+/* Dòng xen kẽ */
+
+.product-table tbody tr:nth-child(even) td{
+    background:#f7fbff;
 }
 
-.product-table tr:hover{
-    background:#e5edf5;
-}
-/* Khung trên cùng */
-.top-action{
-    margin:20px 0;
+/* Hover */
+
+.product-table tbody tr:hover td{
+    background:#e3f2fd;
 }
 
-/* Nút Thêm sản phẩm */
-.btn{
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
+/* ==================================================
+   ĐỘ RỘNG CỘT
+================================================== */
 
-    width:220px;
-    height:50px;
+.product-table th:nth-child(1),
+.product-table td:nth-child(1){
+    width:70px;
+    min-width:70px;
+}
 
-    background:#6f8799;
-    color:#fff;
-    text-decoration:none;
+.product-table th:nth-child(2),
+.product-table td:nth-child(2){
+    width:130px;
+    min-width:130px;
+}
+
+.product-table th:nth-child(3),
+.product-table td:nth-child(3){
+    width:170px;
+    min-width:170px;
+}
+
+.product-table th:nth-child(4),
+.product-table td:nth-child(4){
+    width:115px;
+    min-width:115px;
+}
+
+.product-table th:nth-child(5),
+.product-table td:nth-child(5){
+    width:135px;
+    min-width:135px;
+}
+
+.product-table th:nth-child(6),
+.product-table td:nth-child(6){
+    width:110px;
+    min-width:110px;
+}
+
+.product-table th:nth-child(7),
+.product-table td:nth-child(7){
+    width:130px;
+    min-width:130px;
+}
+
+.product-table th:nth-child(8),
+.product-table td:nth-child(8){
+    width:150px;
+    min-width:150px;
+}
+
+.product-table th:nth-child(9),
+.product-table td:nth-child(9){
+    width:115px;
+    min-width:115px;
+}
+
+.product-table th:nth-child(10),
+.product-table td:nth-child(10){
+    width:125px;
+    min-width:125px;
+}
+
+.product-table th:nth-child(11),
+.product-table td:nth-child(11){
+    width:190px;
+    min-width:190px;
+}
+
+/* ==================================================
+   ẢNH SẢN PHẨM
+================================================== */
+
+.product-image{
+    width:75px;
+    height:75px;
+
+    display:block;
+    margin:auto;
+
+    object-fit:cover;
+    object-position:center;
+
+    border:1px solid #d6e4f0;
     border-radius:8px;
-    font-size:20px;
-    font-weight:bold;
 }
 
-.btn:hover{
-    background:#5f7688;
-}
-/* Nút Chi Tiết */
-.btn-detail{
+.no-image{
     display:inline-block;
-    padding:8px 14px;
-    background:#17a2b8;
-    color:#fff;
-    text-decoration:none;
-    border-radius:5px;
+
+    color:#78909c;
     font-size:14px;
+    font-style:italic;
+}
+
+/* ==================================================
+   TÊN VÀ GIÁ SẢN PHẨM
+================================================== */
+
+.product-name{
+    color:#0d47a1 !important;
+    font-weight:700;
+}
+
+.product-price{
+    color:#c62828 !important;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.no-price{
+    color:#78909c;
+    font-size:14px;
+    font-weight:600;
+    font-style:italic;
+}
+
+/* ==================================================
+   TRẠNG THÁI
+================================================== */
+
+.product-status{
+    min-width:85px;
+    padding:6px 10px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#e3f2fd;
+    color:#0d47a1;
+
+    border-radius:20px;
+
+    font-size:14px;
+    font-weight:700;
+}
+
+/* ==================================================
+   NÚT CHI TIẾT VÀ SỬA
+================================================== */
+
+.product-actions{
     text-align:center;
+    vertical-align:middle;
 }
 
-.btn-detail:hover{
-    background:#138496;
-}
-/* Nút Sửa */
-.btn-edit{
-    display:inline-block;
-    padding:8px 16px;
-    background:#7f97ab;
-    color:#fff;
+.product-actions .btn-detail,
+.product-actions .btn-edit{
+    width:135px;
+    min-width:135px;
+    height:44px;
+    margin:4px auto;
+    padding:0 15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+    box-sizing:border-box;
+
+    color:#ffffff;
     text-decoration:none;
-    border-radius:6px;
-    margin-right:6px;
-    font-size:15px;
+
+    font-size:16px;
+    font-weight:700;
+    line-height:1;
+
+    transition:.25s;
 }
 
-.btn-edit:hover{
-    background:#687f91;
+/* Nút chi tiết */
+
+.product-actions .btn-detail{
+    background:#1565c0;
+    border:1px solid #1565c0;
+}
+
+.product-actions .btn-detail:hover{
+    background:#0d47a1;
+    border-color:#0d47a1;
+}
+
+/* Nút sửa */
+
+.product-actions .btn-edit{
+    background:#1976d2;
+    border:1px solid #1976d2;
+}
+
+.product-actions .btn-edit:hover{
+    background:#0d47a1;
+    border-color:#0d47a1;
+}
+
+/* Hỗ trợ class cũ nếu JSP chưa có product-actions */
+
+.product-table td .btn-detail,
+.product-table td .btn-edit{
+    width:135px;
+    min-width:135px;
+    height:44px;
+    margin:4px auto;
+    padding:0 15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+    box-sizing:border-box;
+
+    color:#ffffff;
+    text-decoration:none;
+
+    font-size:16px;
+    font-weight:700;
+    line-height:1;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media(max-width:900px){
+
+    .product-container{
+        max-width:96%;
+        padding:20px;
+    }
+
+    .product-container .top-action{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .product-container .top-action .btn,
+    .product-container .top-action .back{
+        width:100%;
+        min-width:100%;
+    }
 }
 /* ================= QUẢN LÝ KHÁCH HÀNG ================= */
 
@@ -2716,4 +3094,36 @@ textarea:focus{
     color:#607D8B;
     font-size:18px;
     font-weight:700;
+}
+
+/* ==========================
+   NÚT XUẤT EXCEL
+========================== */
+
+.btn-excel{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    width:180px;
+    height:45px;
+
+    background:#2E7D32;
+    color:#fff;
+    text-decoration:none;
+
+    border:none;
+    border-radius:8px;
+
+    font-size:16px;
+    font-weight:700;
+
+    cursor:pointer;
+    transition:.25s;
+}
+
+.btn-excel:hover{
+    background:#1B5E20;
+    transform:translateY(-2px);
+    box-shadow:0 6px 12px rgba(0,0,0,.15);
 }

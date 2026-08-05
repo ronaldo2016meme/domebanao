@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import java.io.File;
@@ -23,7 +24,8 @@ import java.nio.file.Paths;
 )
 public class AddSanPhamController extends HttpServlet {
 
-    private final SanPhamDao dao = new SanPhamDao();
+    private final SanPhamDao dao =
+            new SanPhamDao();
 
     @Override
     protected void doGet(
@@ -31,8 +33,25 @@ public class AddSanPhamController extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getRequestDispatcher("/addsanpham.jsp")
-                .forward(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
+        HttpSession session =
+                request.getSession(false);
+
+        if (session == null
+                || session.getAttribute("user") == null) {
+
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+            return;
+        }
+
+        request.getRequestDispatcher(
+                "/addsanpham.jsp"
+        ).forward(request, response);
     }
 
     @Override
@@ -45,166 +64,357 @@ public class AddSanPhamController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
+        HttpSession session =
+                request.getSession(false);
+
+        if (session == null
+                || session.getAttribute("user") == null) {
+
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+            return;
+        }
+
         try {
 
-            String tenSP = request.getParameter("tenSP");
-            String maDanhMuc = request.getParameter("maDanhMuc");
-            String maNCC = request.getParameter("maNCC");
+            String tenSP =
+                    request.getParameter("tenSP");
+
+            String maDanhMuc =
+                    request.getParameter("maDanhMuc");
+
+            String maNCC =
+                    request.getParameter("maNCC");
+
             String maTrangThaiSP =
                     request.getParameter("maTrangThaiSP");
 
             String giaBanParam =
                     request.getParameter("giaBan");
 
-            String moTa = request.getParameter("moTa");
-            String ngayTao = request.getParameter("ngayTao");
+            String moTa =
+                    request.getParameter("moTa");
+
+            String ngayTao =
+                    request.getParameter("ngayTao");
+
             String ngayCapNhat =
                     request.getParameter("ngayCapNhat");
 
-            if (tenSP == null
-                    || tenSP.trim().isEmpty()
-                    || giaBanParam == null
-                    || giaBanParam.trim().isEmpty()) {
+            /*
+             * Kiểm tra dữ liệu bắt buộc.
+             */
+            if (isBlank(tenSP)
+                    || isBlank(maDanhMuc)
+                    || isBlank(maNCC)
+                    || isBlank(maTrangThaiSP)
+                    || isBlank(giaBanParam)) {
 
-                request.setAttribute(
-                        "error",
-                        "Vui lòng nhập đầy đủ thông tin bắt buộc"
+                hienThiLoi(
+                        request,
+                        response,
+                        "THIEU_THONG_TIN"
                 );
-
-                request.getRequestDispatcher("/addsanpham.jsp")
-                        .forward(request, response);
                 return;
             }
 
-            double giaBan =
-                    Double.parseDouble(giaBanParam);
+            double giaBan;
+
+            try {
+
+                giaBan =
+                        Double.parseDouble(
+                                giaBanParam.trim()
+                        );
+
+            } catch (NumberFormatException e) {
+
+                hienThiLoi(
+                        request,
+                        response,
+                        "GIA_BAN_KHONG_HOP_LE"
+                );
+                return;
+            }
 
             if (giaBan < 0) {
 
-                request.setAttribute(
-                        "error",
-                        "Giá bán phải lớn hơn hoặc bằng 0"
+                hienThiLoi(
+                        request,
+                        response,
+                        "GIA_BAN_KHONG_HOP_LE"
                 );
-
-                request.getRequestDispatcher("/addsanpham.jsp")
-                        .forward(request, response);
                 return;
             }
 
             /*
-             * Lấy file ảnh từ form
+             * Lấy ảnh từ form.
              */
             Part filePart =
                     request.getPart("anh");
 
-            String fileName = "";
+            if (filePart == null
+                    || filePart.getSize() <= 0
+                    || isBlank(filePart.getSubmittedFileName())) {
 
-            if (filePart != null
-                    && filePart.getSize() > 0) {
-
-                fileName = Paths.get(
-                        filePart.getSubmittedFileName()
-                ).getFileName().toString();
-
-                /*
-                 * Kiểm tra đúng loại ảnh
-                 */
-                String contentType =
-                        filePart.getContentType();
-
-                if (contentType == null
-                        || !contentType.startsWith("image/")) {
-
-                    request.setAttribute(
-                            "error",
-                            "Vui lòng chỉ chọn tệp ảnh"
-                    );
-
-                    request.getRequestDispatcher("/addsanpham.jsp")
-                            .forward(request, response);
-                    return;
-                }
-
-                /*
-                 * Thư mục lưu ảnh:
-                 * src/main/webapp/images
-                 */
-                String uploadPath =
-                        getServletContext()
-                                .getRealPath("/images");
-
-                File uploadDirectory =
-                        new File(uploadPath);
-
-                if (!uploadDirectory.exists()) {
-                    uploadDirectory.mkdirs();
-                }
-
-                /*
-                 * Tránh trùng tên ảnh
-                 */
-                String extension = "";
-
-                int dotIndex =
-                        fileName.lastIndexOf(".");
-
-                if (dotIndex >= 0) {
-                    extension =
-                            fileName.substring(dotIndex);
-                }
-
-                String savedFileName =
-                        System.currentTimeMillis()
-                                + extension;
-
-                filePart.write(
-                        uploadPath
-                                + File.separator
-                                + savedFileName
+                hienThiLoi(
+                        request,
+                        response,
+                        "CHUA_CHON_ANH"
                 );
-
-                fileName = savedFileName;
+                return;
             }
 
-            sanpham sp = new sanpham();
+            if (filePart.getSize()
+                    > 5L * 1024 * 1024) {
 
-            sp.setTenSP(tenSP.trim());
-            sp.setMaDanhMuc(maDanhMuc);
-            sp.setMaNCC(maNCC);
-            sp.setGiaBan(giaBan);
-            sp.setMoTa(moTa);
-            sp.setNgayTao(ngayTao);
-            sp.setNgayCapNhat(ngayCapNhat);
-            sp.setAnh(fileName);
-            sp.setMaTrangThaiSP(maTrangThaiSP);
+                hienThiLoi(
+                        request,
+                        response,
+                        "ANH_QUA_LON"
+                );
+                return;
+            }
 
-            dao.insert(sp);
+            String originalFileName =
+                    Paths.get(
+                            filePart.getSubmittedFileName()
+                    ).getFileName().toString();
+
+            String contentType =
+                    filePart.getContentType();
+
+            String extension =
+                    getExtension(originalFileName);
+
+            if (!isValidImage(
+                    contentType,
+                    extension
+            )) {
+
+                hienThiLoi(
+                        request,
+                        response,
+                        "SAI_DINH_DANG_ANH"
+                );
+                return;
+            }
+
+            /*
+             * Tạo tên ảnh mới để tránh trùng.
+             */
+            String savedFileName =
+                    System.currentTimeMillis()
+                            + extension.toLowerCase();
+
+            /*
+             * Thư mục lưu ảnh:
+             * src/main/webapp/images
+             */
+            String uploadPath =
+                    getServletContext()
+                            .getRealPath("/images");
+
+            if (uploadPath == null) {
+
+                hienThiLoi(
+                        request,
+                        response,
+                        "KHONG_TAO_DUOC_THU_MUC_ANH"
+                );
+                return;
+            }
+
+            File uploadDirectory =
+                    new File(uploadPath);
+
+            if (!uploadDirectory.exists()
+                    && !uploadDirectory.mkdirs()) {
+
+                hienThiLoi(
+                        request,
+                        response,
+                        "KHONG_TAO_DUOC_THU_MUC_ANH"
+                );
+                return;
+            }
+
+            File savedFile =
+                    new File(
+                            uploadDirectory,
+                            savedFileName
+                    );
+
+            filePart.write(
+                    savedFile.getAbsolutePath()
+            );
+
+            /*
+             * Tạo model sản phẩm.
+             */
+            sanpham sp =
+                    new sanpham();
+
+            sp.setTenSP(
+                    tenSP.trim()
+            );
+
+            sp.setMaDanhMuc(
+                    maDanhMuc.trim()
+            );
+
+            sp.setMaNCC(
+                    maNCC.trim()
+            );
+
+            sp.setMaTrangThaiSP(
+                    maTrangThaiSP.trim()
+            );
+
+            sp.setGiaBan(
+                    giaBan
+            );
+
+            sp.setMoTa(
+                    moTa == null
+                            ? ""
+                            : moTa.trim()
+            );
+
+            sp.setNgayTao(
+                    ngayTao
+            );
+
+            sp.setNgayCapNhat(
+                    ngayCapNhat
+            );
+
+            sp.setAnh(
+                    savedFileName
+            );
+
+            /*
+             * Thêm sản phẩm.
+             */
+            boolean inserted =
+                    dao.insert(sp);
+
+            if (!inserted) {
+
+                /*
+                 * Nếu insert thất bại thì xóa ảnh vừa lưu.
+                 */
+                if (savedFile.exists()) {
+                    savedFile.delete();
+                }
+
+                hienThiLoi(
+                        request,
+                        response,
+                        "THEM_SAN_PHAM_THAT_BAI"
+                );
+                return;
+            }
+
+            session.setAttribute(
+                    "messageCode",
+                    "THEM_SAN_PHAM_THANH_CONG"
+            );
 
             response.sendRedirect(
-                    request.getContextPath() + "/sanpham"
+                    request.getContextPath()
+                            + "/sanpham"
             );
 
-        } catch (NumberFormatException e) {
+        } catch (IllegalStateException e) {
 
-            request.setAttribute(
-                    "error",
-                    "Giá bán không hợp lệ"
+            hienThiLoi(
+                    request,
+                    response,
+                    "ANH_QUA_LON"
             );
-
-            request.getRequestDispatcher("/addsanpham.jsp")
-                    .forward(request, response);
 
         } catch (Exception e) {
 
             e.printStackTrace();
 
-            request.setAttribute(
-                    "error",
-                    "Có lỗi xảy ra khi thêm sản phẩm"
+            hienThiLoi(
+                    request,
+                    response,
+                    "LOI_THEM_SAN_PHAM"
             );
-
-            request.getRequestDispatcher("/addsanpham.jsp")
-                    .forward(request, response);
         }
+    }
+
+    private boolean isBlank(
+            String value) {
+
+        return value == null
+                || value.trim().isEmpty();
+    }
+
+    private String getExtension(
+            String fileName) {
+
+        if (fileName == null) {
+            return "";
+        }
+
+        int dotIndex =
+                fileName.lastIndexOf(".");
+
+        if (dotIndex < 0) {
+            return "";
+        }
+
+        return fileName.substring(dotIndex);
+    }
+
+    private boolean isValidImage(
+            String contentType,
+            String extension) {
+
+        if (contentType == null
+                || extension == null) {
+
+            return false;
+        }
+
+        String type =
+                contentType.toLowerCase();
+
+        String ext =
+                extension.toLowerCase();
+
+        boolean validContentType =
+                type.equals("image/png")
+                        || type.equals("image/jpeg")
+                        || type.equals("image/webp");
+
+        boolean validExtension =
+                ext.equals(".png")
+                        || ext.equals(".jpg")
+                        || ext.equals(".jpeg")
+                        || ext.equals(".webp");
+
+        return validContentType
+                && validExtension;
+    }
+
+    private void hienThiLoi(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            String errorCode)
+            throws ServletException, IOException {
+
+        request.setAttribute(
+                "errorCode",
+                errorCode
+        );
+
+        request.getRequestDispatcher(
+                "/addsanpham.jsp"
+        ).forward(request, response);
     }
 }
