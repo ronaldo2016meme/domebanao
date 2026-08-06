@@ -8,8 +8,19 @@ public class TaiKhoan {
     private boolean trangThai;
     private String maRole;
     private int maNV;
+    private String maTrangThaiNV;
 
     public TaiKhoan() {
+    }
+
+    public TaiKhoan(int maTK, String tenDangNhap, String matKhau, boolean trangThai, String maRole, int maNV, String maTrangThaiNV) {
+        this.maTK = maTK;
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
+        this.trangThai = trangThai;
+        this.maRole = maRole;
+        this.maNV = maNV;
+        this.maTrangThaiNV = maTrangThaiNV;
     }
 
     public int getMaTK() {
@@ -58,5 +69,13 @@ public class TaiKhoan {
 
     public void setMaNV(int maNV) {
         this.maNV = maNV;
+    }
+
+    public String getMaTrangThaiNV() {
+        return maTrangThaiNV;
+    }
+
+    public void setMaTrangThaiNV(String maTrangThaiNV) {
+        this.maTrangThaiNV = maTrangThaiNV;
     }
 }

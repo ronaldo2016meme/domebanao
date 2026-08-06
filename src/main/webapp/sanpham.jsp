@@ -276,11 +276,41 @@
                             </td>
 
                             <td>
-                                <c:out value="${sp.ngayTao}"/>
+                                <c:choose>
+                                    <c:when test="${not empty sp.ngayTao}">
+                                        <fmt:parseDate
+                                                value="${sp.ngayTao}"
+                                                pattern="yyyy-MM-dd"
+                                                var="ngayTaoDate"/>
+
+                                        <fmt:formatDate
+                                                value="${ngayTaoDate}"
+                                                pattern="dd/MM/yyyy"/>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        Chưa cập nhật
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
 
                             <td>
-                                <c:out value="${sp.ngayCapNhat}"/>
+                                <c:choose>
+                                    <c:when test="${not empty sp.ngayCapNhat}">
+                                        <fmt:parseDate
+                                                value="${sp.ngayCapNhat}"
+                                                pattern="yyyy-MM-dd"
+                                                var="ngayCapNhatDate"/>
+
+                                        <fmt:formatDate
+                                                value="${ngayCapNhatDate}"
+                                                pattern="dd/MM/yyyy"/>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        Chưa cập nhật
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
 
                             <td class="product-actions">

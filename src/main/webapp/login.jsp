@@ -39,7 +39,35 @@
 
     </form>
 
-    <p class="error">${error}</p>
+    <c:if test="${not empty errorCode}">
+        <p class="error">
+
+            <c:choose>
+
+                <c:when test="${errorCode == 'THIEU_THONG_TIN'}">
+                    Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.
+                </c:when>
+
+                <c:when test="${errorCode == 'SAI_TAI_KHOAN_MAT_KHAU'}">
+                    Sai tài khoản hoặc mật khẩu.
+                </c:when>
+
+                <c:when test="${errorCode == 'NHAN_VIEN_DA_NGHI_VIEC'}">
+                    Nhân viên đã nghỉ việc, không thể đăng nhập.
+                </c:when>
+
+                <c:when test="${errorCode == 'TAI_KHOAN_BI_KHOA'}">
+                    Tài khoản đã bị khóa.
+                </c:when>
+
+                <c:otherwise>
+                    Có lỗi xảy ra.
+                </c:otherwise>
+
+            </c:choose>
+
+        </p>
+    </c:if>
 
 </div>
 </body>

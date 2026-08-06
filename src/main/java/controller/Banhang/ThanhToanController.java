@@ -6,10 +6,12 @@ import model.ChiTietHoaDon;
 import model.GioHang;
 import model.HoaDon;
 import model.KhachHang;
+import model.TaiKhoan;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -18,103 +20,225 @@ import java.util.List;
 @WebServlet("/thanhToan")
 public class ThanhToanController extends HttpServlet {
 
-    HoaDonDao dao = new HoaDonDao();
-    KhachHangDao khDao = new KhachHangDao();
+    private final HoaDonDao dao =
+            new HoaDonDao();
+
+    private final KhachHangDao khDao =
+            new KhachHangDao();
 
     @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+    protected void doPost(
+            HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
+        HttpSession session =
+                request.getSession(false);
+
+        /*
+         * Kiểm tra đăng nhập.
+         */
+        if (session == null
+                || session.getAttribute("user") == null) {
+
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+            return;
+        }
+
+        /*
+         * Lấy đúng nhân viên đang đăng nhập.
+         */
+        TaiKhoan taiKhoan =
+                (TaiKhoan) session.getAttribute("user");
 
         List<GioHang> gioHang =
                 (List<GioHang>) session.getAttribute("gioHang");
 
         if (gioHang == null || gioHang.isEmpty()) {
 
-            response.sendRedirect("banhang");
+            session.setAttribute(
+                    "errorCode",
+                    "GIO_HANG_TRONG"
+            );
+
+            response.sendRedirect(
+                    request.getContextPath() + "/banhang"
+            );
             return;
         }
 
-        double tongTien =
-                Double.parseDouble(request.getParameter("tongTien"));
+        try {
 
-        double tienKhachDua =
-                Double.parseDouble(request.getParameter("tienKhachDua"));
+            double tongTien =
+                    Double.parseDouble(
+                            request.getParameter("tongTien")
+                    );
 
-        if (tienKhachDua < tongTien) {
+            double tienKhachDua =
+                    Double.parseDouble(
+                            request.getParameter("tienKhachDua")
+                    );
 
-            request.setAttribute("error", "Tien khach đua khong đu");
+            if (tongTien <= 0) {
 
-            request.getRequestDispatcher("/banhang")
-                    .forward(request, response);
+                session.setAttribute(
+                        "errorCode",
+                        "TONG_TIEN_KHONG_HOP_LE"
+                );
 
-            return;
-        }
-
-        HoaDon hd = new HoaDon();
-
-        hd.setNgayLap(new Date(System.currentTimeMillis()));
-        hd.setTongTien(tongTien);
-        hd.setTienKhachDua(tienKhachDua);
-        hd.setTienThua(tienKhachDua - tongTien);
-
-        hd.setPhuongThucThanhToan("Tien mat");
-
-
-        hd.setMaNV(1);
-
-        String sdt = request.getParameter("soDienThoai");
-
-        if (sdt == null || sdt.trim().isEmpty()) {
-
-            hd.setMaKH(null);
-
-        } else {
-
-            KhachHang kh = khDao.getBySoDienThoai(sdt.trim());
-
-            if (kh != null) {
-                hd.setMaKH(kh.getMaKH());
-            } else {
-                hd.setMaKH(null);
+                response.sendRedirect(
+                        request.getContextPath() + "/banhang"
+                );
+                return;
             }
-        }
 
-        hd.setMaTrangThaiHD("TTHD01");
+            if (tienKhachDua < tongTien) {
 
-        List<ChiTietHoaDon> list = new ArrayList<>();
+                session.setAttribute(
+                        "errorCode",
+                        "TIEN_KHACH_DUA_KHONG_DU"
+                );
 
-        for (GioHang g : gioHang) {
+                response.sendRedirect(
+                        request.getContextPath() + "/banhang"
+                );
+                return;
+            }
 
-            ChiTietHoaDon ct = new ChiTietHoaDon();
+            HoaDon hd =
+                    new HoaDon();
 
-            ct.setMaSPCT(g.getMaSPCT());
-            ct.setSoLuong(g.getSoLuong());
-            ct.setDonGia(g.getDonGia());
-            ct.setThanhTien(g.getThanhTien());
+            hd.setNgayLap(
+                    new Date(System.currentTimeMillis())
+            );
 
-            list.add(ct);
-        }
+            hd.setTongTien(tongTien);
+            hd.setTienKhachDua(tienKhachDua);
+            hd.setTienThua(tienKhachDua - tongTien);
 
-        int maHD = dao.thanhToan(hd, list);
+            hd.setPhuongThucThanhToan(
+                    "Tiền mặt"
+            );
 
-        if (maHD > 0) {
+            /*
+             * DÒNG QUAN TRỌNG:
+             * Không dùng hd.setMaNV(1).
+             */
+            hd.setMaNV(
+                    taiKhoan.getMaNV()
+            );
 
-            session.removeAttribute("gioHang");
+            String sdt =
+                    request.getParameter("soDienThoai");
 
-            response.sendRedirect("hoadon?maHD=" + maHD);
-            return;
+            if (sdt == null
+                    || sdt.trim().isEmpty()) {
 
-        } else {
+                hd.setMaKH(null);
 
-            request.setAttribute("error", "Thanh toán thất bại");
+            } else {
 
-            request.getRequestDispatcher("/banhang.jsp")
-                    .forward(request, response);
-            return;
+                KhachHang kh =
+                        khDao.getBySoDienThoai(
+                                sdt.trim()
+                        );
 
+                if (kh != null) {
+                    hd.setMaKH(kh.getMaKH());
+                } else {
+                    hd.setMaKH(null);
+                }
+            }
+
+            hd.setMaTrangThaiHD(
+                    "TTHD01"
+            );
+
+            List<ChiTietHoaDon> list =
+                    new ArrayList<>();
+
+            for (GioHang g : gioHang) {
+
+                ChiTietHoaDon ct =
+                        new ChiTietHoaDon();
+
+                ct.setMaSPCT(
+                        g.getMaSPCT()
+                );
+
+                ct.setSoLuong(
+                        g.getSoLuong()
+                );
+
+                ct.setDonGia(
+                        g.getDonGia()
+                );
+
+                ct.setThanhTien(
+                        g.getThanhTien()
+                );
+
+                list.add(ct);
+            }
+
+            int maHD =
+                    dao.thanhToan(
+                            hd,
+                            list
+                    );
+
+            if (maHD > 0) {
+
+                session.removeAttribute(
+                        "gioHang"
+                );
+
+                response.sendRedirect(
+                        request.getContextPath()
+                                + "/hoadon?maHD="
+                                + maHD
+                );
+                return;
+            }
+
+            session.setAttribute(
+                    "errorCode",
+                    "THANH_TOAN_THAT_BAI"
+            );
+
+            response.sendRedirect(
+                    request.getContextPath() + "/banhang"
+            );
+
+        } catch (NumberFormatException e) {
+
+            session.setAttribute(
+                    "errorCode",
+                    "DU_LIEU_THANH_TOAN_KHONG_HOP_LE"
+            );
+
+            response.sendRedirect(
+                    request.getContextPath() + "/banhang"
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            session.setAttribute(
+                    "errorCode",
+                    "LOI_THANH_TOAN"
+            );
+
+            response.sendRedirect(
+                    request.getContextPath() + "/banhang"
+            );
         }
     }
 }

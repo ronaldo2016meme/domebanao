@@ -13,34 +13,58 @@ public class TaiKhoanDao {
 
         TaiKhoan tk = null;
 
-        String sql = "SELECT * FROM TaiKhoan "
-                + "WHERE TenDangNhap=? AND MatKhau=? AND TrangThai=1";
+        String sql =
+                "SELECT tk.* " +
+                        "FROM TaiKhoan tk " +
+                        "INNER JOIN NHANVIEN nv " +
+                        "ON tk.MaNV = nv.MaNV " +
+                        "WHERE tk.TenDangNhap = ? " +
+                        "AND tk.MatKhau = ? " +
+                        "AND tk.TrangThai = 1 " +
+                        "AND nv.MaTrangThai = 'TTNV01'";
 
-        try {
+        try (
+                Connection con =
+                        new ConnectService().myConnection();
 
-            ConnectService service = new ConnectService();
-            Connection con = service.myConnection();
-
-            PreparedStatement ps = con.prepareStatement(sql);
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
+        ) {
 
             ps.setString(1, user);
             ps.setString(2, pass);
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) {
+                if (rs.next()) {
 
-                tk = new TaiKhoan();
+                    tk = new TaiKhoan();
 
-                tk.setMaTK(rs.getInt("MaTK"));
-                tk.setTenDangNhap(rs.getString("TenDangNhap"));
-                tk.setMaRole(rs.getString("MaRole"));
-                tk.setMaNV(rs.getInt("MaNV"));
+                    tk.setMaTK(
+                            rs.getInt("MaTK")
+                    );
+
+                    tk.setTenDangNhap(
+                            rs.getString("TenDangNhap")
+                    );
+
+                    tk.setMatKhau(
+                            rs.getString("MatKhau")
+                    );
+
+                    tk.setTrangThai(
+                            rs.getBoolean("TrangThai")
+                    );
+
+                    tk.setMaRole(
+                            rs.getString("MaRole")
+                    );
+
+                    tk.setMaNV(
+                            rs.getInt("MaNV")
+                    );
+                }
             }
-
-            rs.close();
-            ps.close();
-            con.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,28 +72,28 @@ public class TaiKhoanDao {
 
         return tk;
     }
+
     // Kiểm tra tên đăng nhập đã tồn tại
     public boolean checkUsername(String username) {
 
-        String sql = "SELECT * FROM TaiKhoan WHERE TenDangNhap=?";
+        String sql =
+                "SELECT 1 " +
+                        "FROM TaiKhoan " +
+                        "WHERE TenDangNhap = ?";
 
-        try {
+        try (
+                Connection con =
+                        new ConnectService().myConnection();
 
-            ConnectService service = new ConnectService();
-            Connection con = service.myConnection();
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
+        ) {
 
-            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
 
-            ResultSet rs = ps.executeQuery();
-
-            boolean exists = rs.next();
-
-            rs.close();
-            ps.close();
-            con.close();
-
-            return exists;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,28 +101,28 @@ public class TaiKhoanDao {
 
         return false;
     }
+
     // Kiểm tra nhân viên đã có tài khoản chưa
     public boolean checkNhanVien(int maNV) {
 
-        String sql = "SELECT * FROM TaiKhoan WHERE MaNV=?";
+        String sql =
+                "SELECT 1 " +
+                        "FROM TaiKhoan " +
+                        "WHERE MaNV = ?";
 
-        try {
+        try (
+                Connection con =
+                        new ConnectService().myConnection();
 
-            ConnectService service = new ConnectService();
-            Connection con = service.myConnection();
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
+        ) {
 
-            PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, maNV);
 
-            ResultSet rs = ps.executeQuery();
-
-            boolean exists = rs.next();
-
-            rs.close();
-            ps.close();
-            con.close();
-
-            return exists;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,32 +130,49 @@ public class TaiKhoanDao {
 
         return false;
     }
+
     // Thêm tài khoản
     public boolean insert(TaiKhoan tk) {
 
-        String sql = "INSERT INTO TaiKhoan "
-                + "(TenDangNhap, MatKhau, TrangThai, MaRole, MaNV) "
-                + "VALUES (?,?,?,?,?)";
+        String sql =
+                "INSERT INTO TaiKhoan " +
+                        "(TenDangNhap, MatKhau, TrangThai, MaRole, MaNV) " +
+                        "VALUES (?, ?, ?, ?, ?)";
 
-        try {
+        try (
+                Connection con =
+                        new ConnectService().myConnection();
 
-            ConnectService service = new ConnectService();
-            Connection con = service.myConnection();
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
+        ) {
 
-            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(
+                    1,
+                    tk.getTenDangNhap()
+            );
 
-            ps.setString(1, tk.getTenDangNhap());
-            ps.setString(2, tk.getMatKhau());
-            ps.setBoolean(3, tk.isTrangThai());
-            ps.setString(4, tk.getMaRole());
-            ps.setInt(5, tk.getMaNV());
+            ps.setString(
+                    2,
+                    tk.getMatKhau()
+            );
 
-            boolean ok = ps.executeUpdate() > 0;
+            ps.setBoolean(
+                    3,
+                    tk.isTrangThai()
+            );
 
-            ps.close();
-            con.close();
+            ps.setString(
+                    4,
+                    tk.getMaRole()
+            );
 
-            return ok;
+            ps.setInt(
+                    5,
+                    tk.getMaNV()
+            );
+
+            return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
             e.printStackTrace();
