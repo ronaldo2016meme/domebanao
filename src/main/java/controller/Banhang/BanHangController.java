@@ -1,9 +1,11 @@
 package controller.Banhang;
 
 import dao.MauSacDao;
+import dao.MaGiamGiaDao;
 import dao.SanPhamChiTietDao;
 import dao.SanPhamDao;
 import dao.SizeDao;
+
 import model.GioHang;
 import model.SanPhamChiTiet;
 
@@ -33,6 +35,12 @@ public class BanHangController extends HttpServlet {
     private final SizeDao sizeDao =
             new SizeDao();
 
+    // ================= MÃ GIẢM GIÁ =================
+
+    private final MaGiamGiaDao maGiamGiaDao =
+            new MaGiamGiaDao();
+
+
     @Override
     public void init() throws ServletException {
 
@@ -50,6 +58,7 @@ public class BanHangController extends HttpServlet {
         );
     }
 
+
     @Override
     protected void doGet(
             HttpServletRequest request,
@@ -65,31 +74,39 @@ public class BanHangController extends HttpServlet {
         HttpSession session =
                 request.getSession(false);
 
+        // ================= KIỂM TRA ĐĂNG NHẬP =================
+
         if (session == null
                 || session.getAttribute("user") == null) {
 
             response.sendRedirect(
                     request.getContextPath() + "/login"
             );
+
             return;
         }
 
+
         try {
 
+            // ================= SẢN PHẨM =================
 
             request.setAttribute(
                     "listSP",
                     sanPhamDao.getAll()
             );
 
+
+            // ================= CHI TIẾT SẢN PHẨM =================
+
             request.setAttribute(
                     "listChiTiet",
                     chiTietDao.getAll()
             );
 
-            /*
-             * Màu và size dùng dữ liệu đã tải trong init().
-             */
+
+            // ================= MÀU =================
+
             request.setAttribute(
                     "listMau",
                     getServletContext().getAttribute(
@@ -97,12 +114,26 @@ public class BanHangController extends HttpServlet {
                     )
             );
 
+
+            // ================= SIZE =================
+
             request.setAttribute(
                     "listSize",
                     getServletContext().getAttribute(
                             "danhSachSizeBanHang"
                     )
             );
+
+
+            // ================= MÃ GIẢM GIÁ =================
+
+            request.setAttribute(
+                    "listMaGiamGia",
+                    maGiamGiaDao.getAllDangHoatDong()
+            );
+
+
+            // ================= THÔNG BÁO =================
 
             chuyenThongBao(
                     session,
@@ -116,9 +147,16 @@ public class BanHangController extends HttpServlet {
                     "messageCode"
             );
 
+
+            // ================= HIỂN THỊ TRANG =================
+
             request.getRequestDispatcher(
                     "/banhang.jsp"
-            ).forward(request, response);
+            ).forward(
+                    request,
+                    response
+            );
+
 
         } catch (Exception e) {
 
@@ -135,6 +173,7 @@ public class BanHangController extends HttpServlet {
         }
     }
 
+
     @Override
     protected void doPost(
             HttpServletRequest request,
@@ -147,14 +186,19 @@ public class BanHangController extends HttpServlet {
         HttpSession session =
                 request.getSession(false);
 
+
+        // ================= KIỂM TRA ĐĂNG NHẬP =================
+
         if (session == null
                 || session.getAttribute("user") == null) {
 
             response.sendRedirect(
                     request.getContextPath() + "/login"
             );
+
             return;
         }
+
 
         try {
 
@@ -163,11 +207,16 @@ public class BanHangController extends HttpServlet {
                             request.getParameter("maSP")
                     );
 
+
             String maMau =
                     request.getParameter("maMau");
 
+
             String maSize =
                     request.getParameter("maSize");
+
+
+            // ================= KIỂM TRA MÀU SIZE =================
 
             if (isBlank(maMau)
                     || isBlank(maSize)) {
@@ -181,8 +230,12 @@ public class BanHangController extends HttpServlet {
                         request,
                         response
                 );
+
                 return;
             }
+
+
+            // ================= LẤY BIẾN THỂ =================
 
             SanPhamChiTiet sp =
                     chiTietDao.getBySanPhamMauSize(
@@ -190,6 +243,7 @@ public class BanHangController extends HttpServlet {
                             maMau,
                             maSize
                     );
+
 
             if (sp == null) {
 
@@ -202,8 +256,12 @@ public class BanHangController extends HttpServlet {
                         request,
                         response
                 );
+
                 return;
             }
+
+
+            // ================= KIỂM TRA TỒN KHO =================
 
             if (sp.getSoLuongTon() <= 0) {
 
@@ -216,8 +274,12 @@ public class BanHangController extends HttpServlet {
                         request,
                         response
                 );
+
                 return;
             }
+
+
+            // ================= LẤY GIỎ HÀNG =================
 
             List<GioHang> gioHang =
                     (List<GioHang>)
@@ -225,16 +287,24 @@ public class BanHangController extends HttpServlet {
                                     "gioHang"
                             );
 
+
             if (gioHang == null) {
-                gioHang = new ArrayList<>();
+
+                gioHang =
+                        new ArrayList<>();
             }
 
+
             boolean daTonTai = false;
+
+
+            // ================= KIỂM TRA SẢN PHẨM ĐÃ CÓ =================
 
             for (GioHang item : gioHang) {
 
                 if (item.getMaSPCT()
                         == sp.getMaSPCT()) {
+
 
                     if (item.getSoLuong()
                             < sp.getSoLuongTon()) {
@@ -242,6 +312,7 @@ public class BanHangController extends HttpServlet {
                         item.setSoLuong(
                                 item.getSoLuong() + 1
                         );
+
 
                         session.setAttribute(
                                 "messageCode",
@@ -256,39 +327,52 @@ public class BanHangController extends HttpServlet {
                         );
                     }
 
+
                     daTonTai = true;
+
                     break;
                 }
             }
+
+
+            // ================= THÊM SẢN PHẨM MỚI =================
 
             if (!daTonTai) {
 
                 GioHang item =
                         new GioHang();
 
+
                 item.setMaSPCT(
                         sp.getMaSPCT()
                 );
+
 
                 item.setTenSP(
                         sp.getTenSP()
                 );
 
+
                 item.setTenMau(
                         sp.getTenMau()
                 );
+
 
                 item.setTenSize(
                         sp.getTenSize()
                 );
 
+
                 item.setDonGia(
                         sp.getGiaBan().doubleValue()
                 );
 
+
                 item.setSoLuong(1);
 
+
                 gioHang.add(item);
+
 
                 session.setAttribute(
                         "messageCode",
@@ -296,10 +380,12 @@ public class BanHangController extends HttpServlet {
                 );
             }
 
+
             session.setAttribute(
                     "gioHang",
                     gioHang
             );
+
 
         } catch (NumberFormatException e) {
 
@@ -307,6 +393,7 @@ public class BanHangController extends HttpServlet {
                     "errorCode",
                     "DU_LIEU_KHONG_HOP_LE"
             );
+
 
         } catch (Exception e) {
 
@@ -318,11 +405,17 @@ public class BanHangController extends HttpServlet {
             );
         }
 
+
         redirectBanHang(
                 request,
                 response
         );
     }
+
+
+    // =====================================================
+    // CHUYỂN THÔNG BÁO SESSION -> REQUEST
+    // =====================================================
 
     private void chuyenThongBao(
             HttpSession session,
@@ -333,6 +426,7 @@ public class BanHangController extends HttpServlet {
                 session.getAttribute(
                         tenThuocTinh
                 );
+
 
         if (value != null) {
 
@@ -347,6 +441,11 @@ public class BanHangController extends HttpServlet {
         }
     }
 
+
+    // =====================================================
+    // KIỂM TRA CHUỖI RỖNG
+    // =====================================================
+
     private boolean isBlank(
             String value) {
 
@@ -354,13 +453,19 @@ public class BanHangController extends HttpServlet {
                 || value.trim().isEmpty();
     }
 
+
+    // =====================================================
+    // QUAY LẠI TRANG BÁN HÀNG
+    // =====================================================
+
     private void redirectBanHang(
             HttpServletRequest request,
             HttpServletResponse response)
             throws IOException {
 
         response.sendRedirect(
-                request.getContextPath() + "/banhang"
+                request.getContextPath()
+                        + "/banhang"
         );
     }
 }

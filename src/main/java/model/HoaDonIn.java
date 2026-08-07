@@ -20,11 +20,12 @@ public class HoaDonIn {
     private double tongTien;
     private double tienKhachDua;
     private double tienThua;
+    private double tienGiam;
 
     public HoaDonIn() {
     }
 
-    public HoaDonIn(int maHD, Date ngayLap, String tenKH, String tenNV, String tenSP, String tenMau, String tenSize, int soLuong, double donGia, double thanhTien, double tongTien, double tienKhachDua, double tienThua) {
+    public HoaDonIn(int maHD, Date ngayLap, String tenKH, String tenNV, String tenSP, String tenMau, String tenSize, int soLuong, double donGia, double thanhTien, double tongTien, double tienKhachDua, double tienThua, double tienGiam) {
         this.maHD = maHD;
         this.ngayLap = ngayLap;
         this.tenKH = tenKH;
@@ -38,6 +39,7 @@ public class HoaDonIn {
         this.tongTien = tongTien;
         this.tienKhachDua = tienKhachDua;
         this.tienThua = tienThua;
+        this.tienGiam = tienGiam;
     }
 
     public int getMaHD() {
@@ -142,5 +144,13 @@ public class HoaDonIn {
 
     public void setTienThua(double tienThua) {
         this.tienThua = tienThua;
+    }
+
+    public double getTienGiam() {
+        return tienGiam;
+    }
+
+    public void setTienGiam(double tienGiam) {
+        this.tienGiam = tienGiam;
     }
 }

@@ -96,7 +96,9 @@ public class TimKhachHangController extends HttpServlet {
                         + escapeJson(
                         khachHang.getSdt()
                 )
-                        + "\""
+                        + "\","
+                        + "\"diemTichLuy\":"
+                        + khachHang.getDiemTichLuy()
                         + "}"
         );
     }

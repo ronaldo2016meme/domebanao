@@ -1,88 +1,249 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8"
+         pageEncoding="UTF-8"
+         isELIgnored="false" %>
+
+<%@ taglib prefix="c"
+           uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix="fmt"
+           uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Quản lý mã giảm giá</title>
+<html lang="vi">
 
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/style.css">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Quản lý mã giảm giá</title>
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css?v=101">
 
 </head>
+
 <body>
 
-<%@ include file="menu.jsp"%>
+<%@ include file="menu.jsp" %>
 
-<div class="container">
+
+<div class="mgg-container">
 
     <h2>QUẢN LÝ MÃ GIẢM GIÁ</h2>
 
-    <a href="addMaGiamGia" class="btn">+ Thêm mã giảm giá</a>
 
-    <br><br>
+    <div class="mgg-header-buttons">
 
-    <table class="table">
+        <a href="${pageContext.request.contextPath}/addMaGiamGia"
+           class="mgg-add-btn">
+
+            + Thêm mã giảm giá
+
+        </a>
+
+
+        <a href="${pageContext.request.contextPath}/home"
+           class="back">
+
+            Quay lại
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= THÔNG BÁO ================= -->
+
+    <c:if test="${not empty message}">
+
+        <div class="alert alert-success">
+            ${message}
+        </div>
+
+    </c:if>
+
+
+    <c:if test="${not empty error}">
+
+        <div class="alert alert-error">
+            ${error}
+        </div>
+
+    </c:if>
+
+
+    <!-- ================= BẢNG ================= -->
+
+    <table class="mgg-table">
+
+        <thead>
 
         <tr>
+
             <th>Mã</th>
-            <th>Tên</th>
-            <th>Điểm đổi</th>
-            <th>Giảm (%)</th>
-            <th>Giảm tối đa</th>
-            <th>Ngày bắt đầu</th>
-            <th>Ngày kết thúc</th>
+
+            <th>Code</th>
+
+            <th>Tên mã</th>
+
+            <th>Giảm</th>
+
+            <th>Điểm cần</th>
+
+            <th>Bắt đầu</th>
+
+            <th>Kết thúc</th>
+
             <th>Số lượng</th>
+
             <th>Trạng thái</th>
-            <th>Chức năng</th>
+
+            <th>Thao tác</th>
+
         </tr>
 
-        <c:forEach items="${list}" var="m">
+        </thead>
 
-            <tr>
 
-                <td>${m.maCode}</td>
+        <tbody>
 
-                <td>${m.tenMa}</td>
+        <c:choose>
 
-                <td>${m.diemCan}</td>
+            <c:when test="${not empty listMaGiamGia}">
 
-                <td>${m.phanTramGiam}%</td>
+                <c:forEach items="${listMaGiamGia}"
+                           var="m">
 
-                <td>${m.giamToiDa}</td>
+                    <tr>
 
-                <td>${m.ngayBatDau}</td>
+                        <td>
+                            ${m.maMGG}
+                        </td>
 
-                <td>${m.ngayKetThuc}</td>
 
-                <td>${m.soLuong}</td>
+                        <td class="mgg-code">
 
-                <td>
-                    <c:choose>
-                        <c:when test="${m.trangThai}">
-                            Hoạt động
-                        </c:when>
-                        <c:otherwise>
-                            Ngừng
-                        </c:otherwise>
-                    </c:choose>
-                </td>
+                            <strong>
+                                ${m.maCode}
+                            </strong>
 
-                <td>
-                    <a class="btn"
-                       href="editMaGiamGia?id=${m.maGiamGia}">
-                        Sửa
-                    </a>
-                </td>
+                        </td>
 
-            </tr>
 
-        </c:forEach>
+                        <td class="mgg-name">
+
+                            ${m.tenMGG}
+
+                        </td>
+
+
+                        <td class="mgg-percent">
+
+                            <strong>
+                                ${m.phanTramGiam}%
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            ${m.diemCan}
+
+                        </td>
+
+
+                        <td class="mgg-date">
+
+                            <fmt:formatDate
+                                    value="${m.ngayBatDau}"
+                                    pattern="dd/MM/yyyy"/>
+
+                        </td>
+
+
+                        <td class="mgg-date">
+
+                            <fmt:formatDate
+                                    value="${m.ngayKetThuc}"
+                                    pattern="dd/MM/yyyy"/>
+
+                        </td>
+
+
+                        <td>
+
+                            ${m.soLuong}
+
+                        </td>
+
+
+                        <td class="mgg-status">
+
+                            <c:choose>
+
+                                <c:when test="${m.trangThai}">
+
+                                    <span class="status-active">
+                                        Đang hoạt động
+                                    </span>
+
+                                </c:when>
+
+                                <c:otherwise>
+
+                                    <span class="status-inactive">
+                                        Ngừng hoạt động
+                                    </span>
+
+                                </c:otherwise>
+
+                            </c:choose>
+
+                        </td>
+
+
+                        <td class="mgg-action">
+
+                            <a href="${pageContext.request.contextPath}/editMaGiamGia?maMGG=${m.maMGG}"
+                               class="mgg-edit-btn">
+
+                                Sửa
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                </c:forEach>
+
+            </c:when>
+
+
+            <c:otherwise>
+
+                <tr>
+
+                    <td colspan="10"
+                        class="mgg-empty">
+
+                        Chưa có mã giảm giá nào.
+
+                    </td>
+
+                </tr>
+
+            </c:otherwise>
+
+        </c:choose>
+
+        </tbody>
 
     </table>
 
 </div>
 
 </body>
+
 </html>

@@ -1,5 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8"
+         pageEncoding="UTF-8"
+         isELIgnored="false"%>
+
+<%@ taglib prefix="c"
+           uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,33 +20,40 @@
 
 <body>
 
-<div class="container">
+<%@ include file="menu.jsp" %>
 
-    <h2>Thêm khách hàng</h2>
+<div class="form-container">
+
+    <h2>THÊM KHÁCH HÀNG</h2>
 
     <form action="${pageContext.request.contextPath}/addKhachHang"
           method="post">
 
-        <!-- Giữ lại trang cần quay về -->
+        <!-- Trang quay lại -->
         <input type="hidden"
                name="returnUrl"
                value="${returnUrl}">
 
+        <!-- Thông báo lỗi -->
         <c:if test="${not empty error}">
 
-            <div style="color: red; margin-bottom: 10px;">
+            <div class="error-message">
                 ${error}
             </div>
 
         </c:if>
 
+        <!-- Họ tên -->
         <label>Họ tên</label>
 
         <input type="text"
                name="hoTen"
                value="${kh.hoTen}"
+               placeholder="Nhập họ tên"
                required>
 
+
+        <!-- Số điện thoại -->
         <label>Số điện thoại</label>
 
         <input type="text"
@@ -51,26 +62,30 @@
                maxlength="10"
                pattern="0[0-9]{9}"
                inputmode="numeric"
+               placeholder="0981234567"
                required>
 
+
+        <!-- Địa chỉ -->
         <label>Địa chỉ</label>
 
         <input type="text"
                name="diaChi"
                value="${kh.diaChi}"
+               placeholder="Nhập địa chỉ"
                required>
+
 
         <div class="form-actions">
 
             <button type="submit" class="btn">
-                Cập nhật
+                Thêm khách hàng
             </button>
 
-            <!-- Chỉ có đúng một nút quay lại -->
-                <a href="${pageContext.request.contextPath}/${returnUrl}"
-                   class="back">
-                    Quay lại
-                </a>
+            <a href="${pageContext.request.contextPath}/${returnUrl}"
+               class="back">
+                Quay lại
+            </a>
 
         </div>
 

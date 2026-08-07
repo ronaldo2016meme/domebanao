@@ -11,12 +11,12 @@ public class MaGiamGia {
     private Date ngayBatDau;
     private Date ngayKetThuc;
     private int soLuong;
-    private String trangThai;
+    private boolean trangThai;
 
     public MaGiamGia() {
     }
 
-    public MaGiamGia(int maMGG, String maCode, String tenMGG, int phanTramGiam, int diemCan, Date ngayBatDau, Date ngayKetThuc, int soLuong, String trangThai) {
+    public MaGiamGia(int maMGG, String maCode, String tenMGG, int phanTramGiam, int diemCan, Date ngayBatDau, Date ngayKetThuc, int soLuong, boolean trangThai) {
         this.maMGG = maMGG;
         this.maCode = maCode;
         this.tenMGG = tenMGG;
@@ -92,11 +92,11 @@ public class MaGiamGia {
         this.soLuong = soLuong;
     }
 
-    public String getTrangThai() {
+    public boolean isTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(String trangThai) {
+    public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
 }

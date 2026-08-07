@@ -8,18 +8,11 @@
     </a>
 
     <a href="${pageContext.request.contextPath}/sanpham">
-        Quản lý sản phẩm
+        Sản phẩm
     </a>
 
-    <%-- Chỉ quản lý mới thấy quản lý nhân viên --%>
-    <c:if test="${sessionScope.user.maRole == 'R01'}">
-        <a href="${pageContext.request.contextPath}/employee">
-            Quản lý nhân viên
-        </a>
-    </c:if>
-
     <a href="${pageContext.request.contextPath}/khachhang">
-        Quản lý khách hàng
+        Khách hàng
     </a>
 
     <a href="${pageContext.request.contextPath}/banhang">
@@ -30,11 +23,33 @@
         Hóa đơn
     </a>
 
-    <%-- Chỉ quản lý mới thấy doanh thu --%>
-    <c:if test="${sessionScope.user.maRole == 'R01'}">
-        <a href="${pageContext.request.contextPath}/thongke">
-            Doanh thu
-        </a>
+    <a href="${pageContext.request.contextPath}/maGiamGia">
+        Giảm giá
+    </a>
+
+    <c:if test="${sessionScope.user != null && sessionScope.user.maRole == 'R01'}">
+
+        <div class="menu-dropdown">
+
+            <button type="button" class="menu-dropdown-btn">
+                Quản trị
+                <span>▼</span>
+            </button>
+
+            <div class="menu-dropdown-content">
+
+                <a href="${pageContext.request.contextPath}/employee">
+                    Nhân viên
+                </a>
+
+                <a href="${pageContext.request.contextPath}/thongke">
+                    Doanh thu
+                </a>
+
+            </div>
+
+        </div>
+
     </c:if>
 
 </div>

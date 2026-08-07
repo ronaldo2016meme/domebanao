@@ -3,9 +3,9 @@ package dao;
 import model.ChiTietHoaDon;
 import model.HoaDon;
 import service.ConnectService;
-import java.util.ArrayList;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDao {
@@ -21,41 +21,75 @@ public class HoaDonDao {
             con.setAutoCommit(false);
 
             // ======================
-            // Thêm hóa đơn
+            // THÊM HÓA ĐƠN
             // ======================
 
             String sqlHD =
                     "INSERT INTO HOADON(" +
                             "NgayLap," +
                             "TongTien," +
+                            "TienGiam," +
                             "TienKhachDua," +
                             "TienThua," +
                             "PhuongThucThanhToan," +
                             "MaNV," +
                             "MaKH," +
                             "MaTrangThaiHD)" +
-                            " VALUES(?,?,?,?,?,?,?,?)";
+                            " VALUES(?,?,?,?,?,?,?,?,?)";
 
             PreparedStatement psHD =
-                    con.prepareStatement(sqlHD,
-                            Statement.RETURN_GENERATED_KEYS);
+                    con.prepareStatement(
+                            sqlHD,
+                            Statement.RETURN_GENERATED_KEYS
+                    );
 
             psHD.setDate(1, hd.getNgayLap());
+
+            // Tổng tiền sau giảm
             psHD.setDouble(2, hd.getTongTien());
-            psHD.setDouble(3, hd.getTienKhachDua());
-            psHD.setDouble(4, hd.getTienThua());
-            psHD.setString(5, hd.getPhuongThucThanhToan());
-            psHD.setInt(6, hd.getMaNV());
+
+            // Số tiền được giảm
+            psHD.setDouble(3, hd.getTienGiam());
+
+            psHD.setDouble(4, hd.getTienKhachDua());
+
+            psHD.setDouble(5, hd.getTienThua());
+
+            psHD.setString(
+                    6,
+                    hd.getPhuongThucThanhToan()
+            );
+
+            psHD.setInt(
+                    7,
+                    hd.getMaNV()
+            );
+
+            // Khách hàng có thể NULL
             if (hd.getMaKH() == null) {
-                psHD.setNull(7, java.sql.Types.INTEGER);
+
+                psHD.setNull(
+                        8,
+                        Types.INTEGER
+                );
+
             } else {
-                psHD.setInt(7, hd.getMaKH());
+
+                psHD.setInt(
+                        8,
+                        hd.getMaKH()
+                );
             }
-            psHD.setString(8, hd.getMaTrangThaiHD());
+
+            psHD.setString(
+                    9,
+                    hd.getMaTrangThaiHD()
+            );
 
             psHD.executeUpdate();
 
-            ResultSet rs = psHD.getGeneratedKeys();
+            ResultSet rs =
+                    psHD.getGeneratedKeys();
 
             int maHD = 0;
 
@@ -66,12 +100,12 @@ public class HoaDonDao {
             } else {
 
                 con.rollback();
-                return -1;
 
+                return -1;
             }
 
             // ======================
-            // Thêm chi tiết hóa đơn
+            // THÊM CHI TIẾT HÓA ĐƠN
             // ======================
 
             String sqlCT =
@@ -87,7 +121,7 @@ public class HoaDonDao {
                     con.prepareStatement(sqlCT);
 
             // ======================
-            // Trừ tồn kho
+            // TRỪ TỒN KHO
             // ======================
 
             String sqlTon =
@@ -100,7 +134,9 @@ public class HoaDonDao {
 
             for (ChiTietHoaDon ct : list) {
 
-                // Kiểm tra tồn kho
+                // ======================
+                // KIỂM TRA TỒN KHO
+                // ======================
 
                 String sqlCheck =
                         "SELECT SoLuongTon " +
@@ -110,42 +146,77 @@ public class HoaDonDao {
                 PreparedStatement psCheck =
                         con.prepareStatement(sqlCheck);
 
-                psCheck.setInt(1, ct.getMaSPCT());
+                psCheck.setInt(
+                        1,
+                        ct.getMaSPCT()
+                );
 
                 ResultSet rsTon =
                         psCheck.executeQuery();
 
                 if (rsTon.next()) {
 
-                    int ton = rsTon.getInt("SoLuongTon");
+                    int ton =
+                            rsTon.getInt(
+                                    "SoLuongTon"
+                            );
 
                     if (ct.getSoLuong() > ton) {
 
                         con.rollback();
 
                         return -1;
-
                     }
-
                 }
 
-                // Lưu chi tiết hóa đơn
+                // ======================
+                // LƯU CHI TIẾT HÓA ĐƠN
+                // ======================
 
-                psCT.setInt(1, maHD);
-                psCT.setInt(2, ct.getMaSPCT());
-                psCT.setInt(3, ct.getSoLuong());
-                psCT.setDouble(4, ct.getDonGia());
-                psCT.setDouble(5, ct.getThanhTien());
+                psCT.setInt(
+                        1,
+                        maHD
+                );
+
+                psCT.setInt(
+                        2,
+                        ct.getMaSPCT()
+                );
+
+                psCT.setInt(
+                        3,
+                        ct.getSoLuong()
+                );
+
+                // Giữ nguyên đơn giá gốc
+                psCT.setDouble(
+                        4,
+                        ct.getDonGia()
+                );
+
+                // Giữ nguyên thành tiền gốc
+                psCT.setDouble(
+                        5,
+                        ct.getThanhTien()
+                );
 
                 psCT.executeUpdate();
 
-                // Trừ tồn
+                // ======================
+                // TRỪ TỒN
+                // ======================
 
-                psTon.setInt(1, ct.getSoLuong());
-                psTon.setInt(2, ct.getMaSPCT());
+                psTon.setInt(
+                        1,
+                        ct.getSoLuong()
+                );
+
+                psTon.setInt(
+                        2,
+                        ct.getMaSPCT()
+                );
 
                 psTon.executeUpdate();
-
             }
 
             con.commit();
@@ -158,14 +229,13 @@ public class HoaDonDao {
 
             try {
 
-                if (con != null)
-
+                if (con != null) {
                     con.rollback();
+                }
 
             } catch (Exception ex) {
 
                 ex.printStackTrace();
-
             }
 
         } finally {
@@ -177,181 +247,363 @@ public class HoaDonDao {
                     con.setAutoCommit(true);
 
                     con.close();
-
                 }
 
             } catch (Exception e) {
 
                 e.printStackTrace();
-
             }
-
         }
 
         return -1;
-
     }
-    private HoaDon mapHoaDon(ResultSet rs) throws SQLException {
 
-        HoaDon hd = new HoaDon();
 
-        hd.setMaHD(rs.getInt("MaHD"));
-        hd.setNgayLap(rs.getDate("NgayLap"));
-        hd.setTongTien(rs.getDouble("TongTien"));
-        hd.setTienKhachDua(rs.getDouble("TienKhachDua"));
-        hd.setTienThua(rs.getDouble("TienThua"));
-        hd.setPhuongThucThanhToan(
-                rs.getString("PhuongThucThanhToan")
+    // =====================================================
+    // MAP HÓA ĐƠN
+    // =====================================================
+
+    private HoaDon mapHoaDon(
+            ResultSet rs)
+            throws SQLException {
+
+        HoaDon hd =
+                new HoaDon();
+
+        hd.setMaHD(
+                rs.getInt("MaHD")
         );
 
-        hd.setMaNV(rs.getInt("MaNV"));
+        hd.setNgayLap(
+                rs.getDate("NgayLap")
+        );
 
-        int maKH = rs.getInt("MaKH");
+        hd.setTongTien(
+                rs.getDouble("TongTien")
+        );
+
+        // THÊM TIỀN GIẢM
+        hd.setTienGiam(
+                rs.getDouble("TienGiam")
+        );
+
+        hd.setTienKhachDua(
+                rs.getDouble("TienKhachDua")
+        );
+
+        hd.setTienThua(
+                rs.getDouble("TienThua")
+        );
+
+        hd.setPhuongThucThanhToan(
+                rs.getString(
+                        "PhuongThucThanhToan"
+                )
+        );
+
+        hd.setMaNV(
+                rs.getInt("MaNV")
+        );
+
+        int maKH =
+                rs.getInt("MaKH");
 
         if (rs.wasNull()) {
+
             hd.setMaKH(null);
+
         } else {
+
             hd.setMaKH(maKH);
         }
 
         hd.setMaTrangThaiHD(
-                rs.getString("MaTrangThaiHD")
+                rs.getString(
+                        "MaTrangThaiHD"
+                )
         );
 
-        hd.setTenKH(rs.getString("TenKH"));
-        hd.setTenNV(rs.getString("TenNV"));
-        hd.setTenTrangThai(rs.getString("TenTrangThai"));
+        hd.setTenKH(
+                rs.getString("TenKH")
+        );
+
+        hd.setTenNV(
+                rs.getString("TenNV")
+        );
+
+        hd.setTenTrangThai(
+                rs.getString("TenTrangThai")
+        );
 
         return hd;
     }
+
+
+    // =====================================================
+    // LẤY TẤT CẢ HÓA ĐƠN
+    // =====================================================
+
     public List<HoaDon> getAllHoaDon() {
 
-        List<HoaDon> list = new ArrayList<>();
+        List<HoaDon> list =
+                new ArrayList<>();
 
         String sql =
-                "SELECT hd.MaHD, hd.NgayLap, hd.TongTien, " +
-                        "hd.TienKhachDua, hd.TienThua, " +
-                        "hd.PhuongThucThanhToan, hd.MaNV, hd.MaKH, " +
+                "SELECT " +
+                        "hd.MaHD, " +
+                        "hd.NgayLap, " +
+                        "hd.TongTien, " +
+                        "hd.TienGiam, " +
+                        "hd.TienKhachDua, " +
+                        "hd.TienThua, " +
+                        "hd.PhuongThucThanhToan, " +
+                        "hd.MaNV, " +
+                        "hd.MaKH, " +
                         "hd.MaTrangThaiHD, " +
+
                         "ISNULL(kh.HoTen, '') AS TenKH, " +
-                        "ISNULL(nv.HoTen, N'Không xác định') AS TenNV, " +
-                        "ISNULL(tt.TenTrangThai, hd.MaTrangThaiHD) AS TenTrangThai " +
+
+                        "ISNULL(" +
+                        "nv.HoTen, " +
+                        "N'Không xác định'" +
+                        ") AS TenNV, " +
+
+                        "ISNULL(" +
+                        "tt.TenTrangThai, " +
+                        "hd.MaTrangThaiHD" +
+                        ") AS TenTrangThai " +
+
                         "FROM HOADON hd " +
-                        "LEFT JOIN KHACHHANG kh ON hd.MaKH = kh.MaKH " +
-                        "LEFT JOIN NHANVIEN nv ON hd.MaNV = nv.MaNV " +
+
+                        "LEFT JOIN KHACHHANG kh " +
+                        "ON hd.MaKH = kh.MaKH " +
+
+                        "LEFT JOIN NHANVIEN nv " +
+                        "ON hd.MaNV = nv.MaNV " +
+
                         "LEFT JOIN TrangThaiHoaDon tt " +
                         "ON hd.MaTrangThaiHD = tt.MaTrangThaiHD " +
+
                         "ORDER BY hd.MaHD DESC";
 
         try (
-                Connection con = new ConnectService().myConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()
+                Connection con =
+                        new ConnectService()
+                                .myConnection();
+
+                PreparedStatement ps =
+                        con.prepareStatement(sql);
+
+                ResultSet rs =
+                        ps.executeQuery()
         ) {
 
             while (rs.next()) {
 
-                HoaDon hd = mapHoaDon(rs);
+                HoaDon hd =
+                        mapHoaDon(rs);
 
                 list.add(hd);
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 
         return list;
     }
-    public HoaDon getHoaDonById(int maHD) {
+
+
+    // =====================================================
+    // LẤY HÓA ĐƠN THEO ID
+    // =====================================================
+
+    public HoaDon getHoaDonById(
+            int maHD) {
 
         String sql =
-                "SELECT hd.MaHD, hd.NgayLap, hd.TongTien, " +
-                        "hd.TienKhachDua, hd.TienThua, " +
-                        "hd.PhuongThucThanhToan, hd.MaNV, hd.MaKH, " +
+                "SELECT " +
+                        "hd.MaHD, " +
+                        "hd.NgayLap, " +
+                        "hd.TongTien, " +
+                        "hd.TienGiam, " +
+                        "hd.TienKhachDua, " +
+                        "hd.TienThua, " +
+                        "hd.PhuongThucThanhToan, " +
+                        "hd.MaNV, " +
+                        "hd.MaKH, " +
                         "hd.MaTrangThaiHD, " +
-                        "ISNULL(kh.HoTen, '') AS TenKH," +
-                        "ISNULL(nv.HoTen, N'Không xác định') AS TenNV, " +
-                        "ISNULL(tt.TenTrangThai, hd.MaTrangThaiHD) AS TenTrangThai " +
+
+                        "ISNULL(kh.HoTen, '') AS TenKH, " +
+
+                        "ISNULL(" +
+                        "nv.HoTen, " +
+                        "N'Không xác định'" +
+                        ") AS TenNV, " +
+
+                        "ISNULL(" +
+                        "tt.TenTrangThai, " +
+                        "hd.MaTrangThaiHD" +
+                        ") AS TenTrangThai " +
+
                         "FROM HOADON hd " +
-                        "LEFT JOIN KHACHHANG kh ON hd.MaKH = kh.MaKH " +
-                        "LEFT JOIN NHANVIEN nv ON hd.MaNV = nv.MaNV " +
+
+                        "LEFT JOIN KHACHHANG kh " +
+                        "ON hd.MaKH = kh.MaKH " +
+
+                        "LEFT JOIN NHANVIEN nv " +
+                        "ON hd.MaNV = nv.MaNV " +
+
                         "LEFT JOIN TrangThaiHoaDon tt " +
                         "ON hd.MaTrangThaiHD = tt.MaTrangThaiHD " +
+
                         "WHERE hd.MaHD = ?";
 
         try (
-                Connection con = new ConnectService().myConnection();
-                PreparedStatement ps = con.prepareStatement(sql)
+                Connection con =
+                        new ConnectService()
+                                .myConnection();
+
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
         ) {
 
-            ps.setInt(1, maHD);
+            ps.setInt(
+                    1,
+                    maHD
+            );
 
-            try (ResultSet rs = ps.executeQuery()) {
+            try (
+                    ResultSet rs =
+                            ps.executeQuery()
+            ) {
 
                 if (rs.next()) {
+
                     return mapHoaDon(rs);
                 }
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 
         return null;
     }
-    public List<ChiTietHoaDon> getChiTietHoaDon(int maHD) {
 
-        List<ChiTietHoaDon> list = new ArrayList<>();
+
+    // =====================================================
+    // LẤY CHI TIẾT HÓA ĐƠN
+    // =====================================================
+
+    public List<ChiTietHoaDon>
+    getChiTietHoaDon(int maHD) {
+
+        List<ChiTietHoaDon> list =
+                new ArrayList<>();
 
         String sql =
-                "SELECT ct.MaCTHD, ct.MaHD, ct.MaSPCT, " +
-                        "ct.SoLuong, ct.DonGia, ct.ThanhTien, " +
-                        "sp.TenSP, ms.TenMau, s.TenSize " +
+                "SELECT " +
+                        "ct.MaCTHD, " +
+                        "ct.MaHD, " +
+                        "ct.MaSPCT, " +
+                        "ct.SoLuong, " +
+                        "ct.DonGia, " +
+                        "ct.ThanhTien, " +
+
+                        "sp.TenSP, " +
+                        "ms.TenMau, " +
+                        "s.TenSize " +
+
                         "FROM CHITIETHOADON ct " +
+
                         "INNER JOIN SANPHAMCHITIET spct " +
                         "ON ct.MaSPCT = spct.MaSPCT " +
+
                         "INNER JOIN SANPHAM sp " +
                         "ON spct.MaSP = sp.MaSP " +
+
                         "INNER JOIN MauSac ms " +
                         "ON spct.MaMau = ms.MaMau " +
+
                         "INNER JOIN Size s " +
                         "ON spct.MaSize = s.MaSize " +
+
                         "WHERE ct.MaHD = ? " +
+
                         "ORDER BY ct.MaCTHD ASC";
 
         try (
-                Connection con = new ConnectService().myConnection();
-                PreparedStatement ps = con.prepareStatement(sql)
+                Connection con =
+                        new ConnectService()
+                                .myConnection();
+
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
         ) {
 
-            ps.setInt(1, maHD);
+            ps.setInt(
+                    1,
+                    maHD
+            );
 
-            try (ResultSet rs = ps.executeQuery()) {
+            try (
+                    ResultSet rs =
+                            ps.executeQuery()
+            ) {
 
                 while (rs.next()) {
 
-                    ChiTietHoaDon ct = new ChiTietHoaDon();
+                    ChiTietHoaDon ct =
+                            new ChiTietHoaDon();
 
-                    ct.setMaCTHD(rs.getInt("MaCTHD"));
-                    ct.setMaHD(rs.getInt("MaHD"));
-                    ct.setMaSPCT(rs.getInt("MaSPCT"));
-                    ct.setSoLuong(rs.getInt("SoLuong"));
-                    ct.setDonGia(rs.getDouble("DonGia"));
-                    ct.setThanhTien(rs.getDouble("ThanhTien"));
+                    ct.setMaCTHD(
+                            rs.getInt("MaCTHD")
+                    );
 
-                    ct.setTenSP(rs.getString("TenSP"));
-                    ct.setTenMau(rs.getString("TenMau"));
-                    ct.setTenSize(rs.getString("TenSize"));
+                    ct.setMaHD(
+                            rs.getInt("MaHD")
+                    );
+
+                    ct.setMaSPCT(
+                            rs.getInt("MaSPCT")
+                    );
+
+                    ct.setSoLuong(
+                            rs.getInt("SoLuong")
+                    );
+
+                    ct.setDonGia(
+                            rs.getDouble("DonGia")
+                    );
+
+                    ct.setThanhTien(
+                            rs.getDouble("ThanhTien")
+                    );
+
+                    ct.setTenSP(
+                            rs.getString("TenSP")
+                    );
+
+                    ct.setTenMau(
+                            rs.getString("TenMau")
+                    );
+
+                    ct.setTenSize(
+                            rs.getString("TenSize")
+                    );
 
                     list.add(ct);
                 }
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 
         return list;
     }
-
 }

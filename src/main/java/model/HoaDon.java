@@ -21,8 +21,25 @@ public class HoaDon {
     private double tienKhachDua;
     private double tienThua;
     private String phuongThucThanhToan;
+    private double tienGiam;
 
     public HoaDon() {
+    }
+
+    public HoaDon(int maHD, Date ngayLap, int maNV, Integer maKH, String maTrangThaiHD, String tenKH, String tenNV, String tenTrangThai, double tongTien, double tienKhachDua, double tienThua, String phuongThucThanhToan, double tienGiam) {
+        this.maHD = maHD;
+        this.ngayLap = ngayLap;
+        this.maNV = maNV;
+        this.maKH = maKH;
+        this.maTrangThaiHD = maTrangThaiHD;
+        this.tenKH = tenKH;
+        this.tenNV = tenNV;
+        this.tenTrangThai = tenTrangThai;
+        this.tongTien = tongTien;
+        this.tienKhachDua = tienKhachDua;
+        this.tienThua = tienThua;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.tienGiam = tienGiam;
     }
 
     public int getMaHD() {
@@ -81,6 +98,14 @@ public class HoaDon {
         this.tenNV = tenNV;
     }
 
+    public String getTenTrangThai() {
+        return tenTrangThai;
+    }
+
+    public void setTenTrangThai(String tenTrangThai) {
+        this.tenTrangThai = tenTrangThai;
+    }
+
     public double getTongTien() {
         return tongTien;
     }
@@ -113,11 +138,11 @@ public class HoaDon {
         this.phuongThucThanhToan = phuongThucThanhToan;
     }
 
-    public String getTenTrangThai() {
-        return tenTrangThai;
+    public double getTienGiam() {
+        return tienGiam;
     }
 
-    public void setTenTrangThai(String tenTrangThai) {
-        this.tenTrangThai = tenTrangThai;
+    public void setTienGiam(double tienGiam) {
+        this.tienGiam = tienGiam;
     }
 }

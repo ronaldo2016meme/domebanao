@@ -138,6 +138,16 @@
     <c:if test="${not empty list}">
 
         <p>
+            <b>Giảm giá:</b>
+
+            <fmt:formatNumber
+                    value="${list[0].tienGiam}"
+                    pattern="#,##0"/>
+
+            VNĐ
+        </p>
+
+        <p>
             <b>Tổng tiền:</b>
 
             <fmt:formatNumber

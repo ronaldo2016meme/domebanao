@@ -1,6 +1,9 @@
 package model;
 
 public class GioHang {
+
+    private static final long serialVersionUID = 1L;
+
     private int maSPCT;
     private String tenSP;
     private String tenMau;
