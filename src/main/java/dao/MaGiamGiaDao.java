@@ -18,7 +18,7 @@ public class MaGiamGiaDao {
 
         List<MaGiamGia> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM MAGIAMGIA ORDER BY MaMGG DESC";
+        String sql = "SELECT * FROM MAGIAMGIA ORDER BY MaMGG ASC";
 
         try (Connection con = new ConnectService().myConnection();
              PreparedStatement ps = con.prepareStatement(sql);

@@ -1632,39 +1632,174 @@ tr:hover{
 .qr-payment-box p{
     margin:5px 0;
 }
-/* ===========================
-        HÓA ĐƠN
-=========================== */
+/* =====================================================
+                        HÓA ĐƠN
+===================================================== */
 
 .invoice{
-    width:900px;
-    margin:30px auto;
+    width:105mm;
+    max-width:105mm;
 
-    background:rgba(255,255,255,0.78);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
+    margin:25px auto;
 
-    padding:20px;
-    border-radius:12px;
+    padding:6mm;
 
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-    border:1px solid rgba(255,255,255,.3);
+    box-sizing:border-box;
+
+    background:#fff;
+
+    font-family:Arial, Tahoma, sans-serif;
+
+    color:#000;
+
+    border-radius:8px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.18);
 }
 
+
+/* TIÊU ĐỀ */
+
 .invoice h2{
+    font-size:28px;
+
+    margin:0 0 12px;
+
+    padding-bottom:10px;
 
     text-align:center;
 
+    color:#0d47a1;
 }
 
-@media print{
 
-    .bh-btn{
+/* THÔNG TIN */
 
-        display:none;
+.invoice-info p{
+    margin:5px 0;
 
-    }
+    font-size:15px;
 
+    line-height:1.5;
+}
+
+
+/* TÊN SẢN PHẨM */
+
+.receipt-name{
+    margin-bottom:8px;
+
+    font-size:18px;
+
+    font-weight:700;
+}
+
+
+/* MÀU + SIZE */
+
+.receipt-info{
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:15px;
+
+    margin-bottom:7px;
+}
+
+
+/* SL × GIÁ */
+
+.receipt-price{
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:16px;
+}
+
+.receipt-price strong{
+    font-size:17px;
+}
+
+
+/* TỔNG TIỀN */
+
+.receipt-total-line{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:8px 0;
+
+    font-size:16px;
+}
+
+.receipt-total-line.total{
+    padding:10px 0;
+
+    margin:12px 0;
+
+    font-size:21px;
+
+    border-top:1px dashed #000;
+
+    border-bottom:1px dashed #000;
+}
+
+
+/* FOOTER */
+
+.receipt-footer strong{
+    font-size:17px;
+}
+
+.receipt-footer p{
+    font-size:14px;
+}
+
+
+/* ================= NÚT ================= */
+
+.invoice-action{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    margin-top:20px;
+}
+
+.invoice-action button,
+.invoice-action a{
+
+    width:180px;
+    height:50px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-sizing:border-box;
+
+    border:none;
+    border-radius:8px;
+
+    background:#1565c0;
+    color:#fff;
+
+    text-decoration:none;
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.invoice-action button:hover,
+.invoice-action a:hover{
+    background:#0d47a1;
 }
 /* ==========================
       THỐNG KÊ DOANH THU

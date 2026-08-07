@@ -204,6 +204,16 @@
             </div>
 
             <div>
+                    <span>Giảm giá</span>
+
+                    <strong style="color:#d32f2f;">
+                        <fmt:formatNumber value="${hoaDon.tienGiam}"
+                                          pattern="#,##0"/>
+                        VNĐ
+                    </strong>
+                </div>
+
+            <div>
                 <span>Tiền khách đưa</span>
 
                 <strong>
